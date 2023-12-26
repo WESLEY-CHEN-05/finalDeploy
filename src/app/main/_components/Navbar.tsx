@@ -24,7 +24,7 @@ async function Navbar() {
   return (
     <nav className="flex h-auto w-full bg-gray-700 p-2 text-slate-300">
       {/* align left */}
-      <nav className="sticky top-0 mr-8 flex items-center justify-between pl-3 text-4xl">
+      <nav className="sticky top-0 mr-8 w-1/6 flex items-center justify-between pl-3 text-4xl">
         <Link className={rubik.className} href={`/main`}>
           QUIZZZZZ
         </Link>
@@ -32,7 +32,7 @@ async function Navbar() {
 
       {/* align right */}
       <nav className="sticky top-0 flex items-center justify-between">
-        <div className="flex w-full items-center justify-between px-3 py-1">
+        <div className="flex items-center justify-between px-3 py-1">
           <Link href={`/main/mybooks`} className="mr-4">
             <Button
               variant={"ghost"}
@@ -43,7 +43,7 @@ async function Navbar() {
             </Button>
           </Link>
 
-          <Link href={`/main/publicbooks`} className="mr-20">
+          <Link href={`/main/publicbooks`} className="mr-4">
             <Button
               variant={"ghost"}
               type={"submit"}
