@@ -1,9 +1,12 @@
+"use client"
 import { Button } from "@/components/ui/button";
 import type { Books } from "@/lib/types/db";
 
 import Book from "./_components/Book";
+import { useBook } from "@/hooks/useBook"
 
 function DocsPage() {
+  const { createBook } = useBook();
   const sampleInfo: Books = {
     id: "3jeiofn9eflqwqwjoif",
     title: "Sample book",
