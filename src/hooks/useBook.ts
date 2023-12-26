@@ -1,7 +1,3 @@
-// create book
-// update book
-// delete book
-
 import { BooksCreate, BooksUpdate } from "@/lib/types/db"
 import { useState, useEffect } from "react"
 import { useSession } from "next-auth/react"
