@@ -1,12 +1,10 @@
-import { columns } from "./_components/columns"
-import { DataTable } from "./_components/data-table"
-
 import { Button } from "@/components/ui/button";
 
-import memoryDB from "./memory"
+import { columns } from "./_components/columns";
+import { DataTable } from "./_components/data-table";
+import memoryDB from "./memory";
 
 function BookPage() {
-
   const bookName = "SAMPLE book name";
   const ___bookId = "sample_book_id";
 
@@ -19,10 +17,10 @@ function BookPage() {
         </Button>
       </div>
       <div className="container mx-auto py-10">
-        <DataTable columns={columns} data={memoryDB} bookId={___bookId}/>
+        <DataTable columns={columns} data={memoryDB} bookId={___bookId} />
       </div>
     </div>
-  )
+  );
 }
 
 export default BookPage;

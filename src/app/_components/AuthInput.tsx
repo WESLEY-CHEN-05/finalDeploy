@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 type Props = {
-  className: string
+  className: string;
   label: string;
   type: React.HTMLInputTypeAttribute;
   value: string;
@@ -13,7 +13,14 @@ type Props = {
   setNormal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function AuthInput({ className, label, type, value, setValue, setNormal}: Props) {
+function AuthInput({
+  className,
+  label,
+  type,
+  value,
+  setValue,
+  setNormal,
+}: Props) {
   return (
     <div className="w-full">
       <Label>{label}</Label>

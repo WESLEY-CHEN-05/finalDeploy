@@ -8,7 +8,7 @@ export type User = {
 export type UserPublicInfo = {
   id: string;
   username: string;
-}
+};
 
 export type Document = {
   id: string;
@@ -42,19 +42,22 @@ export type Words = {
   accuracy: number;
 };
 
-export type WordsCreate = Omit<Words, "id" | "familarity" | "star" | "correctNum" | "testNum" | "accuracy">;
+export type WordsCreate = Omit<
+  Words,
+  "id" | "familarity" | "star" | "correctNum" | "testNum" | "accuracy"
+>;
 
 export type WordsUpdate = Partial<Omit<Words, "id" | "accuracy">>;
 
 export type TestRequest = {
-  num: number,
-  repetitive: boolean,
-  publicize: boolean,
+  num: number;
+  repetitive: boolean;
+  publicize: boolean;
   // only applied on private
   // if true, we only pick words that are starred
-  star: boolean,
+  star: boolean;
   // if hard is true, then
   // on private books, there is higher probabibility to choose unfamiliar words
   // on public books, there is higher probability to choose words that has less accuracy
-  hard: boolean,
-}
+  hard: boolean;
+};

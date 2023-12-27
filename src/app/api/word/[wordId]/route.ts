@@ -85,22 +85,23 @@ export async function PUT(
 
     const wordinfo: WordsUpdate = await req.json();
 
-    // return word 
+    // return word
     const [_wordTemp] = await db
       .update(wordsTable)
       .set(wordinfo)
       .where(eq(wordsTable.displayId, wordId))
       .returning();
-    
+
     const updateAccuracy = {
-      accuracy: ((_wordTemp.testNum === 0) ? 0 : (_wordTemp.correctNum / _wordTemp.testNum))
-    }
+      accuracy:
+        _wordTemp.testNum === 0 ? 0 : _wordTemp.correctNum / _wordTemp.testNum,
+    };
 
     const [_word] = await db
-    .update(wordsTable)
-    .set(updateAccuracy)
-    .where(eq(wordsTable.displayId, wordId))
-    .returning();
+      .update(wordsTable)
+      .set(updateAccuracy)
+      .where(eq(wordsTable.displayId, wordId))
+      .returning();
 
     const updatedWord: Words = {
       id: _word.displayId,

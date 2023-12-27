@@ -4,19 +4,17 @@ import { useState } from "react";
 
 import { signIn } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 // Run: npx shadcn-ui@latest add button
 import { Button } from "@/components/ui/button";
 // Run: npx shadcn-ui@latest add card
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/components/ui/use-toast";
 import { publicEnv } from "@/lib/env/public";
 
 import AuthInput from "./AuthInput";
-
-import { useToast } from "@/components/ui/use-toast";
-
-import { useRouter } from "next/navigation";
 
 function AuthForm() {
   const [email, setEmail] = useState<string>("");
@@ -39,7 +37,7 @@ function AuthForm() {
     setFailUsername(false);
     setFailPassword(false);
     setFailConfirmPassword(false);
-    if (!email){
+    if (!email) {
       setFailEmail(true);
       toast({
         title: "Email",
@@ -47,7 +45,7 @@ function AuthForm() {
       });
       return;
     }
-    if (isSignUp && !username){
+    if (isSignUp && !username) {
       setFailUsername(true);
       toast({
         title: "Username",
@@ -80,25 +78,26 @@ function AuthForm() {
       callbackUrl: `${publicEnv.NEXT_PUBLIC_BASE_URL}/main`,
       redirect: false,
     }).then((res) => {
-      if (res?.error){
-        if (isSignUp){
+      if (res?.error) {
+        setPassword("");
+        setConfirmPassword("");
+        if (isSignUp) {
           toast({
             title: "Sign up failed.",
             description: "This email is already registered.",
             variant: "destructive",
           });
-        }
-        else{
+        } else {
           toast({
             title: "Sign in failed.",
             description: "Your email or password is incorrect.",
             variant: "destructive",
           });
         }
-      }
-      else{
-        console.log("Sign in successfully, redirect to ", res?.url);
-        router.push(res?.url as string);
+      } else {
+        const URL = res?.url?.endsWith("main") ? res.url : res?.url + "/main";
+        console.log("Sign in successfully, redirect to ", URL);
+        router.push(URL as string);
       }
     });
   };
@@ -156,7 +155,9 @@ function AuthForm() {
           />
           {isSignUp && (
             <AuthInput
-              className={failConfirmPassword ? "border-red-500" : "border-slate-900"}
+              className={
+                failConfirmPassword ? "border-red-500" : "border-slate-900"
+              }
               label="Confirm Password"
               type="password"
               value={confirmPassword}

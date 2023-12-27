@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 
 function ErrorPage() {
   const { data: session } = useSession();
-  console.log(session)
+  console.log(session);
   const router = useRouter();
 
   // const { toast } = useToast();
@@ -38,9 +38,7 @@ function ErrorPage() {
   // }, [showToast, toast]);
 
   return (
-    <div className="h-screen w-screen bg-slate-800">
-      {/* <Toaster /> */}
-    </div>
+    <div className="h-screen w-screen bg-slate-800">{/* <Toaster /> */}</div>
   );
 }
 

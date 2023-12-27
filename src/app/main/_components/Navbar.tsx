@@ -24,7 +24,7 @@ async function Navbar() {
   return (
     <nav className="flex h-auto w-full bg-gray-700 p-2 text-slate-300">
       {/* align left */}
-      <nav className="sticky top-0 mr-8 w-1/6 flex items-center justify-between pl-3 text-4xl">
+      <nav className="sticky top-0 mr-8 flex w-1/6 items-center justify-between pl-3 text-4xl">
         <Link className={rubik.className} href={`/main`}>
           QUIZZZZZ
         </Link>

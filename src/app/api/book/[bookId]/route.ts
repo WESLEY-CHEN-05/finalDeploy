@@ -62,7 +62,7 @@ export async function GET(
       language: _words!.language,
       publicize: _words!.publicize,
       popularity: _words!.popularity,
-    }
+    };
 
     const words: Words[] = _words!.words.map((word) => ({
       id: word.displayId,
@@ -75,10 +75,13 @@ export async function GET(
       accuracy: word.accuracy,
     }));
 
-    return NextResponse.json({ 
-      info: bookInfo, 
-      data: words 
-    }, { status: 200 });
+    return NextResponse.json(
+      {
+        info: bookInfo,
+        data: words,
+      },
+      { status: 200 },
+    );
   } catch (error) {
     return NextResponse.json(
       { error: "Internal Server Error" },
@@ -114,13 +117,13 @@ export async function POST(
 
     // creating a new chat room and return the chat room id
     const [_word] = await db
-    .insert(wordsTable)
-    .values({
-      content: wordinfo.content,
-      meaning: wordinfo.meaning,
-      bookId: bookId,
-    })
-    .returning();
+      .insert(wordsTable)
+      .values({
+        content: wordinfo.content,
+        meaning: wordinfo.meaning,
+        bookId: bookId,
+      })
+      .returning();
 
     const newWord: Words = {
       id: _word.displayId,

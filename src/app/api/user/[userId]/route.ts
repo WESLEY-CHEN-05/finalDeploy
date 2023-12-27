@@ -63,10 +63,13 @@ export async function GET(
       popularity: book.popularity,
     }));
 
-    return NextResponse.json({ 
-      info: userInfo,
-      data: booksdata,
-    }, { status: 200 });
+    return NextResponse.json(
+      {
+        info: userInfo,
+        data: booksdata,
+      },
+      { status: 200 },
+    );
   } catch (error) {
     console.log(error);
     return NextResponse.json(
