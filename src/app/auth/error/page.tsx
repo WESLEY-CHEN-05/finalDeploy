@@ -1,44 +1,45 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-// import { useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-import { Toaster } from "@/components/ui/toaster";
-import { useToast } from "@/components/ui/use-toast";
+// import { Toaster } from "@/components/ui/toaster";
+// import { useToast } from "@/components/ui/use-toast";
 
 function ErrorPage() {
-  // const { data: session } = useSession();
+  const { data: session } = useSession();
+  console.log(session)
   const router = useRouter();
 
-  const { toast } = useToast();
-  const [showToast, setShowToast] = useState(false);
+  // const { toast } = useToast();
+  // const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
-    router.push("/");
+    router.push("/?error=SignInError");
   }, [router]);
 
-  useEffect(() => {
-    return () => {
-      setShowToast(true);
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     setShowToast(true);
+  //   };
+  // }, []);
 
-  useEffect(() => {
-    if (showToast) {
-      toast({
-        title: "Failed",
-        description:
-          "Wrong username or wrong password. Or this username has been used.",
-        variant: "destructive",
-      });
-    }
-  }, [showToast, toast]);
+  // useEffect(() => {
+  //   if (showToast) {
+  //     toast({
+  //       title: "Failed",
+  //       description:
+  //         "Wrong username or wrong password. Or this username has been used.",
+  //       variant: "destructive",
+  //     });
+  //   }
+  // }, [showToast, toast]);
 
   return (
     <div className="h-screen w-screen bg-slate-800">
-      <Toaster />
+      {/* <Toaster /> */}
     </div>
   );
 }

@@ -14,6 +14,10 @@ import { publicEnv } from "@/lib/env/public";
 
 import AuthInput from "./AuthInput";
 
+import { useToast } from "@/components/ui/use-toast";
+
+import { useRouter } from "next/navigation";
+
 function AuthForm() {
   const [email, setEmail] = useState<string>("");
   const [username, setUsername] = useState<string>("");
@@ -21,14 +25,81 @@ function AuthForm() {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
 
+  const [failEmail, setFailEmail] = useState(false);
+  const [failUsername, setFailUsername] = useState(false);
+  const [failPassword, setFailPassword] = useState(false);
+  const [failConfirmPassword, setFailConfirmPassword] = useState(false);
+
+  const { toast } = useToast();
+  const router = useRouter();
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setFailEmail(false);
+    setFailUsername(false);
+    setFailPassword(false);
+    setFailConfirmPassword(false);
+    if (!email){
+      setFailEmail(true);
+      toast({
+        title: "Email",
+        description: "Email is required.",
+      });
+      return;
+    }
+    if (isSignUp && !username){
+      setFailUsername(true);
+      toast({
+        title: "Username",
+        description: "Username is required.",
+      });
+      return;
+    }
+    if (isSignUp && password.length < 8) {
+      setFailPassword(true);
+      toast({
+        title: "Password Length",
+        description: "Password is required to be at least 8 characters.",
+        // variant: "destructive",
+      });
+      return;
+    } else if (isSignUp && password !== confirmPassword) {
+      setFailConfirmPassword(true);
+      toast({
+        title: "Not match",
+        description: "Password and Confirm Password do not match.",
+        // variant: "destructive",
+      });
+      return;
+    }
     // TODO: sign in logic
     signIn("credentials", {
       email,
       username,
       password,
       callbackUrl: `${publicEnv.NEXT_PUBLIC_BASE_URL}/main`,
+      redirect: false,
+    }).then((res) => {
+      if (res?.error){
+        if (isSignUp){
+          toast({
+            title: "Sign up failed.",
+            description: "This email is already registered.",
+            variant: "destructive",
+          });
+        }
+        else{
+          toast({
+            title: "Sign in failed.",
+            description: "Your email or password is incorrect.",
+            variant: "destructive",
+          });
+        }
+      }
+      else{
+        console.log("Sign in successfully, redirect to ", res?.url);
+        router.push(res?.url as string);
+      }
     });
   };
   return (
@@ -58,31 +129,39 @@ function AuthForm() {
             </TabsList>
           </Tabs>
           <AuthInput
+            className={failEmail ? "border-red-500" : "border-slate-900"}
             label="Email"
             type="email"
             value={email}
             setValue={setEmail}
+            setNormal={setFailEmail}
           />
           {isSignUp && (
             <AuthInput
+              className={failUsername ? "border-red-500" : "border-slate-900"}
               label="Username"
               type="text"
               value={username}
               setValue={setUsername}
+              setNormal={setFailUsername}
             />
           )}
           <AuthInput
+            className={failPassword ? "border-red-500" : "border-slate-900"}
             label="Password"
             type="password"
             value={password}
             setValue={setPassword}
+            setNormal={setFailPassword}
           />
           {isSignUp && (
             <AuthInput
+              className={failConfirmPassword ? "border-red-500" : "border-slate-900"}
               label="Confirm Password"
               type="password"
               value={confirmPassword}
               setValue={setConfirmPassword}
+              setNormal={setFailConfirmPassword}
             />
           )}
 
