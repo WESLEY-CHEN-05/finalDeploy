@@ -60,8 +60,8 @@ export const useBook = () => {
         if (!res.ok) {
             return;
         }
-        const data: BooksUpdate = await res.json();
-        return data;
+        // const data: BooksUpdate = await res.json();
+        // return data;
     }
 
     const getBook = async ({bookId}: {bookId: string}) => {
