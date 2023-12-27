@@ -8,25 +8,12 @@ import { Dialog,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useSession } from "next-auth/react";
-import { Select,
-        SelectContent,
-        SelectItem,
-        SelectTrigger,
-        SelectValue,
-        SelectGroup,
-        SelectLabel,
- } from "@/components/ui/select";
-import { useState, useEffect, useRef } from "react";
+import { useRef } from "react";
 import type { BooksCreate } from "@/lib/types/db";
 import { useBook } from "@/hooks/useBook";
-import { publicEnv } from "@/lib/env/public";
-import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
 
 function AddBookDialog() {
     const {createBook} = useBook();
-    const { data: session } = useSession();
 
     const titleRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLInputElement>(null);
