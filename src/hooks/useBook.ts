@@ -1,14 +1,20 @@
+"use client"
 import type { BooksCreate, BooksUpdate } from "@/lib/types/db"
-import { useState, useEffect } from "react"
+import { useState, useEffect, use } from "react"
 import { useSession } from "next-auth/react"
+import type { Books } from "@/lib/types/db"
+import { useRouter } from "next/navigation"
 
 
 export const useBook = () => { 
     const [userId, setUserId] = useState("");
+    const [books, setBooks] = useState<Books[]>([]);
+    const router = useRouter();
     const { data: session } = useSession();
     useEffect(() => {
         if (!session?.user) return;
         setUserId(session?.user?.id);
+        console.log(userId);
     }, [session]);
 
     const createBook = async ({title, description, language, publicize}: BooksCreate) => {
@@ -92,11 +98,38 @@ export const useBook = () => {
         return ret.data;
     }
 
+   
+    
+    useEffect(() => {
+        console.log(userId);
+        if (!userId) return;
+        const getBooks = async () => {
+            const res = await fetch(`/api/user/${userId}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            if (!res.ok) {
+                router.refresh();
+                return;
+            }
+            const ret = await res.json();
+            const getbooks: Books[] = ret.data;
+            setBooks(getbooks);
+            router.refresh();
+            console.log("hello");
+        };
+        getBooks();
+    });
+        
+
     return {
         createBook,
         deleteBook,
         updateBook,
         getBook,
         getWords,
+        books,
     }
 }
