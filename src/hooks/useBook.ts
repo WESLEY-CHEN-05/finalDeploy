@@ -1,4 +1,4 @@
-import { BooksCreate, BooksUpdate } from "@/lib/types/db"
+import type { BooksCreate, BooksUpdate } from "@/lib/types/db"
 import { useState, useEffect } from "react"
 import { useSession } from "next-auth/react"
 

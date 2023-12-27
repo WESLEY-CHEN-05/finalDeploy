@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react"
-import { WordsUpdate } from "@/lib/types/db";
+// import { useState, useEffect } from "react"
+import type { WordsUpdate } from "@/lib/types/db";
 
 export const useWord = () => {
     const getWord = async (wordId: string) => {
