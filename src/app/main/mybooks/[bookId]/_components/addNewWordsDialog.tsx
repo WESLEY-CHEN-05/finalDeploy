@@ -14,19 +14,21 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { useWord } from "@/hooks/useWord";
+import type { Words, WordsCreate } from "@/lib/types/db";
 
-// import type { WordsCreate } from "@/lib/types/db";
-
-function AddNewWordsDialog() {
+function AddNewWordsDialog({createWord} : {
+  createWord:  (bookId: string, { content, meaning }: WordsCreate) => Promise<Words | undefined>;
+}) {
   const [content, setContent] = useState<string>("");
   const [meaning, setMeaning] = useState<string>("");
-  const { createWord } = useWord();
   const param = useParams();
   const _bookId = param.bookId as string;
 
-  const handleClick = () => {
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const handleClick = (close: boolean) => {
     if (content !== "" && meaning !== "") {
+      if (close) setDialogOpen(false);
       createWord(_bookId, { content, meaning });
       setContent("");
       setMeaning("");
@@ -34,7 +36,7 @@ function AddNewWordsDialog() {
   };
 
   return (
-    <Dialog>
+    <Dialog open={dialogOpen} onOpenChange={() => setDialogOpen(!dialogOpen)}>
       <DialogTrigger asChild>
         <Button className="m-6 ml-5 bg-yellow-600 text-black hover:bg-yellow-700">
           Create new word
@@ -48,7 +50,7 @@ function AddNewWordsDialog() {
             <p>You can click on "add another" if you want to add more words.</p>
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleClick} className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4">
           <Input
             placeholder="Word"
             value={content}
@@ -60,14 +62,14 @@ function AddNewWordsDialog() {
             onChange={(e) => setMeaning(e.target.value)}
           />
           <div className="flex flex-row">
-            <Button className="ml-auto" onClick={() => handleClick()}>
+            <Button className="ml-auto" onClick={() => handleClick(false)}>
               Add another
             </Button>
-            <Button type="submit" className="ml-4">
+            <Button type="submit" className="ml-4" onClick={() => handleClick(true)}>
               Finish
             </Button>
           </div>
-        </form>
+        </div>
       </DialogContent>
     </Dialog>
   );
