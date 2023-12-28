@@ -102,6 +102,17 @@ export const useWord = () => {
     if (!res.ok) {
       return;
     }
+    const ret = await res.json();
+    const updatedWord: Words = ret.data;
+    setWords((words) => {
+      return words.map((word) => {
+        if (word.id === updatedWord.id){
+          return updatedWord;
+        }
+        else return word;
+      })
+    })
+    return updatedWord;
   };
 
   return {

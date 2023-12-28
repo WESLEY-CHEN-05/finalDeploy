@@ -16,17 +16,22 @@ import {
 } from "@/components/ui/carousel";
 import type { Words } from "@/lib/types/db";
 
-import memoryDB from "./memory";
+// import memoryDB from "./memory";
+
+import { useWord } from "@/hooks/useWord";
 
 function LearningPage() {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
 
+  const {words, updateWord} = useWord();
+
   useEffect(() => {
     if (!api) {
       return;
     }
+    
     setCount(api.scrollSnapList().length);
     setCurrent(api.selectedScrollSnap() + 1);
 
@@ -34,7 +39,7 @@ function LearningPage() {
       setCurrent(api.selectedScrollSnap() + 1);
       setIsMeaning(false);
     });
-  }, [api]);
+  }, [api, words]);
 
   // // mouse click
   // const handlePrev = () => {
@@ -82,6 +87,7 @@ function LearningPage() {
   const handleOnClick = (word: Words) => {
     // add some other things here
     console.log(word);
+    updateWord(word.id, {star: !word.star});
   };
 
   return (
@@ -97,7 +103,7 @@ function LearningPage() {
           }}
         >
           <CarouselContent onKeyDown={() => {}}>
-            {memoryDB.map((word) => (
+            {words.map((word) => (
               <CarouselItem
                 key={word.id}
                 onClick={() => {
