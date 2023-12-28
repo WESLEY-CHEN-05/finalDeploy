@@ -5,9 +5,19 @@ export type User = {
   provider: "github" | "credentials";
 };
 
+export type UserSetting = {
+  id: string;
+  username: string;
+  email: string;
+  about: string;
+  experience: string;
+};
+
 export type UserPublicInfo = {
   id: string;
   username: string;
+  about: string;
+  experience: string;
 };
 
 export type Document = {

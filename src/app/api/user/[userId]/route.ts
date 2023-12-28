@@ -37,6 +37,8 @@ export async function GET(
       columns: {
         displayId: true,
         username: true,
+        about: true,
+        experience: true,
       },
       with: {
         books: {
@@ -52,6 +54,8 @@ export async function GET(
     const userInfo: UserPublicInfo = {
       id: _booksdata!.displayId,
       username: _booksdata!.username,
+      about: _booksdata!.about || "",
+      experience: _booksdata!.experience || "",
     };
 
     const booksdata: Books[] = _booksdata!.books!.map((book) => ({
