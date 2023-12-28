@@ -1,5 +1,5 @@
 import type { BooksCreate, BooksUpdate } from "@/lib/types/db"
-import { useState, useEffect, use } from "react"
+import { useState, useEffect, use, useCallback } from "react"
 import { useSession } from "next-auth/react"
 import type { Books } from "@/lib/types/db"
 import { useRouter } from "next/navigation"
@@ -69,7 +69,7 @@ export const useBook = () => {
         // return data;
     }
 
-    const getBook = async ({bookId}: {bookId: string}) => {
+    const getBook = async (bookId: string) => {
         const res = await fetch(`/api/book/${bookId}`, {
             method: "GET",
             headers: {
@@ -80,6 +80,7 @@ export const useBook = () => {
             return;
         }
         const ret = await res.json();
+        //console.log(ret.info);
         return ret.info;
     }
 
@@ -97,10 +98,7 @@ export const useBook = () => {
         return ret.data;
     }
 
-   
-    
-    useEffect(() => {
-        // console.log(userId);
+    const getinitialBooks = useCallback(() => {
         if (!userId) return;
         const getBooks = async () => {
             const res = await fetch(`/api/user/${userId}`, {
@@ -115,12 +113,39 @@ export const useBook = () => {
             }
             const ret = await res.json();
             const getbooks: Books[] = ret.data;
+            // console.log(getbooks);
             setBooks(getbooks);
             // router.refresh();
             console.log("hello");
         };
         getBooks();
-    },[userId]);
+    }, [userId]);
+
+    useEffect(getinitialBooks, [userId, getinitialBooks]);
+    
+    // useEffect(() => {
+    //     // console.log(userId);
+    //     if (!userId) return;
+    //     const getBooks = async () => {
+    //         const res = await fetch(`/api/user/${userId}`, {
+    //             method: "GET",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //         });
+    //         if (!res.ok) {
+    //             // router.refresh();
+    //             return;
+    //         }
+    //         const ret = await res.json();
+    //         const getbooks: Books[] = ret.data;
+    //         // console.log(getbooks);
+    //         setBooks(getbooks);
+    //         // router.refresh();
+    //         // console.log("hello");
+    //     };
+    //     getBooks();
+    // },[userId]);
         
 
     return {

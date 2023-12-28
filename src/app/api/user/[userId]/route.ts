@@ -56,7 +56,7 @@ export async function GET(
 
     const booksdata: Books[] = _booksdata!.books!.map((book) => ({
       id: book.displayId,
-      title: book.description,
+      title: book.title,
       description: book.description,
       language: book.language,
       publicize: book.publicize,
