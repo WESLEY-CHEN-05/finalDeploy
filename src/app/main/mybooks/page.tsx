@@ -39,24 +39,6 @@ function DocsPage() {
             </div>
           );
         })}
-        {/* <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book> */}
       </div>
     </div>
   );

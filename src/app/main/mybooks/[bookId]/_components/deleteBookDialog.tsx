@@ -18,7 +18,7 @@ function DeleteBookDialog({ bookId }: { bookId: string }) {
   const router = useRouter();
   const { deleteBook } = useBook();
   const handleOnClick = () => {
-    console.log("anan");
+    // console.log("anan");
     deleteBook({ bookId });
     router.push(`${publicEnv.NEXT_PUBLIC_BASE_URL}/main/mybooks`);
   };
@@ -26,7 +26,7 @@ function DeleteBookDialog({ bookId }: { bookId: string }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="m-6 ml-auto bg-red-600 text-white hover:bg-red-700">
+        <Button className="m-6  bg-red-600 text-white hover:bg-red-700">
           Delete book
         </Button>
       </DialogTrigger>

@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useUser } from "@/hooks/useUser";
+import { useBook } from "@/hooks/useBook";
+import Book from "@/app/main/mybooks/_components/Book";
 
 function SettingPage() {
   const { data: session } = useSession();
@@ -27,9 +29,19 @@ function SettingPage() {
   const experienceRef = useRef<HTMLTextAreaElement>(null);
   const usernameRef = useRef<HTMLInputElement>(null);
   const { userInfo } = useUser();
+  const { books } = useBook();
 
   const handleUpdateUsername = () => {
     setEditUsername(false);
+  };
+
+  const handleClickAbout = () => {
+  };
+
+  const handleClickExp = () => {
+  };
+
+  const handleChange = () => {
   };
 
   return (
@@ -63,7 +75,7 @@ function SettingPage() {
             </Button>
           )}
         </div>
-        <Button className="ml-5 w-1/2">Change Password</Button>
+        <Button className="ml-5 w-1/2" onClick = {handleChange}>Change Password</Button>
       </div>
       <div className="flex w-2/3 flex-col">
         <div className="flex w-full flex-col">
@@ -71,10 +83,11 @@ function SettingPage() {
           <Textarea
             placeholder="About yourself"
             defaultValue={userInfo.about}
+            onChange = {(e) => setInputAbout(e.target.value)}
             ref={aboutRef}
             className="ml-5 h-1/3 w-3/4"
           ></Textarea>
-          <Button className="ml-6 mt-3 w-10">Save</Button>
+          <Button className="ml-6 mt-3 w-1/5" onClick = {handleClickAbout}>Save About</Button>
         </div>
         <div className="flex w-full flex-col">
           <p className="m-6 text-2xl font-bold text-white">
@@ -83,16 +96,28 @@ function SettingPage() {
           <Textarea
             placeholder="Your learning experience"
             defaultValue={userInfo.experience}
+            onChange = {(e) => setInputExperience(e.target.value)}
             ref={experienceRef}
             className="ml-5 h-1/3 w-3/4"
           ></Textarea>
-          <Button className="ml-6 mt-3 w-10">Save</Button>
+          <Button className="ml-6 mt-3 w-1/5" onClick = {handleClickExp}>Save Experience</Button>
         </div>
         <div>
-          <p className="m-6 text-2xl font-bold text-white">
-            Public Vocabulary Books
+          <p className="ml-6 mt-3 mb-3 text-2xl font-bold text-white">
+            Publicized Vocabulary Books
           </p>
         </div>
+        <div className="flex w-full flex-wrap justify-start">
+        {books.map((book) => {
+          if(book.publicize === true){
+            return (
+                <div key={book.id}>
+                  <Book info={book}></Book>
+                </div>
+            );
+          }
+        })}
+      </div>
       </div>
     </div>
   );

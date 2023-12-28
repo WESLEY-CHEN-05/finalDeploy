@@ -18,13 +18,24 @@ function BookPage() {
   const param = useParams();
   const ___bookId = param.bookId as string;
   const router = useRouter();
-  const { book, words } = useBook();
+  const { book, words, updateBook } = useBook();
   const bookName = book?.title;
+
+  const handlePub = () => {
+    if(book?.publicize === false){
+      updateBook(___bookId, 
+        {title: book.title, description: book.description, language: book.language, publicize: true
+        , popularity: book.popularity})
+    }
+  };
 
   return (
     <div className="w-screen bg-gray-800 text-4xl text-white">
       <div className="flex w-screen">
         <p className="m-6 text-3xl font-bold text-white"> {bookName} </p>
+        <Button className="m-6 ml-auto bg-blue-600 text-white hover:bg-blue-700" onClick = {handlePub}>
+          Publicize
+        </Button>
         <DeleteBookDialog bookId={___bookId} />
         <AddNewWordsDialog />
         <Button
