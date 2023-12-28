@@ -3,6 +3,8 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 
+import { Star } from "lucide-react";
+
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -12,11 +14,9 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
+import type { Words } from "@/lib/types/db";
 
 import memoryDB from "./memory";
-
-import { Star } from 'lucide-react';
-import type { Words } from "@/lib/types/db";
 
 function LearningPage() {
   const [api, setApi] = React.useState<CarouselApi>();
@@ -82,10 +82,10 @@ function LearningPage() {
   const handleOnClick = (word: Words) => {
     // add some other things here
     console.log(word);
-  }
+  };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen overflow-hidden">
+    <div className="flex h-screen flex-col items-center justify-center overflow-hidden">
       <div>
         <Carousel
           setApi={setApi}
@@ -106,39 +106,45 @@ function LearningPage() {
               >
                 <div className="p-2">
                   <Card className="border-slate-400 bg-gray-700">
-                    <CardContent className="flex aspect-square justify-center p-6 font-normal text-slate-100 w-full">
+                    <CardContent className="flex aspect-square w-full justify-center p-6 font-normal text-slate-100">
                       {!isMeaning ? (
-                        <div className="flex flex-col w-full">
-                          <div className="flex-[1_1_0%] flex"> 
+                        <div className="flex w-full flex-col">
+                          <div className="flex flex-[1_1_0%]">
                             <div className="ml-auto">
-                              <Star 
-                                fill={word.star? "yellow" : "#334155"} 
-                                strokeWidth={word.star? 0 : 1}
-                                onClick={(event) => {  
+                              <Star
+                                fill={word.star ? "yellow" : "#334155"}
+                                strokeWidth={word.star ? 0 : 1}
+                                onClick={(event) => {
                                   event.stopPropagation();
                                   handleOnClick(word);
-                                  }}/> 
+                                }}
+                              />
                             </div>
                           </div>
                           <p className="flex-[4_4_0%]"></p>
-                          <p className="flex-[5_5_0%] text-4xl text-center">{word.content}</p>
-                          <p className="flex-[3_3_0%] mt-auto text-sm text-slate-500 text-center">
+                          <p className="flex-[5_5_0%] text-center text-4xl">
+                            {word.content}
+                          </p>
+                          <p className="mt-auto flex-[3_3_0%] text-center text-sm text-slate-500">
                             Click or press ↓
                           </p>
                         </div>
                       ) : (
-                        <div className="flex flex-col w-full">
-                          <div className="flex-[1_1_0%] flex"> 
+                        <div className="flex w-full flex-col">
+                          <div className="flex flex-[1_1_0%]">
                             <div className="ml-auto">
-                            <Star 
-                                fill={word.star? "yellow" : "#334155"} 
-                                strokeWidth={word.star? 0 : 1}
-                                onClick={() => handleOnClick(word)}/> 
+                              <Star
+                                fill={word.star ? "yellow" : "#334155"}
+                                strokeWidth={word.star ? 0 : 1}
+                                onClick={() => handleOnClick(word)}
+                              />
                             </div>
                           </div>
                           <p className="flex-[4_4_0%]"></p>
-                          <p className="flex-[5_5_0%] text-4xl text-center">{word.meaning}</p>
-                          <p className="flex-[3_3_0%] mt-auto text-sm text-slate-500 text-center">
+                          <p className="flex-[5_5_0%] text-center text-4xl">
+                            {word.meaning}
+                          </p>
+                          <p className="mt-auto flex-[3_3_0%] text-center text-sm text-slate-500">
                             Click or press ↑
                           </p>
                         </div>

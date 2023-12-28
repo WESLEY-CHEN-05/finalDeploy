@@ -1,13 +1,14 @@
-"use client"
+"use client";
+
 // import { Button } from "@/components/ui/button";
 // import type { Books } from "@/lib/types/db";
-import AddBookDialog from "./_components/addBookDialog";
-import {useBook} from "@/hooks/useBook";
+import { useBook } from "@/hooks/useBook";
+
 // import { useEffect, useState } from "react";
 // import { useSession } from "next-auth/react";
 // import {useRouter} from "next/navigation";
-
 import Book from "./_components/Book";
+import AddBookDialog from "./_components/addBookDialog";
 
 function DocsPage() {
   const { books } = useBook();
@@ -20,7 +21,6 @@ function DocsPage() {
   //   popularity: 0,
   // };
 
-
   // const books = getBooks() as unknown as Books[];
   // getBooks();
   // console.log(books);
@@ -32,15 +32,13 @@ function DocsPage() {
         <AddBookDialog />
       </div>
       <div className="flex w-screen flex-wrap justify-start">
-        {
-          books.map((book) => {
-            return (
-              <div key = {book.id}>
-                <Book info={book}></Book>
-              </div>
-            )
-          })
-        }
+        {books.map((book) => {
+          return (
+            <div key={book.id}>
+              <Book info={book}></Book>
+            </div>
+          );
+        })}
         {/* <Book info={sampleInfo}></Book>
         <Book info={sampleInfo}></Book>
         <Book info={sampleInfo}></Book>

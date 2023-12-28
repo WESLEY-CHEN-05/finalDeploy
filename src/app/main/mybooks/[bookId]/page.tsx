@@ -1,16 +1,18 @@
-"use client"
-import { Button } from "@/components/ui/button";
+"use client";
 
-import { columns } from "./_components/columns";
-import { DataTable } from "./_components/data-table";
 import { useParams } from "next/navigation";
-// import memoryDB from "./memory";
-import  DeleteBookDialog  from "./_components/deleteBookDialog";
-import { useBook } from "@/hooks/useBook";
 // import type { Books } from "@/lib/types/db";
 import { useRouter } from "next/navigation";
+
+import { Button } from "@/components/ui/button";
+import { useBook } from "@/hooks/useBook";
 import { publicEnv } from "@/lib/env/public";
+
 import AddNewWordsDialog from "./_components/addNewWordsDialog";
+import { columns } from "./_components/columns";
+import { DataTable } from "./_components/data-table";
+// import memoryDB from "./memory";
+import DeleteBookDialog from "./_components/deleteBookDialog";
 
 function BookPage() {
   const param = useParams();
@@ -25,7 +27,15 @@ function BookPage() {
         <p className="m-6 text-3xl font-bold text-white"> {bookName} </p>
         <DeleteBookDialog bookId={___bookId} />
         <AddNewWordsDialog />
-        <Button className="m-6 ml-5 bg-green-600 text-white hover:bg-green-700" onClick = {() => {router.push(`${publicEnv.NEXT_PUBLIC_BASE_URL}/main/learn/${___bookId}`)}}>Learning mode
+        <Button
+          className="m-6 ml-5 bg-green-600 text-white hover:bg-green-700"
+          onClick={() => {
+            router.push(
+              `${publicEnv.NEXT_PUBLIC_BASE_URL}/main/learn/${___bookId}`,
+            );
+          }}
+        >
+          Learning mode
         </Button>
       </div>
       <div className="container mx-auto py-10">
