@@ -8,18 +8,17 @@ import {useBook} from "@/hooks/useBook";
 // import {useRouter} from "next/navigation";
 
 import Book from "./_components/Book";
-import { get } from "http";
 
 function DocsPage() {
   const { books } = useBook();
-  const sampleInfo: Books = {
-    id: "3jeiofn9eflqwqwjoif",
-    title: "Sample book",
-    description: "Sample Description",
-    language: "English",
-    publicize: false,
-    popularity: 0,
-  };
+  // const sampleInfo: Books = {
+  //   id: "3jeiofn9eflqwqwjoif",
+  //   title: "Sample book",
+  //   description: "Sample Description",
+  //   language: "English",
+  //   publicize: false,
+  //   popularity: 0,
+  // };
 
 
   // const books = getBooks() as unknown as Books[];
@@ -35,7 +34,11 @@ function DocsPage() {
       <div className="flex w-screen flex-wrap justify-start">
         {
           books.map((book) => {
-            return (<Book info={book}></Book>)
+            return (
+              <div key = {book.id}>
+                <Book info={book}></Book>
+              </div>
+            )
           })
         }
         {/* <Book info={sampleInfo}></Book>

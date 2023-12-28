@@ -1,4 +1,3 @@
-"use client"
 import type { BooksCreate, BooksUpdate } from "@/lib/types/db"
 import { useState, useEffect, use } from "react"
 import { useSession } from "next-auth/react"
@@ -14,7 +13,7 @@ export const useBook = () => {
     useEffect(() => {
         if (!session?.user) return;
         setUserId(session?.user?.id);
-        console.log(userId);
+        // console.log(userId);
     }, [session]);
 
     const createBook = async ({title, description, language, publicize}: BooksCreate) => {
@@ -101,7 +100,7 @@ export const useBook = () => {
    
     
     useEffect(() => {
-        console.log(userId);
+        // console.log(userId);
         if (!userId) return;
         const getBooks = async () => {
             const res = await fetch(`/api/user/${userId}`, {
@@ -111,17 +110,17 @@ export const useBook = () => {
                 },
             });
             if (!res.ok) {
-                router.refresh();
+                // router.refresh();
                 return;
             }
             const ret = await res.json();
             const getbooks: Books[] = ret.data;
             setBooks(getbooks);
-            router.refresh();
+            // router.refresh();
             console.log("hello");
         };
         getBooks();
-    });
+    },[userId]);
         
 
     return {
