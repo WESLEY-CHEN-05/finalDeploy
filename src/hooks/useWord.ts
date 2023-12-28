@@ -1,7 +1,27 @@
 // import { useState, useEffect } from "react"
-import type { WordsUpdate } from "@/lib/types/db";
+import type { WordsUpdate, WordsCreate } from "@/lib/types/db";
 
 export const useWord = () => {
+
+
+    const createWord = async (bookId: string, {content, meaning}: WordsCreate) => {
+        const res = await fetch(`/api/book/${bookId}`,{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                content,
+                meaning,
+            }),
+        });
+        if (!res.ok) {
+            return;
+        }
+        const data = await res.json();
+        return data;
+    }
+
     const getWord = async (wordId: string) => {
         const res = await fetch(`/api/word/${wordId}`,{
             method: "GET",
@@ -52,5 +72,6 @@ export const useWord = () => {
         getWord,
         deleteWord,
         updateWord,
+        createWord,
     }
 }

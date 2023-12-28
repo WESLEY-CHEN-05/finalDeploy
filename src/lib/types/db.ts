@@ -46,7 +46,7 @@ export type Words = {
 
 export type WordsCreate = Omit<
   Words,
-  "id" | "familarity" | "star" | "correctNum" | "testNum" | "accuracy"
+  "id" | "familiarity" | "star" | "correctNum" | "testNum" | "accuracy"
 >;
 
 export type WordsUpdate = Partial<Omit<Words, "id" | "accuracy">>;

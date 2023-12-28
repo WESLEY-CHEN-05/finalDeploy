@@ -44,7 +44,7 @@ function AddBookDialog() {
         // console.log(description);
         // console.log(language);
         // console.log(publicize);
-        if(title !== undefined && description !== undefined && language !== undefined && publicize !== undefined){
+        if(title !== undefined && description !== undefined && language !== "" && publicize !== ""){
             const book: BooksCreate = {
                 title: title,
                 description: description,
