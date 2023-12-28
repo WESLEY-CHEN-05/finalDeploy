@@ -133,11 +133,10 @@ function LearningPage() {
                         <div className="flex w-full flex-col">
                           <div className="flex flex-[1_1_0%]">
                             <div className="ml-auto">
-                              <Star
-                                fill={word.star ? "yellow" : "#334155"}
-                                strokeWidth={word.star ? 0 : 1}
-                                onClick={() => handleOnClick(word)}
-                              />
+                            <Star 
+                                fill={word.star? "yellow" : "#334155"} 
+                                strokeWidth={word.star? 0 : 1}
+                                onClick={() => handleOnClick(word)}/> 
                             </div>
                           </div>
                           <p className="flex-[4_4_0%]"></p>
