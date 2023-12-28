@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { columns } from "./_components/columns";
 import { DataTable } from "./_components/data-table";
 import { useParams } from "next/navigation";
-import memoryDB from "./memory";
+// import memoryDB from "./memory";
 import  DeleteBookDialog  from "./_components/deleteBookDialog";
 import { useBook } from "@/hooks/useBook";
 // import type { Books } from "@/lib/types/db";
@@ -29,7 +29,7 @@ function BookPage() {
         </Button>
       </div>
       <div className="container mx-auto py-10">
-        <DataTable columns={columns} data={memoryDB} bookId={___bookId} />
+        <DataTable columns={columns} data={words} bookId={___bookId} />
       </div>
     </div>
   );
