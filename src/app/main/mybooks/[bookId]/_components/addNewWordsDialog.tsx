@@ -60,7 +60,7 @@ function AddNewWordsDialog() {
             onChange={(e) => setMeaning(e.target.value)}
           />
           <div className="flex flex-row">
-            <Button className="ml-auto" onClick={handleClick}>
+            <Button className="ml-auto" onClick={() => handleClick()}>
               Add another
             </Button>
             <Button type="submit" className="ml-4">

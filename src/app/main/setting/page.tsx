@@ -75,7 +75,7 @@ function SettingPage() {
             </Button>
           )}
         </div>
-        <Button className="ml-5 w-1/2" onClick = {handleChange}>Change Password</Button>
+        <Button className="ml-5 w-1/2" onClick = {() => handleChange()}>Change Password</Button>
       </div>
       <div className="flex w-2/3 flex-col">
         <div className="flex w-full flex-col">
@@ -87,7 +87,7 @@ function SettingPage() {
             ref={aboutRef}
             className="ml-5 h-1/3 w-3/4"
           ></Textarea>
-          <Button className="ml-6 mt-3 w-1/5" onClick = {handleClickAbout}>Save About</Button>
+          <Button className="ml-6 mt-3 w-1/5" onClick = {() => handleClickAbout()}>Save About</Button>
         </div>
         <div className="flex w-full flex-col">
           <p className="m-6 text-2xl font-bold text-white">
@@ -100,7 +100,7 @@ function SettingPage() {
             ref={experienceRef}
             className="ml-5 h-1/3 w-3/4"
           ></Textarea>
-          <Button className="ml-6 mt-3 w-1/5" onClick = {handleClickExp}>Save Experience</Button>
+          <Button className="ml-6 mt-3 w-1/5" onClick = {() => handleClickExp()}>Save Experience</Button>
         </div>
         <div>
           <p className="ml-6 mt-3 mb-3 text-2xl font-bold text-white">
