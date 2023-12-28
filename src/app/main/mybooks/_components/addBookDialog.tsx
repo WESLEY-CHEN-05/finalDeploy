@@ -24,11 +24,11 @@ import {
   SelectGroup,
   SelectLabel,
 } from "@/components/ui/select";
-import { useBook } from "@/hooks/useBook";
 import type { BooksCreate } from "@/lib/types/db";
 
-function AddBookDialog() {
-  const { createBook } = useBook();
+function AddBookDialog({createBook} : {
+    createBook: ({ title, description, language, publicize, }: BooksCreate) => Promise<BooksCreate | undefined>
+}) {
 
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
@@ -37,6 +37,8 @@ function AddBookDialog() {
 
   const [language, setLanguage] = useState<string>("");
   const [publicize, setPublicize] = useState<string>("");
+
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleChange1 = (e: string) => {
     setLanguage(e);
@@ -47,6 +49,7 @@ function AddBookDialog() {
   };
 
   const handleSubmit = () => {
+    setDialogOpen(false);
     const title = titleRef.current?.value;
     const description = descriptionRef.current?.value;
     // const language = languageRef.current?.value;
@@ -73,7 +76,7 @@ function AddBookDialog() {
     // redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}/main/mybooks`);
   };
   return (
-    <Dialog>
+    <Dialog open={dialogOpen} onOpenChange={() => setDialogOpen(!dialogOpen)}>
       <DialogTrigger asChild>
         <Button className="m-6 ml-auto bg-yellow-600 text-black hover:bg-yellow-700">
           Create new books
@@ -86,7 +89,7 @@ function AddBookDialog() {
             Insert your information about the book here!
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4">
           <Input placeholder="title" name="title" ref={titleRef} />
           <Input
             placeholder="description"
@@ -121,8 +124,8 @@ function AddBookDialog() {
               </SelectGroup>
             </SelectContent>
           </Select>
-          <Button type="submit">Add</Button>
-        </form>
+          <Button type="submit" onClick={() => handleSubmit()}>Add</Button>
+        </div>
       </DialogContent>
     </Dialog>
   );

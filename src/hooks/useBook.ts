@@ -44,8 +44,10 @@ export const useBook = () => {
     if (!res.ok) {
       return;
     }
-    const data: BooksCreate = await res.json();
-    return data;
+    const ret = await res.json();
+    const newBook: Books = ret.data;
+    setBooks([...books, newBook]);
+    return newBook;
   };
 
   const deleteBook = async ({ bookId }: { bookId: string }) => {
