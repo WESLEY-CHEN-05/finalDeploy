@@ -66,7 +66,7 @@ const memoryDB: Words[] = [
     content: "Hello 4",
     meaning: "你好",
     familiarity: 0,
-    star: false,
+    star: true,
     correctNum: 40,
     testNum: 399,
     accuracy: 40 / 399,
