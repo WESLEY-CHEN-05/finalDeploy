@@ -2,6 +2,16 @@ import type { Words } from "@/lib/types/db";
 
 const memoryDB: Words[] = [
   {
+    id: "23",
+    content: "Hello 4",
+    meaning: "你好",
+    familiarity: 3,
+    star: false,
+    correctNum: 20,
+    testNum: 24,
+    accuracy: 20 / 24,
+  },
+  {
     id: "232",
     content: "Hello 1",
     meaning: "你好",

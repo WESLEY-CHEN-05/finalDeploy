@@ -136,7 +136,10 @@ function LearningPage() {
                               <Star
                                 fill={word.star ? "yellow" : "#334155"}
                                 strokeWidth={word.star ? 0 : 1}
-                                onClick={() => handleOnClick(word)}
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  handleOnClick(word);
+                                }}
                               />
                             </div>
                           </div>
