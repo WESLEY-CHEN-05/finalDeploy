@@ -18,7 +18,6 @@ function DeleteBookDialog({ bookId }: { bookId: string }) {
   const router = useRouter();
   const { deleteBook } = useBook();
   const handleOnClick = () => {
-    // console.log("anan");
     deleteBook({ bookId });
     router.push(`${publicEnv.NEXT_PUBLIC_BASE_URL}/main/mybooks`);
   };
@@ -37,12 +36,12 @@ function DeleteBookDialog({ bookId }: { bookId: string }) {
             Are you sure you want to delete this book?
           </DialogDescription>
         </DialogHeader>
-        <form className="flex flex-row gap-4">
-          <Button className="ml-auto" type="submit" onClick={handleOnClick}>
+        <div className="flex flex-row gap-4">
+          <Button className="ml-auto" type="submit" onClick={() => handleOnClick()}>
             Delete
           </Button>
           <Button type="submit">Cancel</Button>
-        </form>
+        </div>
       </DialogContent>
     </Dialog>
   );
