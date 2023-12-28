@@ -29,6 +29,8 @@ export type BooksCreate = Omit<Books, "id" | "popularity">;
 
 export type BooksUpdate = Partial<Omit<Books, "id">>;
 
+
+
 export type Words = {
   id: string;
   content: string;

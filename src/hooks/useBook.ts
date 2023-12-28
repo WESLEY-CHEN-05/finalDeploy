@@ -1,127 +1,134 @@
-// import { useEffect, useState } from "react";
+import type { BooksCreate, BooksUpdate } from "@/lib/types/db"
+import { useState, useEffect, use } from "react"
+import { useSession } from "next-auth/react"
+import type { Books } from "@/lib/types/db"
+import { useRouter } from "next/navigation"
 
-// import { useSession } from "next-auth/react";
-// import { useParams, useRouter } from "next/navigation";
 
-// import { useDebounce } from "use-debounce";
+export const useBook = () => { 
+    const [userId, setUserId] = useState("");
+    const [books, setBooks] = useState<Books[]>([]);
+    const router = useRouter();
+    const { data: session } = useSession();
+    useEffect(() => {
+        if (!session?.user) return;
+        setUserId(session?.user?.id);
+        // console.log(userId);
+    }, [session]);
 
-// import { pusherClient } from "@/lib/pusher/client";
-// import type { Document, User } from "@/lib/types/db";
+    const createBook = async ({title, description, language, publicize}: BooksCreate) => {
+        const res = await fetch(`/api/user/${userId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                title,
+                description,
+                language,
+                publicize,
+            }),
+        });
+        if (!res.ok) {
+            return;
+        }
+        const data: BooksCreate = await res.json();
+        return data;
+    }
 
-// type PusherPayload = {
-//   senderId: User["id"];
-//   document: Document;
-// };
+    const deleteBook = async ({bookId}: {bookId: string}) => {
+        const res = await fetch(`/api/book/${bookId}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        if (!res.ok) {
+            return;
+        }
+    }
 
-// export const useDocument = () => {
-//   const { docId } = useParams();
-//   const documentId = Array.isArray(docId) ? docId[0] : docId;
+    const updateBook = async (bookId: string, {title, description, language, publicize, popularity}: BooksUpdate) => {
+        const res = await fetch(`/api/book/${bookId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                title,
+                description,
+                language,
+                publicize,
+                popularity,
+            }),
+        });
+        if (!res.ok) {
+            return;
+        }
+        // const data: BooksUpdate = await res.json();
+        // return data;
+    }
 
-//   const [document, setDocument] = useState<Document | null>(null);
-//   const [dbDocument, setDbDocument] = useState<Document | null>(null);
-//   const router = useRouter();
+    const getBook = async ({bookId}: {bookId: string}) => {
+        const res = await fetch(`/api/book/${bookId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        if (!res.ok) {
+            return;
+        }
+        const ret = await res.json();
+        return ret.info;
+    }
 
-//   const { data: session } = useSession();
-//   const userId = session?.user?.id;
+    const getWords = async ({bookId}: {bookId: string}) => {
+        const res = await fetch(`/api/book/${bookId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        if (!res.ok) {
+            return;
+        }
+        const ret = await res.json();
+        return ret.data;
+    }
 
-//   useEffect(() => {
-//     const updateDocument = async () => {
-//       if (!debouncedDocument) return;
-//       // [NOTE] 2023.11.18 - This PUT request will trigger a pusher event that will update the document to the other clients.
-//       const res = await fetch(`/api/documents/${documentId}`, {
-//         method: "PUT",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({
-//           title: debouncedDocument.title,
-//           content: debouncedDocument.content,
-//         }),
-//       });
-//       if (!res.ok) {
-//         return;
-//       }
-//       const data: Document = await res.json();
-//       // Update the navbar if the title changed
-//       if (debouncedDbDocument?.title !== data.title) {
-//         router.refresh();
-//       }
-//       setDbDocument(data);
-//     };
-//     updateDocument();
-//   }, [debouncedDocument, documentId, router, debouncedDbDocument, isSynced]);
+   
+    
+    useEffect(() => {
+        // console.log(userId);
+        if (!userId) return;
+        const getBooks = async () => {
+            const res = await fetch(`/api/user/${userId}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            if (!res.ok) {
+                // router.refresh();
+                return;
+            }
+            const ret = await res.json();
+            const getbooks: Books[] = ret.data;
+            setBooks(getbooks);
+            // router.refresh();
+            console.log("hello");
+        };
+        getBooks();
+    },[userId]);
+        
 
-//   // Subscribe to pusher events
-//   useEffect(() => {
-//     if (!documentId) return;
-//     // Private channels are in the format: private-...
-//     const channelName = `private-${documentId}`;
-
-//     try {
-//       const channel = pusherClient.subscribe(channelName);
-//       channel.bind(
-//         "doc:update",
-//         ({ senderId, document: received_document }: PusherPayload) => {
-//           if (senderId === userId) {
-//             return;
-//           }
-//           // [NOTE] 2023.11.18 - This is the pusher event that updates the dbDocument.
-//           setDocument(received_document);
-//           setDbDocument(received_document);
-//           router.refresh();
-//         },
-//       );
-//     } catch (error) {
-//       console.error(error);
-//       router.push("/docs");
-//     }
-
-//     // Unsubscribe from pusher events when the component unmounts
-//     return () => {
-//       pusherClient.unsubscribe(channelName);
-//     };
-//   }, [documentId, router, userId]);
-
-//   useEffect(() => {
-//     if (!documentId) return;
-//     const fetchDocument = async () => {
-//       const res = await fetch(`/api/documents/${documentId}`);
-//       if (!res.ok) {
-//         setDocument(null);
-//         router.push("/docs");
-//         return;
-//       }
-//       const data = await res.json();
-//       setDocument(data);
-//       setDbDocument(data);
-//     };
-//     fetchDocument();
-//   }, [documentId, router]);
-
-//   const title = document?.title || "";
-//   const setTitle = (newTitle: string) => {
-//     if (document === null) return;
-//     setDocument({
-//       ...document,
-//       title: newTitle,
-//     });
-//   };
-
-//   const content = document?.content || "";
-//   const setContent = (newContent: string) => {
-//     if (document === null) return;
-//     setDocument({
-//       ...document,
-//       content: newContent,
-//     });
-//   };
-
-//   return {
-//     documentId,
-//     document,
-//     title,
-//     setTitle,
-//     content,
-//     setContent,
-//   };
-// };
+    return {
+        createBook,
+        deleteBook,
+        updateBook,
+        getBook,
+        getWords,
+        books,
+    }
+}
