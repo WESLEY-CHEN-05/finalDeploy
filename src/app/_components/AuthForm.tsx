@@ -84,7 +84,8 @@ function AuthForm() {
         if (isSignUp) {
           toast({
             title: "Sign up failed.",
-            description: "This email is already registered, or this email is invalid.",
+            description:
+              "This email is already registered, or this email is invalid.",
             variant: "destructive",
           });
         } else {
