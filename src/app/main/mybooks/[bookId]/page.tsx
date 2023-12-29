@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { columns } from "./_components/columns";
 import { DataTable } from "./_components/data-table";
 import memoryDB from "./memory";
+import CreateTestDialog from "./_components/createTestDialog";
 
 function BookPage() {
   const bookName = "SAMPLE book name";
@@ -15,6 +16,7 @@ function BookPage() {
         <Button className="m-6 ml-auto bg-yellow-600 text-black hover:bg-yellow-700">
           Create new word
         </Button>
+        <CreateTestDialog />
       </div>
       <div className="container mx-auto py-10">
         <DataTable columns={columns} data={memoryDB} bookId={___bookId} />
