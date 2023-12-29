@@ -49,6 +49,12 @@ function BookPage() {
   const [ dialogId, setDialogId ] = useState("");
   const [ dialogContent, setDialogContent ] = useState("");
   const [ dialogMeaning, setDialogMeaning ] = useState("");
+  const [ warningContent, setWarningContent ] = useState(false);
+  const [ warningMeaning, setWarningMeaning ] = useState(false);
+
+  function isWhitespaceOrNewline(inputStr: string) {
+    return /^\s*$/.test(inputStr);
+  }
 
   const updateInfo = (_info: WordsUpdate, _id: string) => {
     setEditDialogOpen(true);
@@ -144,12 +150,13 @@ function BookPage() {
                 Word
               </Label>
               <Input
-                id="name"
+                id="content"
                 defaultValue={dialogContent}
-                className="col-span-3"
                 onChange={(event) => {
-                  setDialogContent(event?.target.value)
+                  setDialogContent(event?.target.value);
+                  setWarningContent(false);
                 }}
+                className = {warningContent ? "border-red-500 col-span-3" : "col-span-3"}
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -157,17 +164,28 @@ function BookPage() {
                 Meaning
               </Label>
               <Input
-                id="username"
+                id="meaning"
                 defaultValue={dialogMeaning}
-                className="col-span-3"
                 onChange={(event) => {
-                  setDialogMeaning(event?.target.value)
+                  setDialogMeaning(event?.target.value);
+                  setWarningMeaning(false);
                 }}
+                className = {warningMeaning ? "border-red-500 col-span-3" : "col-span-3"}
               />
             </div>
           </div>
           <DialogFooter>
             <Button type="submit" onClick={() => {
+              if(isWhitespaceOrNewline(dialogContent)){
+                setWarningContent(true);
+                return;
+              }
+              if(isWhitespaceOrNewline(dialogMeaning)){
+                setWarningMeaning(true);
+                return;
+              }
+              setWarningContent(false);
+              setWarningMeaning(false);
               setEditDialogOpen(false);
               updateWord(dialogId, {
                 content: dialogContent,
