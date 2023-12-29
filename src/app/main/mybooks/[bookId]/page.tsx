@@ -28,7 +28,7 @@ function BookPage() {
 
   const { toast } = useToast();
 
-  if (!book) {
+  if (!book || !words) {
     return <></>
   }
 
