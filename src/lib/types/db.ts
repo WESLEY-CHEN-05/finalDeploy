@@ -2,15 +2,9 @@ export type User = {
   id: string;
   username: string;
   email: string;
-  provider: "github" | "credentials";
-};
-
-export type UserSetting = {
-  id: string;
-  username: string;
-  email: string;
   about: string;
   experience: string;
+  provider: "github" | "credentials";
 };
 
 export type UserPublicInfo = {
@@ -19,6 +13,8 @@ export type UserPublicInfo = {
   about: string;
   experience: string;
 };
+
+export type UserUpdate = Partial<Omit<UserPublicInfo, "id">>;
 
 export type Document = {
   id: string;

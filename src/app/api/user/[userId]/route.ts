@@ -8,7 +8,7 @@ import { usersTable, booksTable } from "@/db/schema";
 // import { auth } from "@/lib/auth";
 // import { privateEnv } from "@/lib/env/private";
 // import { publicEnv } from "@/lib/env/public";
-import type { UserPublicInfo, Books, BooksCreate } from "@/lib/types/db.ts";
+import type { UserPublicInfo, UserUpdate, Books, BooksCreate } from "@/lib/types/db.ts";
 
 // GET /api/userId/:userId
 // return all his books
@@ -54,8 +54,8 @@ export async function GET(
     const userInfo: UserPublicInfo = {
       id: _booksdata!.displayId,
       username: _booksdata!.username,
-      about: _booksdata!.about || "",
-      experience: _booksdata!.experience || "",
+      about: _booksdata!.about,
+      experience: _booksdata!.experience,
     };
 
     const booksdata: Books[] = _booksdata!.books!.map((book) => ({
@@ -146,6 +146,51 @@ export async function POST(
   } catch (error) {
     return NextResponse.json(
       { error: "Internal Server Error ", description: error },
+      { status: 500 },
+    );
+  }
+}
+
+export async function PUT(
+  req: NextRequest,
+  {
+    params,
+  }: {
+    params: {
+      userId: string;
+    };
+  },
+) {
+  try {
+    // Get user from session
+    // const session = await auth();
+    // if (!session || !session?.user?.id) {
+    //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    // }
+    // const userId = session.user.id;
+
+    const userId = params.userId;
+
+    const userinfo: UserUpdate = await req.json();
+
+    // return word
+    const [_userTemp] = await db
+      .update(usersTable)
+      .set(userinfo)
+      .where(eq(usersTable.displayId, userId))
+      .returning();
+
+    const updatedUser: UserPublicInfo = {
+      id: _userTemp.displayId,
+      username: _userTemp.username,
+      about: _userTemp.about,
+      experience: _userTemp.experience,
+    };
+
+    return NextResponse.json({ data: updatedUser}, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Internal Server Error" },
       { status: 500 },
     );
   }
