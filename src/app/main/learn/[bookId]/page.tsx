@@ -19,6 +19,8 @@ import {
 } from "@/components/ui/carousel";
 // import memoryDB from "./memory";
 import { useWord } from "@/hooks/useWord";
+import { useBook } from "@/hooks/useBook";
+import { useSession } from "next-auth/react";
 import type { Words } from "@/lib/types/db";
 
 function LearningPage() {
@@ -27,6 +29,17 @@ function LearningPage() {
   const [count, setCount] = useState(0);
 
   const { words, updateWord, bookId } = useWord();
+  const { book } = useBook();
+
+  const [userId, setUserId] = useState("");
+
+  const { data: session } = useSession();
+  useEffect(() => {
+    if (!session?.user) return;
+    setUserId(session?.user?.id);
+    // console.log(userId);
+  }, [session]);
+  const bookowner = book?.authorId;
 
   useEffect(() => {
     if (!api) {
@@ -139,8 +152,12 @@ function LearningPage() {
                                     fill={word.star ? "yellow" : "#334155"}
                                     strokeWidth={word.star ? 0 : 1}
                                     onClick={(event) => {
-                                      event.stopPropagation();
-                                      handleOnClick(word);
+                                      if(userId == bookowner){
+                                        console.log(bookowner);
+                                        console.log(userId);
+                                        event.stopPropagation();
+                                        handleOnClick(word);
+                                      }
                                     }}
                                   />
                                 </div>
@@ -160,7 +177,9 @@ function LearningPage() {
                                   <Star
                                     fill={word.star ? "yellow" : "#334155"}
                                     strokeWidth={word.star ? 0 : 1}
-                                    onClick={() => handleOnClick(word)}
+                                    onClick={() => {
+                                      if(userId == bookowner) handleOnClick(word);
+                                    }}
                                   />
                                 </div>
                               </div>
