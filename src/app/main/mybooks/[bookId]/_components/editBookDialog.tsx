@@ -50,34 +50,35 @@ function EditBookDialog({
   const [warningDescription, setWarningDescription] = useState(false);
 
   useEffect(() => {
-    if (book){
+    if (book) {
       setTitle(book.title);
       setDescription(book.description);
       setLanguage(book.language);
       setPublicize(book.publicize);
     }
-  }, [book])
+  }, [book]);
 
   function isWhitespaceOrNewline(inputStr: string) {
-      return /^\s*$/.test(inputStr);
+    return /^\s*$/.test(inputStr);
   }
 
-  const handleSubmit= () => {
+  const handleSubmit = () => {
     setWarningTitle(false);
     setWarningDescription(false);
-    if (isWhitespaceOrNewline(title)){
+    if (isWhitespaceOrNewline(title)) {
       setWarningTitle(true);
       return;
     }
-    if (isWhitespaceOrNewline(description)){
+    if (isWhitespaceOrNewline(description)) {
       setWarningDescription(true);
       return;
     }
-    updateBook(book.id, { 
+    updateBook(book.id, {
       title: title,
       description: description,
       language: language,
-      publicize: publicize});
+      publicize: publicize,
+    });
     setDialogOpen(false);
   };
 
@@ -99,15 +100,16 @@ function EditBookDialog({
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-4">
-          <Input 
-            defaultValue={book.title} 
+          <Input
+            defaultValue={book.title}
             placeholder="title"
-            name="title" 
+            name="title"
             onChange={(event) => {
               setTitle(event.target.value);
               setWarningTitle(false);
-            }} 
-            className={warningTitle ? "border-red-500" : ""}/>
+            }}
+            className={warningTitle ? "border-red-500" : ""}
+          />
           <Input
             defaultValue={book.description}
             placeholder="description"
@@ -119,9 +121,10 @@ function EditBookDialog({
             className={warningDescription ? "border-red-500" : ""}
           />
           {/* <Input placeholder="language" name="language" ref = {languageRef}/> */}
-          <Select 
+          <Select
             defaultValue={book.language}
-            onValueChange={(val) => setLanguage(val)}>
+            onValueChange={(val) => setLanguage(val)}
+          >
             <SelectTrigger>
               <SelectValue placeholder="Select Language" />
             </SelectTrigger>
@@ -135,9 +138,10 @@ function EditBookDialog({
               </SelectGroup>
             </SelectContent>
           </Select>
-          <Select 
+          <Select
             defaultValue={book.publicize ? "Yes" : "No"}
-            onValueChange={(val) => setPublicize(val === "Yes" ? true : false)}>
+            onValueChange={(val) => setPublicize(val === "Yes" ? true : false)}
+          >
             <SelectTrigger>
               <SelectValue placeholder="Publicize the book?" />
             </SelectTrigger>

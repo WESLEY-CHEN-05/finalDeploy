@@ -1,15 +1,27 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import { useParams } from "next/navigation";
 // import type { Books } from "@/lib/types/db";
 import { useRouter } from "next/navigation";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { useBook } from "@/hooks/useBook";
 import { useWord } from "@/hooks/useWord";
 import { publicEnv } from "@/lib/env/public";
+import type { Words, WordsUpdate } from "@/lib/types/db";
 
 import AddNewWordsDialog from "./_components/addNewWordsDialog";
 import { columns } from "./_components/columns";
@@ -17,24 +29,22 @@ import { DataTable } from "./_components/data-table";
 // import memoryDB from "./memory";
 import DeleteBookDialog from "./_components/deleteBookDialog";
 import EditBookDialog from "./_components/editBookDialog";
-import type { Words, WordsUpdate } from "@/lib/types/db";
-import { useEffect, useState } from "react";
-
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 
 export type wordsAndFunc = Words & {
-  update: (wordId: string, { content, meaning, familiarity, star, correctNum, testNum }: Partial<Omit<Words, "id" | "accuracy">>) => Promise<Words | undefined>,
-  delete: (wordId: string) => Promise<void>,
+  update: (
+    wordId: string,
+    {
+      content,
+      meaning,
+      familiarity,
+      star,
+      correctNum,
+      testNum,
+    }: Partial<Omit<Words, "id" | "accuracy">>,
+  ) => Promise<Words | undefined>;
+  delete: (wordId: string) => Promise<void>;
   updateInfo: (_info: WordsUpdate, _id: string) => void;
-}
+};
 
 function BookPage() {
   const param = useParams();
@@ -43,14 +53,14 @@ function BookPage() {
   const { book, updateBook } = useBook();
   const { words, createWord, updateWord, deleteWord } = useWord();
 
-  const [ wordsWithFunction, setWordsWithFunction ] = useState<wordsAndFunc[]>();
+  const [wordsWithFunction, setWordsWithFunction] = useState<wordsAndFunc[]>();
 
-  const [ editWordDialogOpen, setEditDialogOpen ] = useState(false);
-  const [ dialogId, setDialogId ] = useState("");
-  const [ dialogContent, setDialogContent ] = useState("");
-  const [ dialogMeaning, setDialogMeaning ] = useState("");
-  const [ warningContent, setWarningContent ] = useState(false);
-  const [ warningMeaning, setWarningMeaning ] = useState(false);
+  const [editWordDialogOpen, setEditDialogOpen] = useState(false);
+  const [dialogId, setDialogId] = useState("");
+  const [dialogContent, setDialogContent] = useState("");
+  const [dialogMeaning, setDialogMeaning] = useState("");
+  const [warningContent, setWarningContent] = useState(false);
+  const [warningMeaning, setWarningMeaning] = useState(false);
 
   function isWhitespaceOrNewline(inputStr: string) {
     return /^\s*$/.test(inputStr);
@@ -61,18 +71,20 @@ function BookPage() {
     setDialogId(_id);
     setDialogContent(_info.content as string);
     setDialogMeaning(_info.meaning as string);
-  }
+  };
 
   useEffect(() => {
-    console.log("FKC",words);
-    setWordsWithFunction(words.map((word) => {
-      return {
-        ...word,
-        update: updateWord,
-        delete: deleteWord,
-        updateInfo: updateInfo,
-      }
-    }))
+    // console.log("FKC", words);
+    setWordsWithFunction(
+      words.map((word) => {
+        return {
+          ...word,
+          update: updateWord,
+          delete: deleteWord,
+          updateInfo: updateInfo,
+        };
+      }),
+    );
   }, [words, updateWord, deleteWord]);
 
   const { toast } = useToast();
@@ -118,7 +130,8 @@ function BookPage() {
             if (!words || words.length < 2) {
               toast({
                 title: "Not enough words",
-                description: "At least two words are required in this book.",
+                description:
+                  "At least two words are required to enter learning mode.",
               });
             } else {
               router.push(
@@ -139,8 +152,11 @@ function BookPage() {
       </div>
 
       {/* for edit word */}
-      <Dialog open={editWordDialogOpen} onOpenChange={() => setEditDialogOpen(!editWordDialogOpen)}>
-        <DialogContent className="sm:max-w-[425px] bg-slate-100">
+      <Dialog
+        open={editWordDialogOpen}
+        onOpenChange={() => setEditDialogOpen(!editWordDialogOpen)}
+      >
+        <DialogContent className="bg-slate-100 sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Edit Word</DialogTitle>
           </DialogHeader>
@@ -156,7 +172,9 @@ function BookPage() {
                   setDialogContent(event?.target.value);
                   setWarningContent(false);
                 }}
-                className = {warningContent ? "border-red-500 col-span-3" : "col-span-3"}
+                className={
+                  warningContent ? "col-span-3 border-red-500" : "col-span-3"
+                }
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -170,28 +188,33 @@ function BookPage() {
                   setDialogMeaning(event?.target.value);
                   setWarningMeaning(false);
                 }}
-                className = {warningMeaning ? "border-red-500 col-span-3" : "col-span-3"}
+                className={
+                  warningMeaning ? "col-span-3 border-red-500" : "col-span-3"
+                }
               />
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit" onClick={() => {
-              if(isWhitespaceOrNewline(dialogContent)){
-                setWarningContent(true);
-                return;
-              }
-              if(isWhitespaceOrNewline(dialogMeaning)){
-                setWarningMeaning(true);
-                return;
-              }
-              setWarningContent(false);
-              setWarningMeaning(false);
-              setEditDialogOpen(false);
-              updateWord(dialogId, {
-                content: dialogContent,
-                meaning: dialogMeaning,
-              })
-            }}>
+            <Button
+              type="submit"
+              onClick={() => {
+                if (isWhitespaceOrNewline(dialogContent)) {
+                  setWarningContent(true);
+                  return;
+                }
+                if (isWhitespaceOrNewline(dialogMeaning)) {
+                  setWarningMeaning(true);
+                  return;
+                }
+                setWarningContent(false);
+                setWarningMeaning(false);
+                setEditDialogOpen(false);
+                updateWord(dialogId, {
+                  content: dialogContent,
+                  meaning: dialogMeaning,
+                });
+              }}
+            >
               Save changes
             </Button>
           </DialogFooter>

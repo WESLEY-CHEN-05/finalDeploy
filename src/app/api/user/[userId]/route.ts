@@ -8,7 +8,12 @@ import { usersTable, booksTable } from "@/db/schema";
 // import { auth } from "@/lib/auth";
 // import { privateEnv } from "@/lib/env/private";
 // import { publicEnv } from "@/lib/env/public";
-import type { UserPublicInfo, UserUpdate, Books, BooksCreate } from "@/lib/types/db.ts";
+import type {
+  UserPublicInfo,
+  UserUpdate,
+  Books,
+  BooksCreate,
+} from "@/lib/types/db.ts";
 
 // GET /api/userId/:userId
 // return all his books
@@ -187,7 +192,7 @@ export async function PUT(
       experience: _userTemp.experience,
     };
 
-    return NextResponse.json({ data: updatedUser}, { status: 200 });
+    return NextResponse.json({ data: updatedUser }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { error: "Internal Server Error" },
