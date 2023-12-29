@@ -40,7 +40,7 @@ function LearningPage() {
       setCurrent(api.selectedScrollSnap() + 1);
       setIsMeaning(false);
     });
-  }, [api, words]);
+  }, [api, words, count]);
 
   // // mouse click
   // const handlePrev = () => {
