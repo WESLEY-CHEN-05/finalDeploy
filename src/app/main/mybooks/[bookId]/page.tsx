@@ -16,7 +16,7 @@ import { columns } from "./_components/columns";
 import { DataTable } from "./_components/data-table";
 // import memoryDB from "./memory";
 import DeleteBookDialog from "./_components/deleteBookDialog";
-import PublicizeBookDialog from "./_components/publicizeDialog";
+import EditBookDialog from "./_components/editBookDialog";
 import type { Words, WordsUpdate } from "@/lib/types/db";
 import { useEffect, useState } from "react";
 
@@ -124,17 +124,7 @@ function BookPage() {
         >
           Learn
         </Button>
-        {/* <Button 
-          className="m-6 ml-5 border-blue-500 hover:border-blue-600 text-blue-500 hover:text-blue-600 hover:bg-slate-800" 
-          onClick = {() => handlePub()}
-          variant="outline">
-            Publicize
-        </Button> */}
-        {book?.publicize ? (
-          <></>
-        ) : (
-          <PublicizeBookDialog bookId={bookId} updateBook={updateBook} />
-        )}
+        <EditBookDialog book={book} updateBook={updateBook} />
         <DeleteBookDialog bookId={bookId} />
         <AddNewWordsDialog createWord={createWord} />
       </div>
