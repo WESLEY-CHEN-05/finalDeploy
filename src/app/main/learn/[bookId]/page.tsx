@@ -14,24 +14,22 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
-import type { Words } from "@/lib/types/db";
-
 // import memoryDB from "./memory";
-
 import { useWord } from "@/hooks/useWord";
+import type { Words } from "@/lib/types/db";
 
 function LearningPage() {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
 
-  const {words, updateWord} = useWord();
+  const { words, updateWord } = useWord();
 
   useEffect(() => {
     if (!api) {
       return;
     }
-    
+
     setCount(api.scrollSnapList().length);
     setCurrent(api.selectedScrollSnap() + 1);
 
@@ -87,7 +85,7 @@ function LearningPage() {
   const handleOnClick = (word: Words) => {
     // add some other things here
     console.log(word);
-    updateWord(word.id, {star: !word.star});
+    updateWord(word.id, { star: !word.star });
   };
 
   return (
@@ -139,10 +137,11 @@ function LearningPage() {
                         <div className="flex w-full flex-col">
                           <div className="flex flex-[1_1_0%]">
                             <div className="ml-auto">
-                            <Star 
-                                fill={word.star? "yellow" : "#334155"} 
-                                strokeWidth={word.star? 0 : 1}
-                                onClick={() => handleOnClick(word)}/> 
+                              <Star
+                                fill={word.star ? "yellow" : "#334155"}
+                                strokeWidth={word.star ? 0 : 1}
+                                onClick={() => handleOnClick(word)}
+                              />
                             </div>
                           </div>
                           <p className="flex-[4_4_0%]"></p>

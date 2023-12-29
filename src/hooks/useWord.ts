@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback } from "react"
-import type { WordsUpdate, WordsCreate } from "@/lib/types/db";
+import { useState, useEffect, useCallback } from "react";
+
 import { useParams } from "next/navigation";
 
+import type { WordsUpdate, WordsCreate } from "@/lib/types/db";
 import type { Words } from "@/lib/types/db";
 
 export const useWord = () => {
-
   const param = useParams();
   const bookId = param.bookId as string;
 
@@ -106,12 +106,11 @@ export const useWord = () => {
     const updatedWord: Words = ret.data;
     setWords((words) => {
       return words.map((word) => {
-        if (word.id === updatedWord.id){
+        if (word.id === updatedWord.id) {
           return updatedWord;
-        }
-        else return word;
-      })
-    })
+        } else return word;
+      });
+    });
     return updatedWord;
   };
 

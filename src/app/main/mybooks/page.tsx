@@ -29,7 +29,7 @@ function DocsPage() {
     <div className="w-screen bg-gray-800">
       <div className="flex w-screen">
         <p className="m-6 text-3xl font-bold text-white"> My books </p>
-        <AddBookDialog createBook={createBook}/>
+        <AddBookDialog createBook={createBook} />
       </div>
       <div className="flex w-screen flex-wrap justify-start">
         {books.map((book) => {

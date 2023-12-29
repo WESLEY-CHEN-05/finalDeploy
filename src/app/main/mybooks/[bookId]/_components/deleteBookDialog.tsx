@@ -25,10 +25,11 @@ function DeleteBookDialog({ bookId }: { bookId: string }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button 
-          className="m-6 border-red-600 hover:border-red-700 text-red-600 hover:text-red-700 hover:bg-gray-800"
-          variant="outline">
-            Delete book
+        <Button
+          className="m-6 border-red-600 text-red-600 hover:border-red-700 hover:bg-gray-800 hover:text-red-700"
+          variant="outline"
+        >
+          Delete book
         </Button>
       </DialogTrigger>
       <DialogContent className="bg-slate-100">
@@ -39,7 +40,11 @@ function DeleteBookDialog({ bookId }: { bookId: string }) {
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-row gap-4">
-          <Button className="ml-auto" type="submit" onClick={() => handleOnClick()}>
+          <Button
+            className="ml-auto"
+            type="submit"
+            onClick={() => handleOnClick()}
+          >
             Delete
           </Button>
           {/* <Button type="submit">Cancel</Button> */}

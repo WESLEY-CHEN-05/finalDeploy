@@ -4,11 +4,10 @@ import { useState, useEffect, useCallback } from "react";
 
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import type { BooksCreate, BooksUpdate } from "@/lib/types/db";
 import type { Books, Words } from "@/lib/types/db";
-
-import { useRouter } from "next/navigation";
 
 export const useBook = () => {
   const param = useParams();
@@ -17,7 +16,7 @@ export const useBook = () => {
   const [books, setBooks] = useState<Books[]>([]);
   const [book, setBook] = useState<Books>();
   const [words, setWords] = useState<Words[]>([]);
-  const router = useRouter(); 
+  const router = useRouter();
   const { data: session } = useSession();
   useEffect(() => {
     if (!session?.user) return;
@@ -88,12 +87,11 @@ export const useBook = () => {
     const updatedBook: Books = ret.data;
     setBooks((books) => {
       return books.map((book) => {
-        if (book.id === updatedBook.id){
+        if (book.id === updatedBook.id) {
           return updatedBook;
-        }
-        else return book;
-      })
-    })
+        } else return book;
+      });
+    });
     setBook(updatedBook);
     // return data;
   };
