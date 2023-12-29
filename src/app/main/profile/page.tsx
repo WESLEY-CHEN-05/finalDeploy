@@ -77,8 +77,8 @@ function SettingPage() {
       <div className = "flex flex-col">
         <div className="flex w-full flex-row">
           <div className="ml-6 mt-6 flex w-1/3 flex-col ">
-            <p className = "w-full mt-6 mb-6"></p>
-            <p className = "w-full mt-6 mb-6"></p>
+            {/* <p className = "w-full mt-6 mb-6"></p> */}
+            {/* <p className = "w-full mt-6 mb-6"></p> */}
             {/* <img src = {"./component/unforgiven_cover.png"} className = "w-1/3"></img> */}
             <div>
               <p className = "ml-6 mb-6 text-3xl font-bold text-white">Profile</p>
@@ -119,8 +119,8 @@ function SettingPage() {
           </div>
           <div className="flex w-2/3 flex-col">
             <div className="flex w-full flex-col">
-              <p className = "w-full mt-6 mb-6"></p>
-              <p className = "w-full mt-6 mb-6"></p>
+              {/* <p className = "w-full mt-6 mb-6"></p> */}
+              {/* <p className = "w-full mt-6 mb-6"></p> */}
               <p className="m-6 text-2xl font-bold text-white">Learning Goal</p>
               <Textarea
                 placeholder="Talk about your goal!!!"
@@ -131,18 +131,22 @@ function SettingPage() {
                 }}
                 className="ml-3 h-1/3 w-3/4 text-white border-gray-800 hover:border-white text-lg"
               ></Textarea>
-              <div className = "flex flex-row ml-6">
-                <p className = "w-7/12"></p>
-                <Button
-                  disabled={editingAbout}
-                  className={editingAbout?
-                    "ml-2 mr-6 mt-3 w-1/6 bg-slate-800 text-slate-800 hover:bg-slate-800 hover:text-slate-800"
-                    :"ml-2 mr-6 mt-3 w-1/6 bg-gray-300 text-gray-800 hover:bg-gray-400 hover:text-gray-900"}
-                  onClick={() => handleClickAbout()}
-                >
-                  Update
-                </Button>
-              </div>
+              {editingAbout ? (
+                <></>
+              ):(
+                <div className = "flex flex-row ml-6">
+                  <p className = "w-7/12"></p>
+                  <Button
+                    disabled={editingAbout}
+                    className={editingAbout?
+                      "ml-2 mr-6 mt-3 w-1/6 bg-slate-800 text-slate-800 hover:bg-slate-800 hover:text-slate-800"
+                      :"ml-2 mr-6 mt-3 w-1/6 bg-gray-300 text-gray-800 hover:bg-gray-400 hover:text-gray-900"}
+                    onClick={() => handleClickAbout()}
+                  >
+                    Update
+                  </Button>
+                </div>
+              )}
             </div>
             <div className="flex w-full flex-col">
               <p className="m-6 text-2xl font-bold text-white">
@@ -157,17 +161,21 @@ function SettingPage() {
                 }}
                 className="ml-3 h-1/3 w-3/4 text-white border-gray-800 hover:border-white text-lg"
               ></Textarea>
-              <div className = "flex flex-row ml-6">
-                <p className = "w-7/12"></p>
-                <Button 
-                  disabled={editingExp}
-                  className={editingExp?
-                    "ml-2 mt-3 w-1/6 bg-slate-800 text-slate-800 hover:bg-slate-800 hover:text-slate-800":
-                    "ml-2 mt-3 w-1/6 bg-gray-300 text-gray-800 hover:bg-gray-400 hover:text-gray-900"} 
-                  onClick={() => handleClickExp()}>
-                  Update
-                </Button>
-              </div>
+              {editingExp ? (
+                <></>
+              ):(
+                <div className = "flex flex-row ml-6">
+                  <p className = "w-7/12"></p>
+                  <Button 
+                    disabled={editingExp}
+                    className={editingExp?
+                      "ml-2 mt-3 w-1/6 bg-slate-800 text-slate-800 hover:bg-slate-800 hover:text-slate-800":
+                      "ml-2 mt-3 w-1/6 bg-gray-300 text-gray-800 hover:bg-gray-400 hover:text-gray-900"} 
+                    onClick={() => handleClickExp()}>
+                    Update
+                  </Button>
+                </div>
+              )}
             </div>
             <div>
               <p className="mb-3 ml-6 mt-3 text-2xl font-bold text-white">
