@@ -6,6 +6,7 @@ import type { UserPublicInfo, UserUpdate } from "@/lib/types/db.ts";
 
 export const useUser = () => {
   const [userId, setUserId] = useState("");
+  const [getName, setGetName] = useState("");
   const [userInfo, setUserinfo] = useState<UserPublicInfo>(
     {} as UserPublicInfo,
   );
@@ -51,5 +52,14 @@ export const useUser = () => {
     setUserinfo(updatedUser);
   };
 
-  return { userInfo, updateUser };
+  const getUser = async (userId: string) => {
+    const res = await fetch(`/api/user/${userId}`);
+    if (!res.ok) {
+      return;
+    }
+    const data = await res.json();
+    setGetName(data.info.username);
+  }
+
+  return { userInfo, updateUser, getUser, getName };
 };

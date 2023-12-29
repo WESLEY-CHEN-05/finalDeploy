@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
 import { useParams } from "next/navigation";
@@ -22,7 +22,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useBook } from "@/hooks/useBook";
 import { useWord } from "@/hooks/useWord";
 import { publicEnv } from "@/lib/env/public";
-import type { Words, WordsUpdate } from "@/lib/types/db";
+import type { Words, WordsUpdate, UserPublicInfo } from "@/lib/types/db";
 
 import AddNewWordsDialog from "./_components/addNewWordsDialog";
 import { columns } from "./_components/columns";
@@ -30,6 +30,7 @@ import { DataTable } from "./_components/data-table";
 // import memoryDB from "./memory";
 import DeleteBookDialog from "./_components/deleteBookDialog";
 import EditBookDialog from "./_components/editBookDialog";
+import { useUser} from "@/hooks/useUser";
 
 export type wordsAndFunc = Words & {
   update: (
@@ -62,6 +63,7 @@ function BookPage() {
   const [dialogMeaning, setDialogMeaning] = useState("");
   const [warningContent, setWarningContent] = useState(false);
   const [warningMeaning, setWarningMeaning] = useState(false);
+  const { getUser, getName } = useUser();
 
   const [userId, setUserId] = useState("");
   const { data: session } = useSession();
@@ -71,6 +73,11 @@ function BookPage() {
     // console.log(userId);
   }, [session]);
   const bookowner = book?.authorId;
+  useEffect(() => {
+    getUser(bookowner as string);
+  });
+  // getUser(bookowner as string);
+  const authorName = getName;
 
   function isWhitespaceOrNewline(inputStr: string) {
     return /^\s*$/.test(inputStr);
@@ -130,9 +137,17 @@ function BookPage() {
               </Badge>
             </div>
           </div>
-          <p className="m-6 mt-2 text-base font-light text-slate-300">
+          <p className="mt-2 ml-6 mb-3 text-base font-light text-slate-300">
             {book?.description ? book.description : ""}
           </p>
+          <div className = "flex flex-row">
+            <p className="ml-6 text-base font-light text-slate-300">
+              Book created by:
+            </p>
+            <p className="ml-6 text-base font-bold text-slate-300">
+              {authorName}
+            </p>
+          </div>
         </div>
         <Button
           className="m-6 ml-auto border-green-600 text-green-600 hover:border-green-700 hover:bg-slate-800 hover:text-green-700"
