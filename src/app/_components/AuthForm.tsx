@@ -183,6 +183,21 @@ function AuthForm() {
         <Button
           onClick={async () => {
             // TODO: sign in with github
+            signIn("google", {
+              callbackUrl: `${publicEnv.NEXT_PUBLIC_BASE_URL}/main`,
+            });
+          }}
+          className="flex w-full bg-slate-200 text-slate-800 hover:bg-slate-300 mb-2"
+          variant={"outline"}
+        >
+          {/* Remember to copy "github.png" to ./public folder */}
+          <Image src="/google.png" alt="google icon" width={20} height={20} />
+          <span className="grow">Sign In with Google</span>
+        </Button>
+
+        <Button
+          onClick={async () => {
+            // TODO: sign in with github
             signIn("github", {
               callbackUrl: `${publicEnv.NEXT_PUBLIC_BASE_URL}/main`,
             });
