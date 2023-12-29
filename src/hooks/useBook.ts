@@ -12,7 +12,7 @@ import type { Books, Words } from "@/lib/types/db";
 export const useBook = () => {
   const param = useParams();
 
-  const _bookId = param.bookId as string;
+  const bookId = param.bookId as string;
   const [userId, setUserId] = useState("");
   const [books, setBooks] = useState<Books[]>([]);
   const [book, setBook] = useState<Books>();
@@ -98,7 +98,7 @@ export const useBook = () => {
   };
 
   const getsingleBook = useCallback(() => {
-    if (!_bookId) return;
+    if (!bookId) return;
     const getBook = async (bookId: string) => {
       const res = await fetch(`/api/book/${bookId}`, {
         method: "GET",
@@ -115,10 +115,10 @@ export const useBook = () => {
       setWords(ret.data);
       //console.log(ret.info);
     };
-    getBook(_bookId);
-  }, [_bookId, router]);
+    getBook(bookId);
+  }, [bookId, router]);
 
-  useEffect(getsingleBook, [_bookId, getsingleBook]);
+  useEffect(getsingleBook, [bookId, getsingleBook]);
 
   // const getBook = async (bookId: string) => {
   //     const res = await fetch(`/api/book/${bookId}`, {
@@ -205,5 +205,6 @@ export const useBook = () => {
     book,
     words,
     books,
+    bookId,
   };
 };
