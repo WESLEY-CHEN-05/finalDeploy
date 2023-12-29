@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 
 import { useSession } from "next-auth/react";
-import { TestRequest } from "@/lib/types/db";
-import { useRouter } from 'next/router'
-import { Router } from "lucide-react";
+import type { TestRequest } from "@/lib/types/db";
+import { useRouter } from 'next/navigation'
+import type { Words } from "@/lib/types/db";
 
 export const useTest = () => {
   const [userId, setUserId] = useState("");
-  //const [test, useTest] = useState;
+  const [problemSet, setProblemSet] = useState<Words[]>();
   const router = useRouter();
   const { data: session } = useSession();
   useEffect(() => {
@@ -39,14 +39,17 @@ export const useTest = () => {
       }),
    });
    if (!res.ok) {
-    router.push(`main/mybooks/${bookId}`);
+    router.push(`/main/mybooks/${bookId}`);
    }
    const ret = await res.json();
+   setProblemSet(ret.data);
    return ret.data;
   };
 
 
   return {
+    userId,
+    problemSet,
     createTest,
   };
 };

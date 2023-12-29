@@ -2,7 +2,7 @@ type Props = {
     children: React.ReactNode; 
 };
 
-function PlainLayout({ children }: Props ) {
+function TestLayout({ children }: Props ) {
   return(
     <main className="flex-rows top-0 w-full bg-gray-800">
     {/* overflow-y-scroll for child to show scrollbar */}
@@ -13,4 +13,4 @@ function PlainLayout({ children }: Props ) {
   );
 }
 
-export default PlainLayout;
+export default TestLayout;

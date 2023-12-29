@@ -1,16 +1,17 @@
+"use client"
 
 import * as React from "react";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
 import { useParams } from "next/navigation";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { useTest } from "@/hooks/useTest";
-import type { Words,TestRequest } from "@/lib/types/db";
+import type { TestRequest } from "@/lib/types/db";
 
-async function TestPage() {
+function TestPage() {
   const param = useParams();
   const bookId = param.bookId as string;
-  const router = useRouter();
+  // const router = useRouter();
   const queryParameters = new URLSearchParams(window.location.search);
   const test: TestRequest = {
     num: Number(queryParameters.get("num")),
@@ -19,10 +20,14 @@ async function TestPage() {
     hard: Boolean(queryParameters.get("hard")),
     star: Boolean(queryParameters.get("star")),
   };
-  console.log(test.num);
-  console.log(test.repetitive);
-  const { createTest } = useTest();
-  const newTest: Words[] = await createTest(bookId,test);
+
+  console.log(test);
+  
+  const { problemSet, createTest } = useTest();
+  createTest(bookId, test);
+  
+  
+  console.log(problemSet);
   return(
   <>
     <p>${test.num}</p>

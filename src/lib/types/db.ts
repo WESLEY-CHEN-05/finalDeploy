@@ -4,7 +4,7 @@ export type User = {
   email: string;
   about: string;
   experience: string;
-  provider: "github" | "credentials";
+  provider: "github" | "credentials" | "google";
 };
 
 export type UserPublicInfo = {
