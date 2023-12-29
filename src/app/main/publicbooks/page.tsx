@@ -86,9 +86,9 @@ function DocsPage() {
             }}
           />
         )}
-        <Button className="m-6 ml-auto bg-yellow-600 text-black hover:bg-yellow-700">
+        {/* <Button className="m-6 ml-auto bg-yellow-600 text-black hover:bg-yellow-700">
           Create new books
-        </Button>
+        </Button> */}
       </div>
       <div className="flex w-screen flex-wrap justify-start">
         {publicBooks.map((book) => {
