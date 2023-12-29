@@ -1,5 +1,5 @@
 function TestingPage() {
-    return <></>
+  return <></>;
 }
 
 export default TestingPage;

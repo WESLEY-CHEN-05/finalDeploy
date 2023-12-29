@@ -118,9 +118,10 @@ function SettingPage() {
             ref={experienceRef}
             className="ml-5 h-1/3 w-3/4 text-white"
           ></Textarea>
-          <Button 
-            className="ml-6 mt-3 w-1/6 bg-gray-300 text-gray-800 hover:bg-gray-400 hover:text-gray-900" 
-            onClick={() => handleClickExp()}>
+          <Button
+            className="ml-6 mt-3 w-1/6 bg-gray-300 text-gray-800 hover:bg-gray-400 hover:text-gray-900"
+            onClick={() => handleClickExp()}
+          >
             Update
           </Button>
         </div>

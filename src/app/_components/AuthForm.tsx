@@ -187,7 +187,7 @@ function AuthForm() {
               callbackUrl: `${publicEnv.NEXT_PUBLIC_BASE_URL}/main`,
             });
           }}
-          className="flex w-full bg-slate-200 text-slate-800 hover:bg-slate-300 mb-2"
+          className="mb-2 flex w-full bg-slate-200 text-slate-800 hover:bg-slate-300"
           variant={"outline"}
         >
           {/* Remember to copy "github.png" to ./public folder */}

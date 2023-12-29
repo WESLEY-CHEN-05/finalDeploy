@@ -45,7 +45,7 @@ function LearningPage() {
   useEffect(() => {
     console.log(words);
     setCount(words.length);
-  }, [words])
+  }, [words]);
 
   // // mouse click
   // const handlePrev = () => {
