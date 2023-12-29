@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import Link from "next/link";
+// import Link from "next/link";
 
 import {
   ChevronLeftIcon,
@@ -46,7 +46,7 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({
   columns,
   data,
-  bookId,
+  // bookId,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -92,18 +92,18 @@ export function DataTable<TData, TValue>({
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => {
                   // retrieve its id
-                  const orig = row?.original as { id?: string };
-                  const wordId = orig.id;
+                  // const orig = row?.original as { id?: string };
+                  // const wordId = orig.id;
                   return (
-                    <Link
-                      key={row.id}
-                      legacyBehavior={true}
-                      href={`/main/mybooks/${bookId}/${wordId}`}
-                    >
+                    // <Link
+                    //   key={row.id}
+                    //   legacyBehavior={true}
+                    //   href={`/main/mybooks/${bookId}/${wordId}`}
+                    // >
                       <TableRow
                         key={row.id}
                         data-state={row.getIsSelected() && "selected"}
-                        className="border-slate-500"
+                        className="border-slate-500 hover:bg-slate-800"
                       >
                         {row.getVisibleCells().map((cell) => (
                           <TableCell key={cell.id}>
@@ -114,7 +114,7 @@ export function DataTable<TData, TValue>({
                           </TableCell>
                         ))}
                       </TableRow>
-                    </Link>
+                    // </Link>
                   );
                 })
               ) : (
@@ -133,8 +133,8 @@ export function DataTable<TData, TValue>({
 
         <div className="my-3 flex items-center justify-between px-2">
           <div className="flex-1 text-sm text-muted-foreground">
-            {table.getFilteredSelectedRowModel().rows.length} of{" "}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
+            {/* {table.getFilteredSelectedRowModel().rows.length} of{" "}
+            {table.getFilteredRowModel().rows.length} row(s) selected. */}
           </div>
           <div className="flex items-center space-x-6 lg:space-x-8">
             <div className="flex items-center space-x-2">
@@ -147,12 +147,12 @@ export function DataTable<TData, TValue>({
                   table.setPageSize(Number(value));
                 }}
               >
-                <SelectTrigger className="h-8 w-[70px] border-slate-300">
+                <SelectTrigger className="h-8 w-[70px] border-slate-500">
                   <SelectValue
                     placeholder={table.getState().pagination.pageSize}
                   />
                 </SelectTrigger>
-                <SelectContent side="top" className="bg-slate-500">
+                <SelectContent side="top" className="bg-gray-600 text-slate-300 border-slate-500">
                   {[10, 20, 30, 40, 50].map((pageSize) => (
                     <SelectItem key={pageSize} value={`${pageSize}`}>
                       {pageSize}
@@ -162,7 +162,7 @@ export function DataTable<TData, TValue>({
               </Select>
             </div>
             <div className="flex w-[100px] items-center justify-center text-sm font-medium text-slate-300">
-              Page {table.getState().pagination.pageIndex + 1} of{" "}
+              Page {table.getPageCount() === 0 ? 0 : (table.getState().pagination.pageIndex + 1)} of{" "}
               {table.getPageCount()}
             </div>
             <div className="flex items-center space-x-2">

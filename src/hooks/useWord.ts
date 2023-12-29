@@ -69,7 +69,7 @@ export const useWord = () => {
     return data;
   };
 
-  const deleteWord = async (wordId: string) => {
+  const deleteWord = useCallback(async (wordId: string) => {
     const res = await fetch(`/api/word/${wordId}`, {
       method: "DELETE",
       headers: {
@@ -79,9 +79,12 @@ export const useWord = () => {
     if (!res.ok) {
       return;
     }
-  };
+    setWords((words) => {
+      return words.filter((word) => (word.id !== wordId));
+    });
+  }, []);
 
-  const updateWord = async (
+  const updateWord = useCallback(async (
     wordId: string,
     { content, meaning, familiarity, star, correctNum, testNum }: WordsUpdate,
   ) => {
@@ -112,7 +115,7 @@ export const useWord = () => {
       });
     });
     return updatedWord;
-  };
+  }, []);
 
   return {
     words,
