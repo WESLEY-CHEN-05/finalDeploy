@@ -43,11 +43,11 @@ function SettingPage() {
 
   return (
     <div className="flex w-full flex-row">
-      <div className="mt-auto flex w-1/3 flex-col">
+      <div className="mt-6 ml-6 flex w-1/3 flex-col">
         {/* <img src = {"./component/unforgiven_cover.png"} className = "w-1/3"></img> */}
         <div className="flex flex-row">
           <p className="mb-3 ml-6 text-2xl font-bold text-white">Email:</p>
-          <p className="mb-3 ml-3 text-2xl font-bold text-white">{email}</p>
+          <p className="mb-3 ml-3 text-xl text-white">{email}</p>
         </div>
         <div className="flex flex-row">
           <p className="mb-3 ml-6 mr-3 text-2xl font-bold text-white">
@@ -61,14 +61,14 @@ function SettingPage() {
               <Input
                 defaultValue={username}
                 placeholder="New username"
-                className="w-1/2 text-2xl text-white"
+                className="w-1/2 text-xl text-white"
                 ref={usernameRef}
                 onChange={(e) => setInputUsername(e.target.value)}
               />
             </ClickAwayListener>
           ) : (
-            <Button onClick={() => setEditUsername(true)} className="w-1/2">
-              <p className="ml-0 text-2xl font-bold text-white">{username}</p>
+            <Button onClick={() => setEditUsername(true)} className="w-1/2 bg-slate-800 border-slate-800">
+              <p className="mr-auto text-xl text-white">{username}</p>
             </Button>
           )}
         </div>
@@ -84,13 +84,13 @@ function SettingPage() {
             defaultValue={userInfo.about}
             onChange={(e) => setInputAbout(e.target.value)}
             ref={aboutRef}
-            className="ml-5 h-1/3 w-3/4"
+            className="ml-5 h-1/3 w-3/4 text-white"
           ></Textarea>
           <Button
-            className="ml-6 mt-3 w-1/5"
+            className="ml-6 mt-3 w-1/6"
             onClick={() => handleClickAbout()}
           >
-            Save About
+            Update
           </Button>
         </div>
         <div className="flex w-full flex-col">
@@ -102,10 +102,10 @@ function SettingPage() {
             defaultValue={userInfo.experience}
             onChange={(e) => setInputExperience(e.target.value)}
             ref={experienceRef}
-            className="ml-5 h-1/3 w-3/4"
+            className="ml-5 h-1/3 w-3/4 text-white"
           ></Textarea>
-          <Button className="ml-6 mt-3 w-1/5" onClick={() => handleClickExp()}>
-            Save Experience
+          <Button className="ml-6 mt-3 w-1/6" onClick={() => handleClickExp()}>
+            Update
           </Button>
         </div>
         <div>
