@@ -99,7 +99,7 @@ function LearningPage() {
   return (
     <>
       <div className="flex">
-        <Link href={`/main/mybooks/${bookId}`} className="m-6 ml-auto">
+        <Link href={`/main/books/${bookId}`} className="m-6 ml-auto">
           <Button
             className="border-red-600 bg-slate-800 text-red-600 hover:border-red-700 hover:bg-slate-800 hover:text-red-700"
             variant="outline"

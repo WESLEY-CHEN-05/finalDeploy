@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 import { useParams } from "next/navigation";
 // import type { Books } from "@/lib/types/db";
@@ -61,6 +62,15 @@ function BookPage() {
   const [dialogMeaning, setDialogMeaning] = useState("");
   const [warningContent, setWarningContent] = useState(false);
   const [warningMeaning, setWarningMeaning] = useState(false);
+
+  const [userId, setUserId] = useState("");
+  const { data: session } = useSession();
+  useEffect(() => {
+    if (!session?.user) return;
+    setUserId(session?.user?.id);
+    // console.log(userId);
+  }, [session]);
+  const bookowner = book?.authorId;
 
   function isWhitespaceOrNewline(inputStr: string) {
     return /^\s*$/.test(inputStr);
@@ -143,9 +153,9 @@ function BookPage() {
         >
           Learn
         </Button>
-        <EditBookDialog book={book} updateBook={updateBook} />
-        <DeleteBookDialog bookId={bookId} />
-        <AddNewWordsDialog createWord={createWord} />
+        {(userId == bookowner)?<EditBookDialog book={book} updateBook={updateBook} />:<></>}
+        {(userId == bookowner)?<DeleteBookDialog bookId={bookId} />:<></>}
+        {(userId == bookowner)?<AddNewWordsDialog createWord={createWord} />:<></>}
       </div>
       <div className="container mx-auto py-10">
         <DataTable columns={columns} data={wordsWithFunction} bookId={bookId} />

@@ -11,6 +11,7 @@ function DocsPage() {
     language: "English",
     publicize: true,
     popularity: 0,
+    authorId: "3jeiofn9eflqwqwjoif",
   };
 
   return (

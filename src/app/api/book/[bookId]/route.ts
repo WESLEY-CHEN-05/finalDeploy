@@ -37,7 +37,6 @@ export async function GET(
       columns: {
         id: false,
         createAt: false,
-        authorId: false,
       },
       with: {
         words: {
@@ -62,6 +61,7 @@ export async function GET(
       language: _words!.language,
       publicize: _words!.publicize,
       popularity: _words!.popularity,
+      authorId: _words!.authorId,
     };
 
     const words: Words[] = _words!.words.map((word) => ({
@@ -190,6 +190,7 @@ export async function PUT(
       language: _updatedBook.language,
       publicize: _updatedBook.publicize,
       popularity: _updatedBook.popularity,
+      authorId: _updatedBook.authorId,
     };
 
     // Trigger pusher event
