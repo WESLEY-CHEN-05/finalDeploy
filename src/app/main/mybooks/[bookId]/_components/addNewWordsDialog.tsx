@@ -26,18 +26,30 @@ function AddNewWordsDialog({
 }) {
   const [content, setContent] = useState<string>("");
   const [meaning, setMeaning] = useState<string>("");
+  const [warningContent, setWarningContent] = useState(false);
+  const [warningMeaning, setWarningMeaning] = useState(false);
   const param = useParams();
   const _bookId = param.bookId as string;
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
+  function isWhitespaceOrNewline(inputStr: string) {
+    return /^\s*$/.test(inputStr);
+  }
+
   const handleClick = (close: boolean) => {
-    if (content !== "" && meaning !== "") {
-      if (close) setDialogOpen(false);
-      createWord(_bookId, { content, meaning });
-      setContent("");
-      setMeaning("");
+    if (isWhitespaceOrNewline(content)) {
+      setWarningContent(true);
+      return;
     }
+    if (isWhitespaceOrNewline(meaning)) {
+      setWarningMeaning(true);
+      return;
+    }
+    if (close) setDialogOpen(false);
+    createWord(_bookId, { content, meaning });
+    setContent("");
+    setMeaning("");
   };
 
   return (
@@ -59,12 +71,20 @@ function AddNewWordsDialog({
           <Input
             placeholder="Word"
             value={content}
-            onChange={(e) => setContent(e.target.value)}
+            onChange={(e) => {
+              setContent(e.target.value);
+              setWarningContent(false);
+            }}
+            className = {warningContent ? "border-red-500" : ""}
           />
           <Input
             placeholder="Translation"
             value={meaning}
-            onChange={(e) => setMeaning(e.target.value)}
+            onChange={(e) => {
+              setMeaning(e.target.value);
+              setWarningMeaning(false);
+            }}
+            className = {warningMeaning ? "border-red-500" : ""}
           />
           <div className="flex flex-row">
             <Button className="ml-auto" onClick={() => handleClick(false)}>
@@ -75,7 +95,7 @@ function AddNewWordsDialog({
               className="ml-4"
               onClick={() => handleClick(true)}
             >
-              Finish
+              Create
             </Button>
           </div>
         </div>

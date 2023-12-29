@@ -25,6 +25,7 @@ import {
   SelectLabel,
 } from "@/components/ui/select";
 import type { BooksCreate } from "@/lib/types/db";
+import { create } from "domain";
 
 function AddBookDialog({
   createBook,
@@ -36,49 +37,40 @@ function AddBookDialog({
     publicize,
   }: BooksCreate) => Promise<BooksCreate | undefined>;
 }) {
-  const titleRef = useRef<HTMLInputElement>(null);
-  const descriptionRef = useRef<HTMLInputElement>(null);
   // const languageRef = useRef<HTMLInputElement>(null);
   // const publicizeRef = useRef<HTMLInputElement>(null);
-
-  const [language, setLanguage] = useState<string>("");
-  const [publicize, setPublicize] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [language, setLanguage] = useState<string>("English");
+  const [publicize, setPublicize] = useState(false);
 
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [warningTitle, setWarningTitle] = useState(false);
+  const [warningDescription, setWarningDescription] = useState(false);
 
-  const handleChange1 = (e: string) => {
-    setLanguage(e);
-  };
-
-  const handleChange2 = (e: string) => {
-    setPublicize(e);
-  };
+  function isWhitespaceOrNewline(inputStr: string) {
+    return /^\s*$/.test(inputStr);
+  }
 
   const handleSubmit = () => {
-    setDialogOpen(false);
-    const title = titleRef.current?.value;
-    const description = descriptionRef.current?.value;
+    setWarningDescription(false);
+    setWarningTitle(false);
     // const language = languageRef.current?.value;
     // const publicize = publicizeRef.current?.value;
     // console.log(title);
     // console.log(description);
     // console.log(language);
     // console.log(publicize);
-    if (
-      title !== undefined &&
-      description !== undefined &&
-      language !== "" &&
-      publicize !== ""
-    ) {
-      const book: BooksCreate = {
-        title: title,
-        description: description,
-        language: language,
-        publicize: publicize === "Yes" ? true : false,
-      };
-      // console.log(book);
-      createBook(book);
+    if (isWhitespaceOrNewline(title)) {
+      setWarningTitle(true);
+      return;
     }
+    if (isWhitespaceOrNewline(description)) {
+      setWarningDescription(true);
+      return;
+    }
+    createBook({ title, description, language, publicize });
+    setDialogOpen(false);
     // redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}/main/mybooks`);
   };
   return (
@@ -96,14 +88,25 @@ function AddBookDialog({
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-4">
-          <Input placeholder="title" name="title" ref={titleRef} />
+          <Input 
+            placeholder="title" 
+            name="title" 
+            onChange = {(event) => {
+              setTitle(event?.target.value)
+              setWarningTitle(false);
+            }}
+            className={warningTitle ? "border-red-500" : ""} />
           <Input
             placeholder="description"
             name="description"
-            ref={descriptionRef}
+            onChange = {(event) => {
+              setDescription(event?.target.value)
+              setWarningDescription(false);
+            }}
+            className={warningDescription ? "border-red-500" : ""}
           />
           {/* <Input placeholder="language" name="language" ref = {languageRef}/> */}
-          <Select onValueChange={(e) => handleChange1(e)}>
+          <Select onValueChange={(val) => setLanguage(val)} defaultValue="English">
             <SelectTrigger>
               <SelectValue placeholder="Select Language" />
             </SelectTrigger>
@@ -118,15 +121,15 @@ function AddBookDialog({
             </SelectContent>
           </Select>
           {/* <Input placeholder="publicize, please insert Yes or No" name="publicize" ref = {publicizeRef}/> */}
-          <Select onValueChange={(e) => handleChange2(e)}>
+          <Select onValueChange={(val) => setPublicize(val === "Yes" ? true : false)} defaultValue="No">
             <SelectTrigger>
               <SelectValue placeholder="Publicize the book?" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Publicize</SelectLabel>
-                <SelectItem value="Yes">Yes</SelectItem>
-                <SelectItem value="No">No</SelectItem>
+                <SelectItem value="Yes">Public</SelectItem>
+                <SelectItem value="No">Private</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
