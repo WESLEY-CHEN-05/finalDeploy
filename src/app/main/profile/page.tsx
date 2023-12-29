@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-
+import { useRouter} from "next/navigation";
 import { useSession } from "next-auth/react";
 
 import ClickAwayListener from "@mui/material/ClickAwayListener";
@@ -36,6 +36,8 @@ function SettingPage() {
 
   const { toast } = useToast();
 
+  const router = useRouter();
+
   const handleUpdateUsername = () => {
     setEditUsername(false);
     if (inputUsername !== userInfo.username) {
@@ -44,6 +46,7 @@ function SettingPage() {
         title: "Username",
         description: "Username updated!",
       });
+      router.refresh();
     }
   };
 

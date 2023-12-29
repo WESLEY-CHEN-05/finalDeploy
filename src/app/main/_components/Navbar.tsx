@@ -10,6 +10,8 @@ import { publicEnv } from "@/lib/env/public";
 
 import { Setting } from "./Setting";
 
+import { getUserById } from "./action";
+
 // import { createDocument, deleteDocument, getDocuments } from "./actions";
 
 const rubik = Rubik_Burned({ weight: "400", subsets: ["latin"] });
@@ -21,6 +23,8 @@ async function Navbar() {
   }
   // const userId = session.user.id;
   // const documents = await getDocuments(userId);
+  const user = await getUserById(session.user.id);
+  const userName = user?.username ?? "User";
   return (
     <nav className="flex h-auto w-full bg-gray-700 p-2 text-slate-300">
       {/* align left */}
@@ -59,7 +63,7 @@ async function Navbar() {
         <div className="flex w-full items-center justify-between px-3 py-1">
           {/* user information */}
           <div className="mr-6 flex items-center gap-2 text-lg">
-            <Setting userName={session?.user?.username ?? "User"}></Setting>
+            <Setting userName={userName}></Setting>
           </div>
 
           {/* sign out button */}
