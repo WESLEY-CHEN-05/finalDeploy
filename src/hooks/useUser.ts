@@ -31,7 +31,7 @@ export const useUser = () => {
 
   useEffect(getinitialUser, [userId, getinitialUser]);
 
-  const updateUser = async ({username, about, experience}:UserUpdate) => {
+  const updateUser = async ({ username, about, experience }: UserUpdate) => {
     const res = await fetch(`/api/user/${userId}`, {
       method: "PUT",
       headers: {
@@ -49,7 +49,7 @@ export const useUser = () => {
     const ret = await res.json();
     const updatedUser: UserPublicInfo = ret.data;
     setUserinfo(updatedUser);
-  }
+  };
 
   return { userInfo, updateUser };
 };

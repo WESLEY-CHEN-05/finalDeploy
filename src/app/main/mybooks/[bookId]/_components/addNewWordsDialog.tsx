@@ -75,7 +75,7 @@ function AddNewWordsDialog({
               setContent(e.target.value);
               setWarningContent(false);
             }}
-            className = {warningContent ? "border-red-500" : ""}
+            className={warningContent ? "border-red-500" : ""}
           />
           <Input
             placeholder="Translation"
@@ -84,7 +84,7 @@ function AddNewWordsDialog({
               setMeaning(e.target.value);
               setWarningMeaning(false);
             }}
-            className = {warningMeaning ? "border-red-500" : ""}
+            className={warningMeaning ? "border-red-500" : ""}
           />
           <div className="flex flex-row">
             <Button className="ml-auto" onClick={() => handleClick(false)}>
