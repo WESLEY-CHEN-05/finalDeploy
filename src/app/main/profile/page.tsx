@@ -88,7 +88,7 @@ function SettingPage() {
             </div>
             <div className="flex flex-row">
               <p className="mb-2 ml-6 text-xl font-bold text-white">Email:</p>
-              <p className="mb-2 ml-3 text-xl text-white">{email}</p>
+              <p className="mb-2 ml-3 text-xl text-gray-300">{email}</p>
             </div>
             <div className="flex flex-row">
               <p className="mt-1 mb-3 ml-6 mr-3 text-xl font-bold text-white">
@@ -102,7 +102,7 @@ function SettingPage() {
                   <Input
                     defaultValue={userInfo.username}
                     placeholder="New username"
-                    className="w-1/2 text-xl text-white"
+                    className="w-1/2 text-xl text-gray-300"
                     ref={usernameRef}
                     onChange={(e) => setInputUsername(e.target.value)}
                   />
@@ -112,7 +112,7 @@ function SettingPage() {
                   onClick={() => setEditUsername(true)}
                   className="w-1/2 border-slate-800 bg-slate-800 hover:bg-slate-800 hover:border-slate-800"
                 >
-                  <p className="mr-auto text-xl text-white">{userInfo.username}</p>
+                  <p className="mr-auto text-xl text-gray-300">{userInfo.username}</p>
                 </Button>
               )}
             </div>
@@ -132,7 +132,7 @@ function SettingPage() {
                   setInputAbout(e.target.value);
                   setEditingAbout(false);
                 }}
-                className="ml-3 h-1/3 w-3/4 text-white border-gray-800 hover:border-white text-lg"
+                className="ml-3 h-1/3 w-3/4 text-gray-300 border-gray-800 hover:border-white text-lg"
               ></Textarea>
               {editingAbout ? (
                 <></>
@@ -162,7 +162,7 @@ function SettingPage() {
                   setInputExperience(e.target.value);
                   setEditingExp(false);
                 }}
-                className="ml-3 h-1/3 w-3/4 text-white border-gray-800 hover:border-white text-lg"
+                className="ml-3 h-1/3 w-3/4 text-gray-300 border-gray-800 hover:border-white text-lg"
               ></Textarea>
               {editingExp ? (
                 <></>
