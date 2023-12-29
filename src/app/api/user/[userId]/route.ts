@@ -50,7 +50,6 @@ export async function GET(
           columns: {
             id: false,
             createAt: false,
-            authorId: false,
           },
         },
       },
@@ -70,6 +69,7 @@ export async function GET(
       language: book.language,
       publicize: book.publicize,
       popularity: book.popularity,
+      authorId: book.authorId,
     }));
 
     return NextResponse.json(
@@ -132,6 +132,7 @@ export async function POST(
       language: _book.language,
       publicize: _book.publicize,
       popularity: _book.popularity,
+      authorId: _book.authorId,
     };
 
     // Trigger pusher event
