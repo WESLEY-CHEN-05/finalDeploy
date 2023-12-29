@@ -25,7 +25,7 @@ export const usersTable = pgTable(
     experience: text("experience").default("").notNull(),
     provider: varchar("provider", {
       length: 100,
-      enum: ["github", "credentials"],
+      enum: ["github", "credentials", "google"],
     })
       .notNull()
       .default("credentials"),
