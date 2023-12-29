@@ -8,6 +8,8 @@ import { useParams } from "next/navigation";
 import type { BooksCreate, BooksUpdate } from "@/lib/types/db";
 import type { Books, Words } from "@/lib/types/db";
 
+import { useRouter } from "next/navigation";
+
 export const useBook = () => {
   const param = useParams();
   const _bookId = param.bookId as string;
@@ -15,7 +17,7 @@ export const useBook = () => {
   const [books, setBooks] = useState<Books[]>([]);
   const [book, setBook] = useState<Books>();
   const [words, setWords] = useState<Words[]>([]);
-  // const router = useRouter();
+  const router = useRouter(); 
   const { data: session } = useSession();
   useEffect(() => {
     if (!session?.user) return;
@@ -106,6 +108,7 @@ export const useBook = () => {
         },
       });
       if (!res.ok) {
+        router.push("/main/mybooks");
         return;
       }
       const ret = await res.json();
@@ -114,7 +117,7 @@ export const useBook = () => {
       //console.log(ret.info);
     };
     getBook(_bookId);
-  }, [_bookId]);
+  }, [_bookId, router]);
 
   useEffect(getsingleBook, [_bookId, getsingleBook]);
 
@@ -157,7 +160,7 @@ export const useBook = () => {
         },
       });
       if (!res.ok) {
-        // router.refresh();
+        router.push("/main/mybooks");
         return;
       }
       const ret = await res.json();
@@ -168,7 +171,7 @@ export const useBook = () => {
       console.log("hello");
     };
     getBooks();
-  }, [userId]);
+  }, [userId, router]);
 
   useEffect(getinitialBooks, [userId, getinitialBooks]);
 

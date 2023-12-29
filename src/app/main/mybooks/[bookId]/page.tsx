@@ -28,6 +28,10 @@ function BookPage() {
 
   const { toast } = useToast();
 
+  if (!book) {
+    return <></>
+  }
+
   return (
     <div className="w-screen bg-gray-800 text-4xl text-white">
       <div className="flex w-screen">
