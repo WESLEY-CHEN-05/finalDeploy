@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import { useSession } from "next-auth/react";
 import type { TestRequest } from "@/lib/types/db";
@@ -7,7 +7,7 @@ import type { Words } from "@/lib/types/db";
 
 export const useTest = () => {
   const [userId, setUserId] = useState("");
-  const [problemSet, setProblemSet] = useState<Words[]>();
+  const [problemSet, setProblemSet] = useState<Words[]>([]);
   const router = useRouter();
   const { data: session } = useSession();
   useEffect(() => {
@@ -17,7 +17,7 @@ export const useTest = () => {
   }, [session]);
 
 
-  const createTest = async(
+  const createTest = useCallback(async(
     bookId: string,
   { num,
     repetitive,
@@ -44,7 +44,7 @@ export const useTest = () => {
    const ret = await res.json();
    setProblemSet(ret.data);
    return ret.data;
-  };
+  }, [router]);
 
 
   return {
