@@ -1,8 +1,6 @@
 "use client";
 
-// import { publicEnv } from "@/lib/env/public";
-// import { redirect } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -23,42 +21,50 @@ import {
   SelectGroup,
   SelectLabel,
 } from "@/components/ui/select";
-import type { BooksCreate } from "@/lib/types/db";
+import type { Books } from "@/lib/types/db";
 
-function AddBookDialog({
-  createBook,
+// import { publicEnv } from "@/lib/env/public";
+
+function EditBookDialog({
+  book,
+  updateBook,
 }: {
-  createBook: ({
-    title,
-    description,
-    language,
-    publicize,
-  }: BooksCreate) => Promise<BooksCreate | undefined>;
+  book: Books;
+  updateBook: (
+    bookId: string,
+    {
+      title,
+      description,
+      language,
+      publicize,
+      popularity,
+    }: Partial<Omit<Books, "id">>,
+  ) => Promise<void>;
 }) {
-  // const languageRef = useRef<HTMLInputElement>(null);
-  // const publicizeRef = useRef<HTMLInputElement>(null);
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [language, setLanguage] = useState<string>("English");
-  const [publicize, setPublicize] = useState(false);
-
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [language, setLanguage] = useState("");
+  const [publicize, setPublicize] = useState(false);
   const [warningTitle, setWarningTitle] = useState(false);
   const [warningDescription, setWarningDescription] = useState(false);
+
+  useEffect(() => {
+    if (book) {
+      setTitle(book.title);
+      setDescription(book.description);
+      setLanguage(book.language);
+      setPublicize(book.publicize);
+    }
+  }, [book]);
 
   function isWhitespaceOrNewline(inputStr: string) {
     return /^\s*$/.test(inputStr);
   }
 
   const handleSubmit = () => {
-    setWarningDescription(false);
     setWarningTitle(false);
-    // const language = languageRef.current?.value;
-    // const publicize = publicizeRef.current?.value;
-    // console.log(title);
-    // console.log(description);
-    // console.log(language);
-    // console.log(publicize);
+    setWarningDescription(false);
     if (isWhitespaceOrNewline(title)) {
       setWarningTitle(true);
       return;
@@ -67,47 +73,57 @@ function AddBookDialog({
       setWarningDescription(true);
       return;
     }
-    createBook({ title, description, language, publicize });
+    updateBook(book.id, {
+      title: title,
+      description: description,
+      language: language,
+      publicize: publicize,
+    });
     setDialogOpen(false);
-    // redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}/main/mybooks`);
   };
+
   return (
     <Dialog open={dialogOpen} onOpenChange={() => setDialogOpen(!dialogOpen)}>
       <DialogTrigger asChild>
-        <Button className="m-6 ml-auto bg-yellow-600 text-black hover:bg-yellow-700">
-          Create new books
+        <Button
+          className="m-6 border-slate-300 text-slate-300 hover:border-slate-400 hover:bg-slate-800 hover:text-slate-400"
+          variant="outline"
+        >
+          Edit book
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add a new book</DialogTitle>
+          <DialogTitle>Edit book information</DialogTitle>
           <DialogDescription>
-            Insert your information about the book here!
+            Edit the information of the book here!
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-4">
           <Input
+            defaultValue={book.title}
             placeholder="title"
             name="title"
             onChange={(event) => {
-              setTitle(event?.target.value);
+              setTitle(event.target.value);
               setWarningTitle(false);
             }}
             className={warningTitle ? "border-red-500" : ""}
           />
           <Input
+            defaultValue={book.description}
             placeholder="description"
-            name="description"
             onChange={(event) => {
-              setDescription(event?.target.value);
+              setDescription(event.target.value);
               setWarningDescription(false);
             }}
+            name="description"
             className={warningDescription ? "border-red-500" : ""}
           />
           {/* <Input placeholder="language" name="language" ref = {languageRef}/> */}
           <Select
+            defaultValue={book.language}
             onValueChange={(val) => setLanguage(val)}
-            defaultValue="English"
           >
             <SelectTrigger>
               <SelectValue placeholder="Select Language" />
@@ -122,17 +138,16 @@ function AddBookDialog({
               </SelectGroup>
             </SelectContent>
           </Select>
-          {/* <Input placeholder="publicize, please insert Yes or No" name="publicize" ref = {publicizeRef}/> */}
           <Select
+            defaultValue={book.publicize ? "Yes" : "No"}
             onValueChange={(val) => setPublicize(val === "Yes" ? true : false)}
-            defaultValue="No"
           >
             <SelectTrigger>
               <SelectValue placeholder="Publicize the book?" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>Publicize</SelectLabel>
+                {/* <SelectLabel>Publicize</SelectLabel> */}
                 <SelectItem value="Yes">Public</SelectItem>
                 <SelectItem value="No">Private</SelectItem>
               </SelectGroup>
@@ -144,7 +159,35 @@ function AddBookDialog({
         </div>
       </DialogContent>
     </Dialog>
+    // <Dialog open={dialogOpen} onOpenChange={() => setDialogOpen(!dialogOpen)}>
+    //   <DialogTrigger asChild>
+    //     <Button
+    //       className="m-6 border-blue-500 text-blue-500 hover:border-blue-500 hover:bg-gray-800 hover:text-blue-600"
+    //       variant="outline"
+    //     >
+    //       Publicize
+    //     </Button>
+    //   </DialogTrigger>
+    //   <DialogContent className="bg-slate-100">
+    //     <DialogHeader>
+    //       <DialogTitle>Publicize this book</DialogTitle>
+    //       <DialogDescription>
+    //         Are you sure you want to publicize this book?
+    //       </DialogDescription>
+    //     </DialogHeader>
+    //     <div className="flex flex-row gap-4">
+    //       <Button
+    //         className="ml-auto"
+    //         type="submit"
+    //         onClick={() => handleOnClick()}
+    //       >
+    //         Yes
+    //       </Button>
+    //       {/* <Button type="submit">Cancel</Button> */}
+    //     </div>
+    //   </DialogContent>
+    // </Dialog>
   );
 }
 
-export default AddBookDialog;
+export default EditBookDialog;

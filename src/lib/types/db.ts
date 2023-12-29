@@ -2,13 +2,19 @@ export type User = {
   id: string;
   username: string;
   email: string;
+  about: string;
+  experience: string;
   provider: "github" | "credentials";
 };
 
 export type UserPublicInfo = {
   id: string;
   username: string;
+  about: string;
+  experience: string;
 };
+
+export type UserUpdate = Partial<Omit<UserPublicInfo, "id">>;
 
 export type Document = {
   id: string;
@@ -44,7 +50,7 @@ export type Words = {
 
 export type WordsCreate = Omit<
   Words,
-  "id" | "familarity" | "star" | "correctNum" | "testNum" | "accuracy"
+  "id" | "familiarity" | "star" | "correctNum" | "testNum" | "accuracy"
 >;
 
 export type WordsUpdate = Partial<Omit<Words, "id" | "accuracy">>;
