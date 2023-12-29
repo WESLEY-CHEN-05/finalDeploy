@@ -31,5 +31,14 @@ export const useUser = () => {
 
   useEffect(getinitialUser, [userId, getinitialUser]);
 
+  const updateUser = async () => {
+    const res = await fetch(`/api/user/${userId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+  }
+
   return { userInfo };
 };
