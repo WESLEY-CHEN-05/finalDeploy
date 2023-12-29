@@ -1,28 +1,101 @@
 "use client";
 
+import { SlOptions } from "react-icons/sl";
+
+// import type { Words } from "@/lib/types/db";
+import type { wordsAndFunc } from "../page";
 import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
+import { Star } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import type { Words } from "@/lib/types/db";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-export type classedWords = Words & {
-  className: string;
-};
+export const columns: ColumnDef<wordsAndFunc>[] = [
+  {
+    accessorKey: "id",
+    header: () => {
+      return <></>;
+    },
+    cell: () => {
+      return <></>;
+    },
+  },
+  {
+    accessorKey: "star",
+    header: ({ column }) => {
+      return (
+        <div className="text-left">
+          <Button
+            variant="ghost"
+            onClick={() => {
+              if (!column.getIsSorted()) {
+                column.toggleSorting(true);
+              } else {
+                column.clearSorting();
+              }
+            }}
+            className="px-1 hover:bg-slate-800"
+          >
+            <Star
+              className={
+                "h-4 w-4 " +
+                (column.getIsSorted()
+                  ? "text-slate-800 hover:text-slate-500"
+                  : "")
+              }
+              fill={column.getIsSorted() ? "#f1f5f9" : "#1e293b"}
+            />
+          </Button>
+        </div>
+      );
+    },
+    cell: ({ row }) => {
+      const star = row.getValue("star") as boolean;
+      const wordId = row.getValue("id") as string;
+      const updateWord = row.original.update;
 
-export const columns: ColumnDef<Words>[] = [
+      return (
+        <>
+          <Star
+            fill={star ? "yellow" : "#334155"}
+            strokeWidth={star ? 0 : 1}
+            onClick={(event) => {
+              event.stopPropagation();
+              updateWord(wordId, { star: !star });
+            }}
+          />
+        </>
+      );
+    },
+  },
   {
     accessorKey: "content",
     header: ({ column }) => {
       return (
-        <div className="ml-10">
+        <div className="">
           <span> Word </span>
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => {
+              if (!column.getIsSorted()) {
+                column.toggleSorting(false);
+              } else {
+                column.clearSorting();
+              }
+            }}
             className="hover:bg-slate-800"
           >
-            <ArrowUpDown className="h-4 w-4" />
+            <ArrowUpDown
+              className={
+                "h-4 w-4 " + (column.getIsSorted() ? "text-slate-100" : "")
+              }
+            />
           </Button>
         </div>
       );
@@ -30,7 +103,7 @@ export const columns: ColumnDef<Words>[] = [
     cell: ({ row }) => {
       const content = row.getValue("content") as string;
 
-      return <div className="ml-10 font-medium">{content}</div>;
+      return <div className="font-medium">{content}</div>;
     },
   },
   {
@@ -50,10 +123,20 @@ export const columns: ColumnDef<Words>[] = [
           <span> Familiarity </span>
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => {
+              if (!column.getIsSorted()) {
+                column.toggleSorting(false);
+              } else {
+                column.clearSorting();
+              }
+            }}
             className="hover:bg-slate-800"
           >
-            <ArrowUpDown className="h-4 w-4" />
+            <ArrowUpDown
+              className={
+                "h-4 w-4 " + (column.getIsSorted() ? "text-slate-100" : "")
+              }
+            />
           </Button>
         </div>
       );
@@ -62,6 +145,56 @@ export const columns: ColumnDef<Words>[] = [
       const amount = parseFloat(row.getValue("familiarity"));
 
       return <div className="text-center">{amount}</div>;
+    },
+  },
+  {
+    id: "options",
+    cell: ({ row }) => {
+      const wordId = row.original.id;
+      const content = row.original.content;
+      const meaning = row.original.meaning;
+      const deleteWord = row.original.delete;
+      const updateWord = row.original.updateInfo;
+
+      return (
+        <>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                className="h-6 w-6 p-0 hover:bg-slate-600"
+              >
+                <span className="sr-only">Open menu</span>
+                <SlOptions className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              className="border-slate-500 bg-gray-600 text-slate-300"
+            >
+              <DropdownMenuItem
+                onClick={() => {
+                  updateWord(
+                    {
+                      content: content,
+                      meaning: meaning,
+                    },
+                    wordId,
+                  );
+                }}
+              >
+                Edit
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="text-red-500 hover:text-red-500"
+                onClick={() => deleteWord(wordId)}
+              >
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </>
+      );
     },
   },
 ];

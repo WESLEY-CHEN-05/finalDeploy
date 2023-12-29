@@ -1,16 +1,23 @@
-import { useState, useEffect } from "react";
+"use client";
+
+import { useState, useEffect, useCallback } from "react";
 
 import { useSession } from "next-auth/react";
+import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import type { BooksCreate, BooksUpdate } from "@/lib/types/db";
-import type { Books } from "@/lib/types/db";
-
-// import { useRouter } from "next/navigation"
+import type { Books, Words } from "@/lib/types/db";
 
 export const useBook = () => {
+  const param = useParams();
+
+  const _bookId = param.bookId as string;
   const [userId, setUserId] = useState("");
   const [books, setBooks] = useState<Books[]>([]);
-  // const router = useRouter();
+  const [book, setBook] = useState<Books>();
+  const [words, setWords] = useState<Words[]>([]);
+  const router = useRouter();
   const { data: session } = useSession();
   useEffect(() => {
     if (!session?.user) return;
@@ -39,8 +46,10 @@ export const useBook = () => {
     if (!res.ok) {
       return;
     }
-    const data: BooksCreate = await res.json();
-    return data;
+    const ret = await res.json();
+    const newBook: Books = ret.data;
+    setBooks([...books, newBook]);
+    return newBook;
   };
 
   const deleteBook = async ({ bookId }: { bookId: string }) => {
@@ -75,40 +84,72 @@ export const useBook = () => {
     if (!res.ok) {
       return;
     }
-    // const data: BooksUpdate = await res.json();
+    const ret = await res.json();
+    const updatedBook: Books = ret.data;
+    setBooks((books) => {
+      return books.map((book) => {
+        if (book.id === updatedBook.id) {
+          return updatedBook;
+        } else return book;
+      });
+    });
+    setBook(updatedBook);
     // return data;
   };
 
-  const getBook = async ({ bookId }: { bookId: string }) => {
-    const res = await fetch(`/api/book/${bookId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (!res.ok) {
-      return;
-    }
-    const ret = await res.json();
-    return ret.info;
-  };
+  const getsingleBook = useCallback(() => {
+    if (!_bookId) return;
+    const getBook = async (bookId: string) => {
+      const res = await fetch(`/api/book/${bookId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!res.ok) {
+        router.push("/main/mybooks");
+        return;
+      }
+      const ret = await res.json();
+      setBook(ret.info);
+      setWords(ret.data);
+      //console.log(ret.info);
+    };
+    getBook(_bookId);
+  }, [_bookId, router]);
 
-  const getWords = async ({ bookId }: { bookId: string }) => {
-    const res = await fetch(`/api/book/${bookId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (!res.ok) {
-      return;
-    }
-    const ret = await res.json();
-    return ret.data;
-  };
+  useEffect(getsingleBook, [_bookId, getsingleBook]);
 
-  useEffect(() => {
-    // console.log(userId);
+  // const getBook = async (bookId: string) => {
+  //     const res = await fetch(`/api/book/${bookId}`, {
+  //         method: "GET",
+  //         headers: {
+  //             "Content-Type": "application/json",
+  //         },
+  //     });
+  //     if (!res.ok) {
+  //         return;
+  //     }
+  //     const ret = await res.json();
+  //     //console.log(ret.info);
+  //     return ret.info;
+  // }
+
+  // const getWords = async ({bookId}: {bookId: string}) => {
+  //     const res = await fetch(`/api/book/${bookId}`, {
+  //         method: "GET",
+  //         headers: {
+  //             "Content-Type": "application/json",
+  //         },
+  //     });
+  //     if (!res.ok) {
+  //         return;
+  //     }
+  //     const ret = await res.json();
+  //     return ret.data;
+  // }
+
+  const getinitialBooks = useCallback(() => {
     if (!userId) return;
     const getBooks = async () => {
       const res = await fetch(`/api/user/${userId}`, {
@@ -118,24 +159,51 @@ export const useBook = () => {
         },
       });
       if (!res.ok) {
-        // router.refresh();
+        router.push("/main/mybooks");
         return;
       }
       const ret = await res.json();
       const getbooks: Books[] = ret.data;
+      // console.log(getbooks);
       setBooks(getbooks);
       // router.refresh();
       console.log("hello");
     };
     getBooks();
-  }, [userId]);
+  }, [userId, router]);
+
+  useEffect(getinitialBooks, [userId, getinitialBooks]);
+
+  // useEffect(() => {
+  //     // console.log(userId);
+  //     if (!userId) return;
+  //     const getBooks = async () => {
+  //         const res = await fetch(`/api/user/${userId}`, {
+  //             method: "GET",
+  //             headers: {
+  //                 "Content-Type": "application/json",
+  //             },
+  //         });
+  //         if (!res.ok) {
+  //             // router.refresh();
+  //             return;
+  //         }
+  //         const ret = await res.json();
+  //         const getbooks: Books[] = ret.data;
+  //         // console.log(getbooks);
+  //         setBooks(getbooks);
+  //         // router.refresh();
+  //         // console.log("hello");
+  //     };
+  //     getBooks();
+  // },[userId]);
 
   return {
     createBook,
     deleteBook,
     updateBook,
-    getBook,
-    getWords,
+    book,
+    words,
     books,
   };
 };
