@@ -33,8 +33,6 @@ function LearningPage() {
       return;
     }
 
-    console.log(count);
-
     setCount(api.scrollSnapList().length);
     setCurrent(api.selectedScrollSnap() + 1);
 
@@ -43,6 +41,10 @@ function LearningPage() {
       setIsMeaning(false);
     });
   }, [api, words, count]);
+
+  useEffect(() => {
+    setCount(words.length);
+  }, [words])
 
   // // mouse click
   // const handlePrev = () => {
