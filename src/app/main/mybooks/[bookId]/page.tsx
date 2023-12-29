@@ -74,7 +74,7 @@ function BookPage() {
   };
 
   useEffect(() => {
-    console.log("FKC", words);
+    // console.log("FKC", words);
     setWordsWithFunction(
       words.map((word) => {
         return {

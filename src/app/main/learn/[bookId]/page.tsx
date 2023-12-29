@@ -33,6 +33,8 @@ function LearningPage() {
       return;
     }
 
+    console.log(count);
+
     setCount(api.scrollSnapList().length);
     setCurrent(api.selectedScrollSnap() + 1);
 
