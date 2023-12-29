@@ -16,8 +16,13 @@ import {
 import { Input } from "@/components/ui/input";
 import type { Words, WordsCreate } from "@/lib/types/db";
 
-function AddNewWordsDialog({createWord} : {
-  createWord:  (bookId: string, { content, meaning }: WordsCreate) => Promise<Words | undefined>;
+function AddNewWordsDialog({
+  createWord,
+}: {
+  createWord: (
+    bookId: string,
+    { content, meaning }: WordsCreate,
+  ) => Promise<Words | undefined>;
 }) {
   const [content, setContent] = useState<string>("");
   const [meaning, setMeaning] = useState<string>("");
@@ -65,7 +70,11 @@ function AddNewWordsDialog({createWord} : {
             <Button className="ml-auto" onClick={() => handleClick(false)}>
               Add another
             </Button>
-            <Button type="submit" className="ml-4" onClick={() => handleClick(true)}>
+            <Button
+              type="submit"
+              className="ml-4"
+              onClick={() => handleClick(true)}
+            >
               Finish
             </Button>
           </div>

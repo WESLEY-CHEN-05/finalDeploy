@@ -14,19 +14,22 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
+// import memoryDB from "./memory";
+import { useWord } from "@/hooks/useWord";
 import type { Words } from "@/lib/types/db";
-
-import memoryDB from "./memory";
 
 function LearningPage() {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
 
+  const { words, updateWord } = useWord();
+
   useEffect(() => {
     if (!api) {
       return;
     }
+
     setCount(api.scrollSnapList().length);
     setCurrent(api.selectedScrollSnap() + 1);
 
@@ -34,7 +37,7 @@ function LearningPage() {
       setCurrent(api.selectedScrollSnap() + 1);
       setIsMeaning(false);
     });
-  }, [api]);
+  }, [api, words]);
 
   // // mouse click
   // const handlePrev = () => {
@@ -82,6 +85,7 @@ function LearningPage() {
   const handleOnClick = (word: Words) => {
     // add some other things here
     console.log(word);
+    updateWord(word.id, { star: !word.star });
   };
 
   return (
@@ -97,7 +101,7 @@ function LearningPage() {
           }}
         >
           <CarouselContent onKeyDown={() => {}}>
-            {memoryDB.map((word) => (
+            {words.map((word) => (
               <CarouselItem
                 key={word.id}
                 onClick={() => {
@@ -133,10 +137,11 @@ function LearningPage() {
                         <div className="flex w-full flex-col">
                           <div className="flex flex-[1_1_0%]">
                             <div className="ml-auto">
-                            <Star 
-                                fill={word.star? "yellow" : "#334155"} 
-                                strokeWidth={word.star? 0 : 1}
-                                onClick={() => handleOnClick(word)}/> 
+                              <Star
+                                fill={word.star ? "yellow" : "#334155"}
+                                strokeWidth={word.star ? 0 : 1}
+                                onClick={() => handleOnClick(word)}
+                              />
                             </div>
                           </div>
                           <p className="flex-[4_4_0%]"></p>

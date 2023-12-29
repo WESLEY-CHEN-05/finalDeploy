@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback } from "react"
-import type { WordsUpdate, WordsCreate } from "@/lib/types/db";
+import { useState, useEffect, useCallback } from "react";
+
 import { useParams } from "next/navigation";
 
+import type { WordsUpdate, WordsCreate } from "@/lib/types/db";
 import type { Words } from "@/lib/types/db";
 
 export const useWord = () => {
-
   const param = useParams();
   const bookId = param.bookId as string;
 
@@ -69,7 +69,7 @@ export const useWord = () => {
     return data;
   };
 
-  const deleteWord = async (wordId: string) => {
+  const deleteWord = useCallback(async (wordId: string) => {
     const res = await fetch(`/api/word/${wordId}`, {
       method: "DELETE",
       headers: {
@@ -79,9 +79,12 @@ export const useWord = () => {
     if (!res.ok) {
       return;
     }
-  };
+    setWords((words) => {
+      return words.filter((word) => (word.id !== wordId));
+    });
+  }, []);
 
-  const updateWord = async (
+  const updateWord = useCallback(async (
     wordId: string,
     { content, meaning, familiarity, star, correctNum, testNum }: WordsUpdate,
   ) => {
@@ -102,7 +105,17 @@ export const useWord = () => {
     if (!res.ok) {
       return;
     }
-  };
+    const ret = await res.json();
+    const updatedWord: Words = ret.data;
+    setWords((words) => {
+      return words.map((word) => {
+        if (word.id === updatedWord.id) {
+          return updatedWord;
+        } else return word;
+      });
+    });
+    return updatedWord;
+  }, []);
 
   return {
     words,

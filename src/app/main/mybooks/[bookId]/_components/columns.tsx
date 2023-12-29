@@ -3,19 +3,21 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { Star } from "lucide-react";
+import { SlOptions } from "react-icons/sl";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 import { Button } from "@/components/ui/button";
-import type { Words } from "@/lib/types/db";
+// import type { Words } from "@/lib/types/db";
 
-export type classedWords = Words & {
-  className: string;
-};
+import type { wordsAndFunc } from "../page";
 
-const handleOnClick = (wordId: string) => {
-  console.log(wordId);
-};
-
-export const columns: ColumnDef<Words>[] = [
+export const columns: ColumnDef<wordsAndFunc>[] = [
   {
     accessorKey: "id",
     header: () => {
@@ -57,6 +59,7 @@ export const columns: ColumnDef<Words>[] = [
     cell: ({ row }) => {
       const star = row.getValue("star") as boolean;
       const wordId = row.getValue("id") as string;
+      const updateWord = row.original.update;
 
       return (
         <>
@@ -65,7 +68,7 @@ export const columns: ColumnDef<Words>[] = [
             strokeWidth={star ? 0 : 1}
             onClick={(event) => {
               event.stopPropagation();
-              handleOnClick(wordId);
+              updateWord(wordId, {star: !star});
             }}
           />
         </>
@@ -145,4 +148,46 @@ export const columns: ColumnDef<Words>[] = [
       return <div className="text-center">{amount}</div>;
     },
   },
+  {
+    id: "options",
+    cell: ({ row }) => {
+      
+      const wordId = row.original.id;
+      const content = row.original.content;
+      const meaning = row.original.meaning;
+      const deleteWord = row.original.delete;
+      const updateWord = row.original.updateInfo;
+ 
+      return (
+        <>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-6 w-6 p-0 hover:bg-slate-600">
+                <span className="sr-only">Open menu</span>
+                <SlOptions className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="bg-gray-600 text-slate-300 border-slate-500">
+              <DropdownMenuItem
+                onClick={() => {
+                  updateWord({
+                    content: content,
+                    meaning: meaning,
+                  }, wordId);
+                }}
+              >
+                Edit
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                className="text-red-500 hover:text-red-500"
+                onClick={() => deleteWord(wordId)}
+                >
+                  Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </>
+      )
+    },
+  }
 ];

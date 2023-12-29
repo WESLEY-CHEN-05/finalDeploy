@@ -26,10 +26,16 @@ import {
 } from "@/components/ui/select";
 import type { BooksCreate } from "@/lib/types/db";
 
-function AddBookDialog({createBook} : {
-    createBook: ({ title, description, language, publicize, }: BooksCreate) => Promise<BooksCreate | undefined>
+function AddBookDialog({
+  createBook,
+}: {
+  createBook: ({
+    title,
+    description,
+    language,
+    publicize,
+  }: BooksCreate) => Promise<BooksCreate | undefined>;
 }) {
-
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
   // const languageRef = useRef<HTMLInputElement>(null);
@@ -124,7 +130,9 @@ function AddBookDialog({createBook} : {
               </SelectGroup>
             </SelectContent>
           </Select>
-          <Button type="submit" onClick={() => handleSubmit()}>Add</Button>
+          <Button type="submit" onClick={() => handleSubmit()}>
+            Add
+          </Button>
         </div>
       </DialogContent>
     </Dialog>
