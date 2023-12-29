@@ -118,6 +118,7 @@ export const useWord = () => {
   }, []);
 
   return {
+    bookId,
     words,
     getWord,
     deleteWord,

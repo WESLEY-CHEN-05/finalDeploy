@@ -118,7 +118,7 @@ function BookPage() {
             if (!words || words.length < 2) {
               toast({
                 title: "Not enough words",
-                description: "At least two words are required in this book.",
+                description: "At least two words are required to enter learning mode.",
               });
             } else {
               router.push(
