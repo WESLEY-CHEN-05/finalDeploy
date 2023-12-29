@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
 import { useParams } from "next/navigation";
@@ -22,7 +22,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useBook } from "@/hooks/useBook";
 import { useWord } from "@/hooks/useWord";
 import { publicEnv } from "@/lib/env/public";
-import type { Words, WordsUpdate, UserPublicInfo } from "@/lib/types/db";
+import type { Words, WordsUpdate } from "@/lib/types/db";
 
 import AddNewWordsDialog from "./_components/addNewWordsDialog";
 import { columns } from "./_components/columns";

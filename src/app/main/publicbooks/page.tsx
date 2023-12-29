@@ -33,12 +33,6 @@ function DocsPage() {
   const [searchLanguage, setSearchLanguage] = useState("All");
   const [searchTitle, setSearchTitle] = useState("");
 
-  const handleClick = () => {
-    if(isLanguage){
-      
-    }
-  };
-
   return (
     <div className="w-screen">
       <div className="flex w-screen">
