@@ -1,4 +1,3 @@
-"use client"
 
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -20,7 +19,8 @@ async function TestPage() {
     hard: Boolean(queryParameters.get("hard")),
     star: Boolean(queryParameters.get("star")),
   };
-  
+  console.log(test.num);
+  console.log(test.repetitive);
   const { createTest } = useTest();
   const newTest: Words[] = await createTest(bookId,test);
   return(
