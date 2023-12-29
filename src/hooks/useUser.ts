@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { useSession } from "next-auth/react";
 
-import type { UserPublicInfo } from "@/lib/types/db.ts";
+import type { UserPublicInfo, UserUpdate } from "@/lib/types/db.ts";
 
 export const useUser = () => {
   const [userId, setUserId] = useState("");
@@ -31,13 +31,24 @@ export const useUser = () => {
 
   useEffect(getinitialUser, [userId, getinitialUser]);
 
-  const updateUser = async () => {
+  const updateUser = async ({username, about, experience}:UserUpdate) => {
     const res = await fetch(`/api/user/${userId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-    })
+      body: JSON.stringify({
+        username,
+        about,
+        experience,
+      }),
+    });
+    if (!res.ok) {
+      return;
+    }
+    const ret = await res.json();
+    const updatedUser: UserPublicInfo = ret.data;
+    setUserinfo(updatedUser);
   }
 
   return { userInfo };

@@ -11,6 +11,7 @@ import type { Books, Words } from "@/lib/types/db";
 
 export const useBook = () => {
   const param = useParams();
+  
   const _bookId = param.bookId as string;
   const [userId, setUserId] = useState("");
   const [books, setBooks] = useState<Books[]>([]);
