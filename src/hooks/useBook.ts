@@ -82,7 +82,17 @@ export const useBook = () => {
     if (!res.ok) {
       return;
     }
-    // const data: BooksUpdate = await res.json();
+    const ret = await res.json();
+    const updatedBook: Books = ret.data;
+    setBooks((books) => {
+      return books.map((book) => {
+        if (book.id === updatedBook.id){
+          return updatedBook;
+        }
+        else return book;
+      })
+    })
+    setBook(updatedBook);
     // return data;
   };
 
