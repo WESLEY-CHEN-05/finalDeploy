@@ -1,10 +1,11 @@
-"use client"
+"use client";
 
 import * as React from "react";
 import { useEffect, useMemo } from "react";
 
 import { useParams } from "next/navigation";
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams } from "next/navigation";
+
 import { useTest } from "@/hooks/useTest";
 import type { TestRequest } from "@/lib/types/db";
 
@@ -27,22 +28,22 @@ function TestPage() {
       star: star === "true",
     };
   }, [num, repetitive, publicize, hard, star]);
-  
+
   const { problemSet, createTest } = useTest();
-  
+
   useEffect(() => {
     createTest(bookId, test);
   }, [createTest, bookId, test]);
-  
+
   console.log("FINISHED", problemSet);
-  return(
-  <>
-    <p>${test.num}</p>
-    <p>${test.repetitive}</p>
-    <p>${test.publicize}</p>
-    <p>${test.hard}</p>
-    <p>${test.star}</p>
-  </>
+  return (
+    <>
+      <p>${test.num}</p>
+      <p>${test.repetitive}</p>
+      <p>${test.publicize}</p>
+      <p>${test.hard}</p>
+      <p>${test.star}</p>
+    </>
   );
 }
 

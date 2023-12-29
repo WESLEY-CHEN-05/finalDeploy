@@ -4,7 +4,9 @@ import { useRef } from "react";
 // import { publicEnv } from "@/lib/env/public";
 // import { redirect } from "next/navigation";
 import { useState } from "react";
-import { useRouter } from "next/navigation"; 
+
+import { useRouter } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -24,19 +26,18 @@ import {
   SelectGroup,
   SelectLabel,
 } from "@/components/ui/select";
-import { useBook } from "@/hooks/useBook"
-
+import { useBook } from "@/hooks/useBook";
 import type { TestRequest } from "@/lib/types/db";
 
-function CreateTestDialog( { bookId }: { bookId: string } ){
+function CreateTestDialog({ bookId }: { bookId: string }) {
   const router = useRouter();
-  
-  const [ num, setNum ] = useState<string>("0");
-  const [ repetitive, setRepetitive ] = useState<string>("Yes");
-  const [ publicize, setPublicize] = useState<string>("Yes");
-  const [ star, setStar ] = useState<string>("Yes");
-  const [ hard, setHard ] = useState<string>("Yes");
-  
+
+  const [num, setNum] = useState<string>("0");
+  const [repetitive, setRepetitive] = useState<string>("Yes");
+  const [publicize, setPublicize] = useState<string>("Yes");
+  const [star, setStar] = useState<string>("Yes");
+  const [hard, setHard] = useState<string>("Yes");
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const [warningNum, setWarningNum] = useState(false);
 
@@ -56,7 +57,7 @@ function CreateTestDialog( { bookId }: { bookId: string } ){
   // const handleSTAR = (e: string ) => {
   //   setStar(e);
   // };
-  
+
   const handleSubmit = () => {
     setWarningNum(false);
     if (isWhitespaceOrNewline(num)) {
@@ -65,7 +66,7 @@ function CreateTestDialog( { bookId }: { bookId: string } ){
     }
 
     if (
-      num!== undefined &&
+      num !== undefined &&
       repetitive !== undefined &&
       publicize !== undefined &&
       hard !== undefined &&
@@ -80,30 +81,31 @@ function CreateTestDialog( { bookId }: { bookId: string } ){
       };
       // console.log(book);
       //createTest(bookId,test);
-      router.push(`/main/test/${bookId}?num=${test.num}&repetitive=${test.repetitive}&publicize=${test.publicize}&hard=${test.hard}&star=${test.star}`);
+      router.push(
+        `/main/test/${bookId}?num=${test.num}&repetitive=${test.repetitive}&publicize=${test.publicize}&hard=${test.hard}&star=${test.star}`,
+      );
       setDialogOpen(false);
     }
     // redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}/main/mybooks`);
   };
 
-  return(
+  return (
     <Dialog open={dialogOpen} onOpenChange={() => setDialogOpen(!dialogOpen)}>
       <DialogTrigger asChild>
-        <Button 
-        className="m-6 bg-gray-800 border-sky-500 text-sky-500 hover:border-sky-700 hover:bg-gray-800 hover:text-sky-700"
-        variant="outline">
+        <Button
+          className="m-6 border-sky-500 bg-gray-800 text-sky-500 hover:border-sky-700 hover:bg-gray-800 hover:text-sky-700"
+          variant="outline"
+        >
           Quiz
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create a quiz</DialogTitle>
-          <DialogDescription>
-            create a unique quiz for you!
-          </DialogDescription>
+          <DialogDescription>create a unique quiz for you!</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-4">
-         <Input
+          <Input
             placeholder="Number of problems..."
             name="number"
             onChange={(event) => {
@@ -113,7 +115,7 @@ function CreateTestDialog( { bookId }: { bookId: string } ){
             className={warningNum ? "border-red-500" : ""}
           />
           {/* <Input placeholder="Allowed repeated problem?" name="language" ref = {languageRef}/> */}
-          <p className="text-sm" >Allowed repeated problem?</p>
+          <p className="text-sm">Allowed repeated problem?</p>
           <Select
             onValueChange={(val) => setRepetitive(val)}
             defaultValue="Yes"
@@ -131,10 +133,7 @@ function CreateTestDialog( { bookId }: { bookId: string } ){
           </Select>
           {/* <Input placeholder="publicize, please insert Yes or No" name="publicize" ref = {publicizeRef}/> */}
           <p className="text-sm">The type of the book</p>
-          <Select 
-            onValueChange={(val) => setPublicize(val)}
-            defaultValue="Yes"
-          >
+          <Select onValueChange={(val) => setPublicize(val)} defaultValue="Yes">
             <SelectTrigger>
               <SelectValue placeholder="Publicize the book?" />
             </SelectTrigger>
@@ -148,10 +147,7 @@ function CreateTestDialog( { bookId }: { bookId: string } ){
           </Select>
           {/* <Input placeholder="publicize, please insert Yes or No" name="publicize" ref = {publicizeRef}/> */}
           <p className="text-sm">Create problem set with hard words first?</p>
-          <Select 
-            onValueChange={(val) => setHard(val)}
-            defaultValue="Yes"
-          >
+          <Select onValueChange={(val) => setHard(val)} defaultValue="Yes">
             <SelectTrigger>
               <SelectValue placeholder="Create problem with hard words first?" />
             </SelectTrigger>
@@ -165,10 +161,7 @@ function CreateTestDialog( { bookId }: { bookId: string } ){
           </Select>
           {/* <Input placeholder="publicize, please insert Yes or No" name="publicize" ref = {publicizeRef}/> */}
           <p className="text-sm">Use starred words?</p>
-          <Select 
-            onValueChange={(val) => setStar(val)}
-            defaultValue="Yes"
-          >
+          <Select onValueChange={(val) => setStar(val)} defaultValue="Yes">
             <SelectTrigger>
               <SelectValue placeholder="Use starred words?" />
             </SelectTrigger>
@@ -180,10 +173,12 @@ function CreateTestDialog( { bookId }: { bookId: string } ){
               </SelectGroup>
             </SelectContent>
           </Select>
-          <Button type="submit" onClick={() => handleSubmit()}>Create Quiz</Button>
+          <Button type="submit" onClick={() => handleSubmit()}>
+            Create Quiz
+          </Button>
         </div>
       </DialogContent>
     </Dialog>
   );
 }
- export default CreateTestDialog;
+export default CreateTestDialog;

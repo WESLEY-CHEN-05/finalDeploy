@@ -25,11 +25,11 @@ import type { Words, WordsUpdate } from "@/lib/types/db";
 
 import AddNewWordsDialog from "./_components/addNewWordsDialog";
 import { columns } from "./_components/columns";
+import CreateTestDialog from "./_components/createTestDialog";
 import { DataTable } from "./_components/data-table";
 // import memoryDB from "./memory";
 import DeleteBookDialog from "./_components/deleteBookDialog";
 import EditBookDialog from "./_components/editBookDialog";
-import CreateTestDialog from "./_components/createTestDialog";
 
 export type wordsAndFunc = Words & {
   update: (
@@ -148,7 +148,6 @@ function BookPage() {
         <EditBookDialog book={book} updateBook={updateBook} />
         <DeleteBookDialog bookId={bookId} />
         <AddNewWordsDialog createWord={createWord} />
-        
       </div>
       <div className="container mx-auto py-10">
         <DataTable columns={columns} data={wordsWithFunction} bookId={bookId} />
