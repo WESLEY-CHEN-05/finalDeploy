@@ -33,20 +33,20 @@ function SettingPage() {
 
   const handleUpdateUsername = () => {
     setEditUsername(false);
-    if(inputUsername !== userInfo.username){
-      updateUser({username: inputUsername});
+    if (inputUsername !== userInfo.username) {
+      updateUser({ username: inputUsername });
     }
   };
 
   const handleClickAbout = () => {
-    if(inputAbout !== userInfo.about){
-      updateUser({about: inputAbout});
+    if (inputAbout !== userInfo.about) {
+      updateUser({ about: inputAbout });
     }
   };
 
   const handleClickExp = () => {
-    if(inputExperience !== userInfo.experience){
-      updateUser({experience: inputExperience});
+    if (inputExperience !== userInfo.experience) {
+      updateUser({ experience: inputExperience });
     }
   };
 
@@ -54,7 +54,7 @@ function SettingPage() {
 
   return (
     <div className="flex w-full flex-row">
-      <div className="mt-6 ml-6 flex w-1/3 flex-col">
+      <div className="ml-6 mt-6 flex w-1/3 flex-col">
         {/* <img src = {"./component/unforgiven_cover.png"} className = "w-1/3"></img> */}
         <div className="flex flex-row">
           <p className="mb-3 ml-6 text-2xl font-bold text-white">Email:</p>
@@ -78,7 +78,10 @@ function SettingPage() {
               />
             </ClickAwayListener>
           ) : (
-            <Button onClick={() => setEditUsername(true)} className="w-1/2 bg-slate-800 border-slate-800">
+            <Button
+              onClick={() => setEditUsername(true)}
+              className="w-1/2 border-slate-800 bg-slate-800"
+            >
               <p className="mr-auto text-xl text-white">{userInfo.username}</p>
             </Button>
           )}

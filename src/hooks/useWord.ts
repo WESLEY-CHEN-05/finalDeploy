@@ -80,42 +80,45 @@ export const useWord = () => {
       return;
     }
     setWords((words) => {
-      return words.filter((word) => (word.id !== wordId));
+      return words.filter((word) => word.id !== wordId);
     });
   }, []);
 
-  const updateWord = useCallback(async (
-    wordId: string,
-    { content, meaning, familiarity, star, correctNum, testNum }: WordsUpdate,
-  ) => {
-    const res = await fetch(`/api/word/${wordId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        content,
-        meaning,
-        familiarity,
-        star,
-        correctNum,
-        testNum,
-      }),
-    });
-    if (!res.ok) {
-      return;
-    }
-    const ret = await res.json();
-    const updatedWord: Words = ret.data;
-    setWords((words) => {
-      return words.map((word) => {
-        if (word.id === updatedWord.id) {
-          return updatedWord;
-        } else return word;
+  const updateWord = useCallback(
+    async (
+      wordId: string,
+      { content, meaning, familiarity, star, correctNum, testNum }: WordsUpdate,
+    ) => {
+      const res = await fetch(`/api/word/${wordId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          content,
+          meaning,
+          familiarity,
+          star,
+          correctNum,
+          testNum,
+        }),
       });
-    });
-    return updatedWord;
-  }, []);
+      if (!res.ok) {
+        return;
+      }
+      const ret = await res.json();
+      const updatedWord: Words = ret.data;
+      setWords((words) => {
+        return words.map((word) => {
+          if (word.id === updatedWord.id) {
+            return updatedWord;
+          } else return word;
+        });
+      });
+      return updatedWord;
+    },
+    [],
+  );
 
   return {
     bookId,

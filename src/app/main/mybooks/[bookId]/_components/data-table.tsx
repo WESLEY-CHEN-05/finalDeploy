@@ -3,7 +3,6 @@
 import { useState } from "react";
 
 // import Link from "next/link";
-
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -46,8 +45,8 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({
   columns,
   data,
-  // bookId,
-}: DataTableProps<TData, TValue>) {
+} // bookId,
+: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
@@ -100,20 +99,20 @@ export function DataTable<TData, TValue>({
                     //   legacyBehavior={true}
                     //   href={`/main/mybooks/${bookId}/${wordId}`}
                     // >
-                      <TableRow
-                        key={row.id}
-                        data-state={row.getIsSelected() && "selected"}
-                        className="border-slate-500 hover:bg-slate-800"
-                      >
-                        {row.getVisibleCells().map((cell) => (
-                          <TableCell key={cell.id}>
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext(),
-                            )}
-                          </TableCell>
-                        ))}
-                      </TableRow>
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"}
+                      className="border-slate-500 hover:bg-slate-800"
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
                     // </Link>
                   );
                 })
@@ -152,7 +151,10 @@ export function DataTable<TData, TValue>({
                     placeholder={table.getState().pagination.pageSize}
                   />
                 </SelectTrigger>
-                <SelectContent side="top" className="bg-gray-600 text-slate-300 border-slate-500">
+                <SelectContent
+                  side="top"
+                  className="border-slate-500 bg-gray-600 text-slate-300"
+                >
                   {[10, 20, 30, 40, 50].map((pageSize) => (
                     <SelectItem key={pageSize} value={`${pageSize}`}>
                       {pageSize}
@@ -162,8 +164,11 @@ export function DataTable<TData, TValue>({
               </Select>
             </div>
             <div className="flex w-[100px] items-center justify-center text-sm font-medium text-slate-300">
-              Page {table.getPageCount() === 0 ? 0 : (table.getState().pagination.pageIndex + 1)} of{" "}
-              {table.getPageCount()}
+              Page{" "}
+              {table.getPageCount() === 0
+                ? 0
+                : table.getState().pagination.pageIndex + 1}{" "}
+              of {table.getPageCount()}
             </div>
             <div className="flex items-center space-x-2">
               <Button

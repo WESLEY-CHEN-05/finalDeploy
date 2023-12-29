@@ -1,6 +1,5 @@
 "use client";
 
-import { useRef } from "react";
 // import { publicEnv } from "@/lib/env/public";
 // import { redirect } from "next/navigation";
 import { useState } from "react";
@@ -25,7 +24,6 @@ import {
   SelectLabel,
 } from "@/components/ui/select";
 import type { BooksCreate } from "@/lib/types/db";
-import { create } from "domain";
 
 function AddBookDialog({
   createBook,
@@ -88,25 +86,29 @@ function AddBookDialog({
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-4">
-          <Input 
-            placeholder="title" 
-            name="title" 
-            onChange = {(event) => {
-              setTitle(event?.target.value)
+          <Input
+            placeholder="title"
+            name="title"
+            onChange={(event) => {
+              setTitle(event?.target.value);
               setWarningTitle(false);
             }}
-            className={warningTitle ? "border-red-500" : ""} />
+            className={warningTitle ? "border-red-500" : ""}
+          />
           <Input
             placeholder="description"
             name="description"
-            onChange = {(event) => {
-              setDescription(event?.target.value)
+            onChange={(event) => {
+              setDescription(event?.target.value);
               setWarningDescription(false);
             }}
             className={warningDescription ? "border-red-500" : ""}
           />
           {/* <Input placeholder="language" name="language" ref = {languageRef}/> */}
-          <Select onValueChange={(val) => setLanguage(val)} defaultValue="English">
+          <Select
+            onValueChange={(val) => setLanguage(val)}
+            defaultValue="English"
+          >
             <SelectTrigger>
               <SelectValue placeholder="Select Language" />
             </SelectTrigger>
@@ -121,7 +123,10 @@ function AddBookDialog({
             </SelectContent>
           </Select>
           {/* <Input placeholder="publicize, please insert Yes or No" name="publicize" ref = {publicizeRef}/> */}
-          <Select onValueChange={(val) => setPublicize(val === "Yes" ? true : false)} defaultValue="No">
+          <Select
+            onValueChange={(val) => setPublicize(val === "Yes" ? true : false)}
+            defaultValue="No"
+          >
             <SelectTrigger>
               <SelectValue placeholder="Publicize the book?" />
             </SelectTrigger>
