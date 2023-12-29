@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef } from "react";
+// import { useRef } from "react";
 // import { publicEnv } from "@/lib/env/public";
 // import { redirect } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Switch } from "@/components/ui/switch"
 
 import { useRouter } from "next/navigation";
 
@@ -17,77 +18,73 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
-  SelectValue,
-  SelectGroup,
-  SelectLabel,
-} from "@/components/ui/select";
-import { useBook } from "@/hooks/useBook";
+// import {
+//   Select,
+//   SelectTrigger,
+//   SelectContent,
+//   SelectItem,
+//   SelectValue,
+//   SelectGroup,
+//   SelectLabel,
+// } from "@/components/ui/select";
+import { useBook } from "@/hooks/useBook"
+import { useWord } from "@/hooks/useWord";
 import type { TestRequest } from "@/lib/types/db";
 
 function CreateTestDialog({ bookId }: { bookId: string }) {
   const router = useRouter();
 
+  const { book } = useBook();
+  const { words } = useWord();
+
+  const [starInBook, setStarInBook] = useState(0);
+
   const [num, setNum] = useState<string>("0");
-  const [repetitive, setRepetitive] = useState<string>("Yes");
-  const [publicize, setPublicize] = useState<string>("Yes");
-  const [star, setStar] = useState<string>("Yes");
-  const [hard, setHard] = useState<string>("Yes");
+  const [repetitive, setRepetitive] = useState(false);
+  // const [publicize, setPublicize] = useState(false);
+  const [star, setStar] = useState(false);
+  const [hard, setHard] = useState(false);
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [warningNum, setWarningNum] = useState(false);
 
-  function isWhitespaceOrNewline(inputNum: string) {
-    return /^\s*$/.test(inputNum);
-  }
+  useEffect(() => {
+    let cont = 0;
+    words.forEach((word) => {
+      if (word.star) cont += 1;
+    })
+    setStarInBook(cont)
+  }, [words]);
 
-  // const handleREP = (e: string ) => {
-  //   setRepetitive(e);
-  // };
-  // const handlePUB = (e: string ) => {
-  //   setPublicize(e);
-  // };
-  // const handleHARD = (e: string ) => {
-  //   setHard(e);
-  // };
-  // const handleSTAR = (e: string ) => {
-  //   setStar(e);
-  // };
+  const isInteger = (str: string) => Number.isInteger(parseInt(str));
 
   const handleSubmit = () => {
     setWarningNum(false);
-    if (isWhitespaceOrNewline(num)) {
+    if (!isInteger(num)) {
       setWarningNum(true);
       return;
     }
 
-    if (
-      num !== undefined &&
-      repetitive !== undefined &&
-      publicize !== undefined &&
-      hard !== undefined &&
-      star !== undefined
-    ) {
-      const test: TestRequest = {
-        num: Number(num),
-        repetitive: repetitive === "Yes" ? true : false,
-        publicize: publicize === "Yes" ? true : false,
-        hard: hard === "Yes" ? true : false,
-        star: star === "Yes" ? true : false,
-      };
-      // console.log(book);
-      //createTest(bookId,test);
-      router.push(
-        `/main/test/${bookId}?num=${test.num}&repetitive=${test.repetitive}&publicize=${test.publicize}&hard=${test.hard}&star=${test.star}`,
-      );
-      setDialogOpen(false);
+    const ret = parseInt(num);
+    if ((ret <= 0) || (star && starInBook <= 0) || (!repetitive && ret > words.length) || (!repetitive && ret > starInBook)) {
+      setWarningNum(true);
+      return;
     }
-    // redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}/main/mybooks`);
-  };
+
+    const test: TestRequest = {
+      num: parseInt(num),
+      repetitive: repetitive,
+      publicize: book?.publicize as boolean,
+      hard: hard,
+      star: star,
+    };
+    // console.log(book);
+    //createTest(bookId,test);
+    router.push(
+      `/main/test/${bookId}?num=${test.num}&repetitive=${test.repetitive}&publicize=${test.publicize}&hard=${test.hard}&star=${test.star}`,
+    );
+    setDialogOpen(false);
+  }
 
   return (
     <Dialog open={dialogOpen} onOpenChange={() => setDialogOpen(!dialogOpen)}>
@@ -105,17 +102,43 @@ function CreateTestDialog({ bookId }: { bookId: string }) {
           <DialogDescription>create a unique quiz for you!</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-4">
-          <Input
-            placeholder="Number of problems..."
-            name="number"
-            onChange={(event) => {
-              setNum(event?.target.value);
-              setWarningNum(false);
-            }}
-            className={warningNum ? "border-red-500" : ""}
-          />
-          {/* <Input placeholder="Allowed repeated problem?" name="language" ref = {languageRef}/> */}
-          <p className="text-sm">Allowed repeated problem?</p>
+          <div className="flex gap-4">
+            <span className="mt-1">Number of problems</span>
+            <Input
+              defaultValue={"0"}
+              name="number"
+              onChange={(event) => {
+                setNum(event?.target.value);
+                setWarningNum(false);
+              }}
+              className={"ml-auto w-20 text-right " + (warningNum ? "border-red-500" : "")}
+            />
+          </div>
+          <div className="flex">
+            <p>Repetitive</p>
+            <Switch
+              checked={repetitive}
+              onCheckedChange={(val) => (setRepetitive(val))}
+              className="ml-auto"
+            />
+          </div>
+          <div className="flex">
+            <p>Hard mode</p>
+            <Switch
+              checked={hard}
+              onCheckedChange={(val) => (setHard(val))}
+              className="ml-auto"
+            />
+          </div>
+          <div className="flex">
+            <p>Starred words only</p>
+            <Switch
+              checked={star}
+              onCheckedChange={(val) => (setStar(val))}
+              className="ml-auto"
+            />
+          </div>
+          {/* <p className="text-sm">Allowed repeated problem?</p>
           <Select
             onValueChange={(val) => setRepetitive(val)}
             defaultValue="Yes"
@@ -123,44 +146,44 @@ function CreateTestDialog({ bookId }: { bookId: string }) {
             <SelectTrigger>
               <SelectValue placeholder="Allowed repeated problem?" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent defaultValue="No">
               <SelectGroup>
                 <SelectLabel>Allowed repeated problem?</SelectLabel>
                 <SelectItem value="Yes">Yes</SelectItem>
                 <SelectItem value="No">No</SelectItem>
               </SelectGroup>
             </SelectContent>
-          </Select>
+          </Select> */}
           {/* <Input placeholder="publicize, please insert Yes or No" name="publicize" ref = {publicizeRef}/> */}
-          <p className="text-sm">The type of the book</p>
+          {/* <p className="text-sm">The type of the book</p>
           <Select onValueChange={(val) => setPublicize(val)} defaultValue="Yes">
             <SelectTrigger>
               <SelectValue placeholder="Publicize the book?" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                {/* <SelectLabel>Publicize the book?</SelectLabel> */}
+                <SelectLabel>Publicize the book?</SelectLabel>
                 <SelectItem value="Yes">Public</SelectItem>
                 <SelectItem value="No">Private</SelectItem>
               </SelectGroup>
             </SelectContent>
-          </Select>
+          </Select> */}
           {/* <Input placeholder="publicize, please insert Yes or No" name="publicize" ref = {publicizeRef}/> */}
-          <p className="text-sm">Create problem set with hard words first?</p>
+          {/* <p className="text-sm">Create problem set with hard words first?</p>
           <Select onValueChange={(val) => setHard(val)} defaultValue="Yes">
             <SelectTrigger>
               <SelectValue placeholder="Create problem with hard words first?" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                {/* <SelectLabel>Create problem with hard words first?</SelectLabel> */}
+                <SelectLabel>Create problem with hard words first?</SelectLabel>
                 <SelectItem value="Yes">Yes</SelectItem>
                 <SelectItem value="No">No</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
           {/* <Input placeholder="publicize, please insert Yes or No" name="publicize" ref = {publicizeRef}/> */}
-          <p className="text-sm">Use starred words?</p>
+          {/* <p className="text-sm">Use starred words?</p>
           <Select onValueChange={(val) => setStar(val)} defaultValue="Yes">
             <SelectTrigger>
               <SelectValue placeholder="Use starred words?" />
@@ -172,7 +195,7 @@ function CreateTestDialog({ bookId }: { bookId: string }) {
                 <SelectItem value="No">No</SelectItem>
               </SelectGroup>
             </SelectContent>
-          </Select>
+          </Select> */}
           <Button type="submit" onClick={() => handleSubmit()}>
             Create Quiz
           </Button>

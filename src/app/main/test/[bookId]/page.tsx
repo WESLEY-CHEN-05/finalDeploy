@@ -14,7 +14,7 @@ function TestPage() {
   const bookId = param.bookId as string;
   const searchParams = useSearchParams();
   const num = searchParams.get("num");
-  const repetitive = searchParams.get("repetitve");
+  const repetitive = searchParams.get("repetitive");
   const publicize = searchParams.get("publicize");
   const hard = searchParams.get("hard");
   const star = searchParams.get("star");
