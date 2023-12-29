@@ -1,18 +1,22 @@
+"use client"
 import { Button } from "@/components/ui/button";
 import type { Books } from "@/lib/types/db";
 
 import Book from "./_components/Book";
+import { useBook } from "@/hooks/useBook";
 
 function DocsPage() {
-  const sampleInfo: Books = {
-    id: "3jeiofn9eflqwqwjoif",
-    title: "Sample book",
-    description: "Sample Description",
-    language: "English",
-    publicize: true,
-    popularity: 0,
-    authorId: "3jeiofn9eflqwqwjoif",
-  };
+  console.log("render");
+  const { publicBooks } = useBook();
+  // const sampleInfo: Books = {
+  //   id: "3jeiofn9eflqwqwjoif",
+  //   title: "Sample book",
+  //   description: "Sample Description",
+  //   language: "English",
+  //   publicize: true,
+  //   popularity: 0,
+  //   authorId: "3jeiofn9eflqwqwjoif",
+  // };
 
   return (
     <div className="w-screen">
@@ -23,24 +27,13 @@ function DocsPage() {
         </Button>
       </div>
       <div className="flex w-screen flex-wrap justify-start">
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
-        <Book info={sampleInfo}></Book>
+        {publicBooks.map((book) => {
+          return (
+            <div key={book.id}>
+              <Book info={book}></Book>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
