@@ -44,9 +44,8 @@ interface DataTableProps<TData, TValue> {
 
 export function DataTable<TData, TValue>({
   columns,
-  data,
-} // bookId,
-: DataTableProps<TData, TValue>) {
+  data, // bookId,
+}: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({

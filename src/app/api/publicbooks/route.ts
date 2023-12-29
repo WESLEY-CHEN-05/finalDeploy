@@ -26,8 +26,8 @@ export async function GET() {
         id: false,
         createAt: false,
       },
-      where: (eq(booksTable.publicize, true)),
-      orderBy: (booksTable, {desc}) => [desc(booksTable.popularity)],
+      where: eq(booksTable.publicize, true),
+      orderBy: (booksTable, { desc }) => [desc(booksTable.popularity)],
     });
 
     const booksInfo: Books[] = _books.map((book) => {
@@ -39,12 +39,12 @@ export async function GET() {
         publicize: book.publicize,
         popularity: book.popularity,
         authorId: book.authorId,
-    }});
-
+      };
+    });
 
     return NextResponse.json(
       {
-        data: booksInfo
+        data: booksInfo,
       },
       { status: 200 },
     );

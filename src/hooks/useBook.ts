@@ -122,7 +122,7 @@ export const useBook = () => {
   useEffect(getsingleBook, [_bookId, getsingleBook]);
 
   const getAllPublicBooks = useCallback(() => {
-    if(!userId) return;
+    if (!userId) return;
     const getPublicBooks = async () => {
       const res = await fetch(`/api/publicbooks`, {
         method: "GET",
@@ -136,9 +136,9 @@ export const useBook = () => {
       }
       const ret = await res.json();
       setPublicBooks(ret.data);
-    }
+    };
     getPublicBooks();
-  },[userId, router]);
+  }, [userId, router]);
 
   useEffect(getAllPublicBooks, [userId, getAllPublicBooks]);
 

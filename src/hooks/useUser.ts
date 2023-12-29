@@ -59,7 +59,7 @@ export const useUser = () => {
     }
     const data = await res.json();
     setGetName(data.info.username);
-  }
+  };
 
   return { userInfo, updateUser, getUser, getName };
 };

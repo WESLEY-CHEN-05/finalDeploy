@@ -96,7 +96,9 @@ function AuthForm() {
           });
         }
       } else {
-        const URL = res?.url?.endsWith("mybooks") ? res.url : res?.url + "/main/mybooks";
+        const URL = res?.url?.endsWith("mybooks")
+          ? res.url
+          : res?.url + "/main/mybooks";
         console.log("Sign in successfully, redirect to ", URL);
         router.push(URL as string);
       }
@@ -187,7 +189,7 @@ function AuthForm() {
               callbackUrl: `${publicEnv.NEXT_PUBLIC_BASE_URL}/main/mybooks`,
             });
           }}
-          className="flex w-full bg-slate-200 text-slate-800 hover:bg-slate-300 mb-2"
+          className="mb-2 flex w-full bg-slate-200 text-slate-800 hover:bg-slate-300"
           variant={"outline"}
         >
           {/* Remember to copy "github.png" to ./public folder */}

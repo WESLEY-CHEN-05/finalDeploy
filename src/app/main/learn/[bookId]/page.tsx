@@ -3,6 +3,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 import { Star } from "lucide-react";
@@ -17,10 +18,9 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
+import { useBook } from "@/hooks/useBook";
 // import memoryDB from "./memory";
 import { useWord } from "@/hooks/useWord";
-import { useBook } from "@/hooks/useBook";
-import { useSession } from "next-auth/react";
 import type { Words } from "@/lib/types/db";
 
 function LearningPage() {
@@ -58,7 +58,7 @@ function LearningPage() {
   useEffect(() => {
     console.log(words);
     setCount(words.length);
-  }, [words])
+  }, [words]);
 
   // // mouse click
   // const handlePrev = () => {
@@ -152,7 +152,7 @@ function LearningPage() {
                                     fill={word.star ? "yellow" : "#334155"}
                                     strokeWidth={word.star ? 0 : 1}
                                     onClick={(event) => {
-                                      if(userId == bookowner){
+                                      if (userId == bookowner) {
                                         console.log(bookowner);
                                         console.log(userId);
                                         event.stopPropagation();
@@ -178,7 +178,8 @@ function LearningPage() {
                                     fill={word.star ? "yellow" : "#334155"}
                                     strokeWidth={word.star ? 0 : 1}
                                     onClick={() => {
-                                      if(userId == bookowner) handleOnClick(word);
+                                      if (userId == bookowner)
+                                        handleOnClick(word);
                                     }}
                                   />
                                 </div>

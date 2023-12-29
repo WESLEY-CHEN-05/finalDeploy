@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { useRouter} from "next/navigation";
+
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 
@@ -10,11 +11,11 @@ import Book from "@/app/main/mybooks/_components/Book";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useBook } from "@/hooks/useBook";
-import { useUser } from "@/hooks/useUser";
-import { useToast } from "@/components/ui/use-toast";
 // import { Toast } from "@/components/ui/toast";
 import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/components/ui/use-toast";
+import { useBook } from "@/hooks/useBook";
+import { useUser } from "@/hooks/useUser";
 
 function SettingPage() {
   const { data: session } = useSession();
@@ -77,21 +78,21 @@ function SettingPage() {
   return (
     <>
       <Toaster />
-      <div className = "flex flex-col">
+      <div className="flex flex-col">
         <div className="flex w-full flex-row">
           <div className="ml-6 mt-6 flex w-1/3 flex-col ">
             {/* <p className = "w-full mt-6 mb-6"></p> */}
             {/* <p className = "w-full mt-6 mb-6"></p> */}
             {/* <img src = {"./component/unforgiven_cover.png"} className = "w-1/3"></img> */}
             <div>
-              <p className = "ml-6 mb-6 text-3xl font-bold text-white">Profile</p>
+              <p className="mb-6 ml-6 text-3xl font-bold text-white">Profile</p>
             </div>
             <div className="flex flex-row">
               <p className="mb-2 ml-6 text-xl font-bold text-white">Email:</p>
               <p className="mb-2 ml-3 text-xl text-gray-300">{email}</p>
             </div>
             <div className="flex flex-row">
-              <p className="mt-1 mb-3 ml-6 mr-3 text-xl font-bold text-white">
+              <p className="mb-3 ml-6 mr-3 mt-1 text-xl font-bold text-white">
                 Username:
               </p>
               {editUsername ? (
@@ -110,9 +111,11 @@ function SettingPage() {
               ) : (
                 <Button
                   onClick={() => setEditUsername(true)}
-                  className="w-1/2 border-slate-800 bg-slate-800 hover:bg-slate-800 hover:border-slate-800"
+                  className="w-1/2 border-slate-800 bg-slate-800 hover:border-slate-800 hover:bg-slate-800"
                 >
-                  <p className="mr-auto text-xl text-gray-300">{userInfo.username}</p>
+                  <p className="mr-auto text-xl text-gray-300">
+                    {userInfo.username}
+                  </p>
                 </Button>
               )}
             </div>
@@ -132,18 +135,20 @@ function SettingPage() {
                   setInputAbout(e.target.value);
                   setEditingAbout(false);
                 }}
-                className="ml-3 h-1/3 w-3/4 text-gray-300 border-gray-800 hover:border-white text-lg"
+                className="ml-3 h-1/3 w-3/4 border-gray-800 text-lg text-gray-300 hover:border-white"
               ></Textarea>
               {editingAbout ? (
                 <></>
-              ):(
-                <div className = "flex flex-row ml-6">
-                  <p className = "w-7/12"></p>
+              ) : (
+                <div className="ml-6 flex flex-row">
+                  <p className="w-7/12"></p>
                   <Button
                     disabled={editingAbout}
-                    className={editingAbout?
-                      "ml-2 mr-6 mt-3 w-1/6 bg-slate-800 text-slate-800 hover:bg-slate-800 hover:text-slate-800"
-                      :"ml-2 mr-6 mt-3 w-1/6 bg-gray-300 text-gray-800 hover:bg-gray-400 hover:text-gray-900"}
+                    className={
+                      editingAbout
+                        ? "ml-2 mr-6 mt-3 w-1/6 bg-slate-800 text-slate-800 hover:bg-slate-800 hover:text-slate-800"
+                        : "ml-2 mr-6 mt-3 w-1/6 bg-gray-300 text-gray-800 hover:bg-gray-400 hover:text-gray-900"
+                    }
                     onClick={() => handleClickAbout()}
                   >
                     Update
@@ -162,19 +167,22 @@ function SettingPage() {
                   setInputExperience(e.target.value);
                   setEditingExp(false);
                 }}
-                className="ml-3 h-1/3 w-3/4 text-gray-300 border-gray-800 hover:border-white text-lg"
+                className="ml-3 h-1/3 w-3/4 border-gray-800 text-lg text-gray-300 hover:border-white"
               ></Textarea>
               {editingExp ? (
                 <></>
-              ):(
-                <div className = "flex flex-row ml-6">
-                  <p className = "w-7/12"></p>
-                  <Button 
+              ) : (
+                <div className="ml-6 flex flex-row">
+                  <p className="w-7/12"></p>
+                  <Button
                     disabled={editingExp}
-                    className={editingExp?
-                      "ml-2 mt-3 w-1/6 bg-slate-800 text-slate-800 hover:bg-slate-800 hover:text-slate-800":
-                      "ml-2 mt-3 w-1/6 bg-gray-300 text-gray-800 hover:bg-gray-400 hover:text-gray-900"} 
-                    onClick={() => handleClickExp()}>
+                    className={
+                      editingExp
+                        ? "ml-2 mt-3 w-1/6 bg-slate-800 text-slate-800 hover:bg-slate-800 hover:text-slate-800"
+                        : "ml-2 mt-3 w-1/6 bg-gray-300 text-gray-800 hover:bg-gray-400 hover:text-gray-900"
+                    }
+                    onClick={() => handleClickExp()}
+                  >
                     Update
                   </Button>
                 </div>
@@ -200,7 +208,6 @@ function SettingPage() {
         </div>
       </div>
     </>
-    
   );
 }
 
