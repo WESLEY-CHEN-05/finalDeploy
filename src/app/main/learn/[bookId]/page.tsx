@@ -22,9 +22,9 @@ import { useWord } from "@/hooks/useWord";
 import type { Words } from "@/lib/types/db";
 
 function LearningPage() {
-  const [api, setApi] = React.useState<CarouselApi>();
-  const [current, setCurrent] = React.useState(0);
-  const [count, setCount] = React.useState(0);
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
 
   const { words, updateWord, bookId } = useWord();
 
@@ -40,7 +40,12 @@ function LearningPage() {
       setCurrent(api.selectedScrollSnap() + 1);
       setIsMeaning(false);
     });
-  }, [api, words]);
+  }, [api, words, count]);
+
+  useEffect(() => {
+    console.log(words);
+    setCount(words.length);
+  }, [words])
 
   // // mouse click
   // const handlePrev = () => {
