@@ -18,12 +18,15 @@ import {
 import { useWord } from "@/hooks/useWord";
 import type { Words } from "@/lib/types/db";
 
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+
 function LearningPage() {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
 
-  const { words, updateWord } = useWord();
+  const { words, updateWord, bookId } = useWord();
 
   useEffect(() => {
     if (!api) {
@@ -89,7 +92,21 @@ function LearningPage() {
   };
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center overflow-hidden">
+    <>
+    <div className="flex">
+      <Link 
+        href={`/main/mybooks/${bookId}`}
+        className="m-6 ml-auto"> 
+        <Button
+          className="bg-slate-800 text-red-600 border-red-600 hover:bg-slate-800 hover:text-red-700 hover:border-red-700"
+          variant="outline"
+        >
+          Leave
+        </Button>
+      </Link>
+    </div>
+    <div className="flex flex-col items-center justify-between overflow-hidden">
+      <div className="my-auto mt-20">
       <div>
         <Carousel
           setApi={setApi}
@@ -166,7 +183,9 @@ function LearningPage() {
       <div className="py-2 text-center text-sm text-muted-foreground">
         {current} / {count}
       </div>
+      </div>
     </div>
+    </>
   );
 }
 
