@@ -28,16 +28,27 @@ function SettingPage() {
   const aboutRef = useRef<HTMLTextAreaElement>(null);
   const experienceRef = useRef<HTMLTextAreaElement>(null);
   const usernameRef = useRef<HTMLInputElement>(null);
-  const { userInfo } = useUser();
+  const { userInfo, updateUser } = useUser();
   const { books } = useBook();
 
   const handleUpdateUsername = () => {
     setEditUsername(false);
+    if(inputUsername !== userInfo.username){
+      updateUser({username: inputUsername});
+    }
   };
 
-  const handleClickAbout = () => {};
+  const handleClickAbout = () => {
+    if(inputAbout !== userInfo.about){
+      updateUser({about: inputAbout});
+    }
+  };
 
-  const handleClickExp = () => {};
+  const handleClickExp = () => {
+    if(inputExperience !== userInfo.experience){
+      updateUser({experience: inputExperience});
+    }
+  };
 
   const handleChange = () => {};
 
@@ -59,7 +70,7 @@ function SettingPage() {
               className="mt-3"
             >
               <Input
-                defaultValue={username}
+                defaultValue={userInfo.username}
                 placeholder="New username"
                 className="w-1/2 text-xl text-white"
                 ref={usernameRef}
@@ -68,7 +79,7 @@ function SettingPage() {
             </ClickAwayListener>
           ) : (
             <Button onClick={() => setEditUsername(true)} className="w-1/2 bg-slate-800 border-slate-800">
-              <p className="mr-auto text-xl text-white">{username}</p>
+              <p className="mr-auto text-xl text-white">{userInfo.username}</p>
             </Button>
           )}
         </div>

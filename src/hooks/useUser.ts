@@ -51,5 +51,5 @@ export const useUser = () => {
     setUserinfo(updatedUser);
   }
 
-  return { userInfo };
+  return { userInfo, updateUser };
 };
