@@ -57,6 +57,23 @@
    - 蔡宇翔：
      從這個學期一開始對網頁毫無涉略，學期中間也一度有想停修的念頭，到現在幾乎可以得心應手寫出自己想要的element，十分有成就感。雖然有時候debug還是蠻辛苦，但做完專題之後，很開心可以有屬於自己跟組員的網頁。
    - 吳弘翔：
+     我之前沒有寫網頁的經驗，加上學期初教學速度飛快，我常常跟不上進度，而要花比別人多一些時間才能搞懂reference code和課程內容。不過我還是很慶幸在學期中沒有選擇停修，而是繼續學習。雖然到現在相較很多人，我還是菜鳥中的菜鳥，不過我很高興自己對寫網頁有了基礎且較全面的認識。在做專題的過程中，我感受到分工作業的困難，以及了解到溝通的重要性。感謝我的組員在我遇到困難時能提供協助，成功在2023結束前，做出屬於我們自己的網頁。
+
+## Work Distribution
+1. 陳威仲：
+   - Datsbase Schema
+   - APIs
+   - Auth
+   - learn
+   - Components (DataTable, Carousels, Navbar, too many to list!!)
+
+2. 吳弘翔：
+   - Quiz
+   - some dialogs
+
+3. 蔡宇翔：
+   - Hooks
+   - publicbooks, books, some dialogs, profile
 
 # Setup Guide
 
