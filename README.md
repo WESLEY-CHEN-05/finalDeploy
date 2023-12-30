@@ -78,7 +78,7 @@
    - APIs
    - Auth
    - Learning mode
-   - Components (DataTable, Carousels, Navbar, too many to list!!)
+   - Components
 
 2. 吳弘翔：
    - Quiz mode
