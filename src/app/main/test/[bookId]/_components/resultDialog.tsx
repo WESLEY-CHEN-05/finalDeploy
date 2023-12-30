@@ -12,15 +12,23 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { useWord } from "@/hooks/useWord";
-import type { Words } from "@/lib/types/db";
 // import { useUser } from "@/hooks/useUser";
 import { useBook } from "@/hooks/useBook";
+import { useWord } from "@/hooks/useWord";
+import type { Words } from "@/lib/types/db";
 
-function Result({ question, answer, isPrivate }: { question: Words[]; answer: string[]; isPrivate: boolean }) {
+function Result({
+  question,
+  answer,
+  isPrivate,
+}: {
+  question: Words[];
+  answer: string[];
+  isPrivate: boolean;
+}) {
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const {updateBook, book} = useBook();
+  const { updateBook, book } = useBook();
   const { bookId, updateWord } = useWord();
 
   const router = useRouter();
@@ -36,7 +44,7 @@ function Result({ question, answer, isPrivate }: { question: Words[]; answer: st
   }, [question, answer]);
 
   const handleSubmit = async () => {
-    if (isPrivate){
+    if (isPrivate) {
       question.forEach((word, index) => {
         // TODO add logic of public/private
         if (word.content !== answer[index]) {
@@ -49,8 +57,7 @@ function Result({ question, answer, isPrivate }: { question: Words[]; answer: st
           });
         }
       });
-    }
-    else {
+    } else {
       question.forEach((word, index) => {
         // TODO add logic of public/private
         if (word.content !== answer[index]) {
@@ -65,7 +72,7 @@ function Result({ question, answer, isPrivate }: { question: Words[]; answer: st
         }
       });
 
-      updateBook(bookId, {popularity: book?.popularity as number + 1});
+      updateBook(bookId, { popularity: (book?.popularity as number) + 1 });
     }
 
     router.push(`/main/books/${bookId}`);

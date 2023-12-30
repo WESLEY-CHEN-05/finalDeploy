@@ -24,11 +24,11 @@ import {
 } from "@/components/ui/carousel";
 // import Problem from "./_components/problem"
 import { Input } from "@/components/ui/input";
+import { useBook } from "@/hooks/useBook";
 import { useTest } from "@/hooks/useTest";
+import { useUser } from "@/hooks/useUser";
 import type { TestRequest } from "@/lib/types/db";
 
-import { useUser } from "@/hooks/useUser";
-import { useBook } from "@/hooks/useBook";
 import Result from "./_components/resultDialog";
 
 function TestPage() {
@@ -42,9 +42,9 @@ function TestPage() {
   const hard = searchParams.get("hard");
   const star = searchParams.get("star");
 
-  const {userId} = useUser();
-  const {book} = useBook();
-  const publicize = (userId !== book?.authorId);
+  const { userId } = useUser();
+  const { book } = useBook();
+  const publicize = userId !== book?.authorId;
 
   const test: TestRequest = useMemo(() => {
     return {
@@ -65,11 +65,9 @@ function TestPage() {
   const memoizedBook = useMemo(() => book, [book]);
 
   useEffect(() => {
-    if (memoizedUserId && memoizedBook){
-      console.log("VERIF", memoizedCreateTest, bookId, memoizedTest, memoizedUserId, memoizedBook);
+    if (memoizedUserId && memoizedBook) {
       memoizedCreateTest(bookId, memoizedTest);
-      console.log("HEOOL");
-    };
+    }
   }, [memoizedCreateTest, bookId, memoizedUserId, memoizedBook, memoizedTest]);
   // create array to record the result
   // const [ questions, setQuestions ] = useState<string[]>([]);
@@ -150,7 +148,11 @@ function TestPage() {
                       <p className="text-slate-200">THE END!</p>
                     </div>
                     <div className="flex flex-[3_3_0%] items-center justify-center">
-                      <Result question={problemSet} answer={answers} isPrivate={(!publicize)}/>
+                      <Result
+                        question={problemSet}
+                        answer={answers}
+                        isPrivate={!publicize}
+                      />
                     </div>
                   </CardContent>
                 </Card>

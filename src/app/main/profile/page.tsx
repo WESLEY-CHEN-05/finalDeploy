@@ -85,14 +85,18 @@ function SettingPage() {
             {/* <p className = "w-full mt-6 mb-6"></p> */}
             {/* <img src = {"./component/unforgiven_cover.png"} className = "w-1/3"></img> */}
             <div>
-              <p className="mb-6 ml-6 text-3xl font-bold text-slate-300">Profile</p>
+              <p className="mb-6 ml-6 text-3xl font-bold text-slate-300">
+                Profile
+              </p>
             </div>
             <div className="flex flex-row">
-              <p className="mb-2 ml-6 text-xl font-base text-slate-300">Email:</p>
+              <p className="font-base mb-2 ml-6 text-xl text-slate-300">
+                Email:
+              </p>
               <p className="mb-2 ml-3 text-xl text-gray-300">{email}</p>
             </div>
             <div className="flex flex-row">
-              <p className="mb-3 ml-6 mr-3 mt-1 text-xl font-base text-slate-300">
+              <p className="font-base mb-3 ml-6 mr-3 mt-1 text-xl text-slate-300">
                 Username:
               </p>
               {editUsername ? (
@@ -113,7 +117,7 @@ function SettingPage() {
                   onClick={() => setEditUsername(true)}
                   className="w-1/2 border border-slate-800 bg-slate-800 hover:border-white hover:bg-slate-800"
                 >
-                  <p className="mr-auto text-xl font-base text-white">
+                  <p className="font-base mr-auto text-xl text-white">
                     {userInfo.username}
                   </p>
                 </Button>

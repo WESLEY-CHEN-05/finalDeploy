@@ -45,10 +45,10 @@ function DocsPage() {
           }}
           defaultValue="title"
         >
-          <SelectTrigger className="w-1/8 m-6 mr-1 text-white border-slate-500">
+          <SelectTrigger className="w-1/8 m-6 mr-1 border-slate-500 text-white">
             <SelectValue placeholder="Sort by" />
           </SelectTrigger>
-          <SelectContent className="bg-gray-600 text-slate-300 border-slate-500">
+          <SelectContent className="border-slate-500 bg-gray-600 text-slate-300">
             <SelectGroup>
               <SelectLabel>Sort by</SelectLabel>
               <SelectItem value="title">Title</SelectItem>
@@ -63,10 +63,10 @@ function DocsPage() {
             }}
             defaultValue="All"
           >
-            <SelectTrigger className="m-6 ml-1 w-1/3 text-white border-slate-500">
+            <SelectTrigger className="m-6 ml-1 w-1/3 border-slate-500 text-white">
               <SelectValue placeholder="Choose language" />
             </SelectTrigger>
-            <SelectContent className="bg-gray-600 text-slate-300 border-slate-500">
+            <SelectContent className="border-slate-500 bg-gray-600 text-slate-300">
               <SelectGroup>
                 <SelectLabel>Language</SelectLabel>
                 <SelectItem value="All">All</SelectItem>
@@ -79,7 +79,7 @@ function DocsPage() {
           </Select>
         ) : (
           <Input
-            className="m-6 ml-1 w-1/3 text-white border-slate-500"
+            className="m-6 ml-1 w-1/3 border-slate-500 text-white"
             placeholder="Search books"
             onChange={(event) => {
               setSearchTitle(event?.target.value);

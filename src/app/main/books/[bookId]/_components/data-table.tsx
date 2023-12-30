@@ -46,15 +46,14 @@ interface DataTableProps<TData, TValue> {
 
 export function DataTable<TData, TValue>({
   columns,
-  data, 
+  data,
   isPrivate,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  const columnVisibility: VisibilityState = isPrivate ? 
-  {}
-  :
-  {"star" : false, "familiarity": false, "options": false};
+  const columnVisibility: VisibilityState = isPrivate
+    ? {}
+    : { star: false, familiarity: false, options: false };
 
   const table = useReactTable({
     data,

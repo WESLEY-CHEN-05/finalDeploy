@@ -145,7 +145,7 @@ function BookPage() {
             <p className="ml-6 text-base font-light text-slate-300">
               Book created by:
             </p>
-            <p className="ml-6 text-base font-base text-slate-300">
+            <p className="font-base ml-6 text-base text-slate-300">
               {authorName}
             </p>
           </div>
@@ -169,7 +169,7 @@ function BookPage() {
         >
           Learn
         </Button>
-        <CreateTestDialog bookId={bookId}/>
+        <CreateTestDialog bookId={bookId} />
         {userId === bookowner ? (
           <EditBookDialog book={book} updateBook={updateBook} />
         ) : (
@@ -183,7 +183,12 @@ function BookPage() {
         )}
       </div>
       <div className="container mx-auto py-10">
-        <DataTable columns={columns} data={wordsWithFunction} bookId={bookId} isPrivate={(userId === bookowner)}/>
+        <DataTable
+          columns={columns}
+          data={wordsWithFunction}
+          bookId={bookId}
+          isPrivate={userId === bookowner}
+        />
       </div>
 
       {/* for edit word */}
