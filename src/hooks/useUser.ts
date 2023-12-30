@@ -53,6 +53,7 @@ export const useUser = () => {
   };
 
   const getUser = async (userId: string) => {
+    if (!userId) return;
     const res = await fetch(`/api/user/${userId}`);
     if (!res.ok) {
       return;
