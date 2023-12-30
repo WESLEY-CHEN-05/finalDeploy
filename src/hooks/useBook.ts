@@ -141,7 +141,7 @@ export const useBook = () => {
   }, [userId, router]);
 
   useEffect(getAllPublicBooks, [userId, getAllPublicBooks]);
-  
+
   // const getBook = async (bookId: string) => {
   //     const res = await fetch(`/api/book/${bookId}`, {
   //         method: "GET",

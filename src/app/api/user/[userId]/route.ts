@@ -35,7 +35,7 @@ export async function GET(
     }
 
     const userId = session?.user?.id;
-    if (userId !== params.userId){
+    if (userId !== params.userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -111,7 +111,7 @@ export async function POST(
     }
 
     const userId = session?.user?.id;
-    if (userId !== params.userId){
+    if (userId !== params.userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -178,7 +178,7 @@ export async function PUT(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     const userId = session?.user?.id;
-    if (userId !== params.userId){
+    if (userId !== params.userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 

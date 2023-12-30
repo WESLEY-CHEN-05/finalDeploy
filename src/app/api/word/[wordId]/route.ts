@@ -40,11 +40,8 @@ export async function GET(
       },
     });
 
-    if (!_word){
-      return NextResponse.json(
-        { error: "Bad Request" },
-        { status: 400 },
-      );
+    if (!_word) {
+      return NextResponse.json({ error: "Bad Request" }, { status: 400 });
     }
 
     // auth
@@ -53,14 +50,11 @@ export async function GET(
       columns: {
         publicize: true,
         authorId: true,
-      }
+      },
     });
 
-    if ((!__book?.publicize) && __book?.authorId !== userId){
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 },
-      );
+    if (!__book?.publicize && __book?.authorId !== userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const word: Words = {
@@ -114,12 +108,9 @@ export async function PUT(
       .set(wordinfo)
       .where(eq(wordsTable.displayId, wordId))
       .returning();
-    
-    if (!_wordTemp){
-      return NextResponse.json(
-        { error: "Bad Request" },
-        { status: 400 },
-      );
+
+    if (!_wordTemp) {
+      return NextResponse.json({ error: "Bad Request" }, { status: 400 });
     }
 
     // auth
@@ -128,14 +119,11 @@ export async function PUT(
       columns: {
         publicize: true,
         authorId: true,
-      }
+      },
     });
 
-    if ((!__book?.publicize) && __book?.authorId !== userId){
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 },
-      );
+    if (!__book?.publicize && __book?.authorId !== userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const updateAccuracy = {
@@ -211,14 +199,11 @@ export async function DELETE(
       where: eq(wordsTable.displayId, wordId),
       columns: {
         bookId: true,
-      }
+      },
     });
 
-    if (!_word){
-      return NextResponse.json(
-        { error: "Bad Request" },
-        { status: 400 },
-      );
+    if (!_word) {
+      return NextResponse.json({ error: "Bad Request" }, { status: 400 });
     }
 
     const __book = await db.query.booksTable.findFirst({
@@ -226,14 +211,11 @@ export async function DELETE(
       columns: {
         publicize: true,
         authorId: true,
-      }
+      },
     });
 
-    if ((!__book?.publicize) && __book?.authorId !== userId){
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 },
-      );
+    if (!__book?.publicize && __book?.authorId !== userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     await db

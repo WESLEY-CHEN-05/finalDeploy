@@ -4,7 +4,6 @@
 // import { publicEnv } from "@/lib/env/public";
 // import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Switch } from "@/components/ui/switch"
 
 import { useRouter } from "next/navigation";
 
@@ -18,6 +17,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
 // import {
 //   Select,
 //   SelectTrigger,
@@ -27,7 +27,7 @@ import { Input } from "@/components/ui/input";
 //   SelectGroup,
 //   SelectLabel,
 // } from "@/components/ui/select";
-import { useBook } from "@/hooks/useBook"
+import { useBook } from "@/hooks/useBook";
 import { useWord } from "@/hooks/useWord";
 import type { TestRequest } from "@/lib/types/db";
 
@@ -52,8 +52,8 @@ function CreateTestDialog({ bookId }: { bookId: string }) {
     let cont = 0;
     words.forEach((word) => {
       if (word.star) cont += 1;
-    })
-    setStarInBook(cont)
+    });
+    setStarInBook(cont);
   }, [words]);
 
   const isInteger = (str: string) => Number.isInteger(parseInt(str));
@@ -66,7 +66,12 @@ function CreateTestDialog({ bookId }: { bookId: string }) {
     }
 
     const ret = parseInt(num);
-    if ((ret <= 0) || (star && (starInBook <= 0)) || (!repetitive && ret > words.length) || (!repetitive && star && ret > starInBook)) {
+    if (
+      ret <= 0 ||
+      (star && starInBook <= 0) ||
+      (!repetitive && ret > words.length) ||
+      (!repetitive && star && ret > starInBook)
+    ) {
       setWarningNum(true);
       return;
     }
@@ -84,7 +89,7 @@ function CreateTestDialog({ bookId }: { bookId: string }) {
       `/main/test/${bookId}?num=${test.num}&repetitive=${test.repetitive}&publicize=${test.publicize}&hard=${test.hard}&star=${test.star}`,
     );
     setDialogOpen(false);
-  }
+  };
 
   return (
     <Dialog open={dialogOpen} onOpenChange={() => setDialogOpen(!dialogOpen)}>
@@ -111,14 +116,17 @@ function CreateTestDialog({ bookId }: { bookId: string }) {
                 setNum(event?.target.value);
                 setWarningNum(false);
               }}
-              className={"ml-auto w-20 text-right " + (warningNum ? "border-red-500" : "")}
+              className={
+                "ml-auto w-20 text-right " +
+                (warningNum ? "border-red-500" : "")
+              }
             />
           </div>
           <div className="flex">
             <p>Repetitive</p>
             <Switch
               checked={repetitive}
-              onCheckedChange={(val) => (setRepetitive(val))}
+              onCheckedChange={(val) => setRepetitive(val)}
               className="ml-auto"
             />
           </div>
@@ -126,7 +134,7 @@ function CreateTestDialog({ bookId }: { bookId: string }) {
             <p>Hard mode</p>
             <Switch
               checked={hard}
-              onCheckedChange={(val) => (setHard(val))}
+              onCheckedChange={(val) => setHard(val)}
               className="ml-auto"
             />
           </div>
@@ -134,7 +142,7 @@ function CreateTestDialog({ bookId }: { bookId: string }) {
             <p>Starred words only</p>
             <Switch
               checked={star}
-              onCheckedChange={(val) => (setStar(val))}
+              onCheckedChange={(val) => setStar(val)}
               className="ml-auto"
             />
           </div>

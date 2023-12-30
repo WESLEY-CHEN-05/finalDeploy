@@ -54,7 +54,7 @@ export async function GET(
       },
     });
 
-    if ((!_words?.publicize) && (_words?.authorId !== userId)){
+    if (!_words?.publicize && _words?.authorId !== userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -119,9 +119,9 @@ export async function POST(
 
     const _book = await db.query.booksTable.findFirst({
       where: eq(booksTable.displayId, bookId),
-    })
+    });
 
-    if ((!_book?.publicize) && (_book?.authorId !== userId)){
+    if (!_book?.publicize && _book?.authorId !== userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -195,7 +195,7 @@ export async function PUT(
       .where(eq(booksTable.displayId, bookId))
       .returning();
 
-    if ((!_updatedBook?.publicize) && (_updatedBook?.authorId !== userId)){
+    if (!_updatedBook?.publicize && _updatedBook?.authorId !== userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -262,9 +262,9 @@ export async function DELETE(
 
     const _book = await db.query.booksTable.findFirst({
       where: eq(booksTable.displayId, bookId),
-    })
+    });
 
-    if ((!_book?.publicize) && (_book?.authorId !== userId)){
+    if (!_book?.publicize && _book?.authorId !== userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 

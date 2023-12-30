@@ -62,7 +62,7 @@ export async function POST(
       },
     });
 
-    if ((!_words?.publicize) && (_words?.authorId !== userId)){
+    if (!_words?.publicize && _words?.authorId !== userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 

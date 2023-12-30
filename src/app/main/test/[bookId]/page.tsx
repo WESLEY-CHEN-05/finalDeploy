@@ -3,20 +3,18 @@
 import * as React from "react";
 import { useEffect, useMemo, useState } from "react";
 
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useSearchParams } from "next/navigation";
-import { useTest } from "@/hooks/useTest";
-// import Problem from "./_components/problem"
 
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-
+} from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -24,11 +22,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import Result from "./_components/resultDialog"
+// import Problem from "./_components/problem"
+import { Input } from "@/components/ui/input";
+import { useTest } from "@/hooks/useTest";
 import type { TestRequest } from "@/lib/types/db";
 
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import Result from "./_components/resultDialog";
 
 function TestPage() {
   //get parameters from the link
@@ -42,7 +41,6 @@ function TestPage() {
   const star = searchParams.get("star");
 
   const test: TestRequest = useMemo(() => {
-    
     return {
       num: parseInt(num as string),
       repetitive: repetitive === "true",
@@ -59,15 +57,15 @@ function TestPage() {
   }, [createTest, bookId, test]);
   // create array to record the result
   // const [ questions, setQuestions ] = useState<string[]>([]);
-  const [ answers, setAnswers ] = useState<string[]>([]);
+  const [answers, setAnswers] = useState<string[]>([]);
 
   useEffect(() => {
     const n = problemSet.length;
-    setAnswers([...Array(n)].map(() => ''));  
+    setAnswers([...Array(n)].map(() => ""));
   }, [problemSet]);
 
-  if (problemSet.length < 1){
-    return <></>
+  if (problemSet.length < 1) {
+    return <></>;
   }
 
   return (
@@ -83,16 +81,20 @@ function TestPage() {
           </Button>
         </Link>
       </div>
-      <div className="flex flex-col items-center justify-between overflow-hidden my-auto mt-20">
+      <div className="my-auto mt-20 flex flex-col items-center justify-between overflow-hidden">
         <Carousel className="w-full max-w-xs">
           <CarouselContent>
             {problemSet.map((problem, index) => (
               <CarouselItem key={index}>
                 <div className="p-1">
-                  <Card className="aspect-square pb-2 border-slate-400 bg-gray-700">
+                  <Card className="aspect-square border-slate-400 bg-gray-700 pb-2">
                     <CardHeader>
-                      <CardTitle className="text-2xl p-3 text-slate-400">Problem {index+1}</CardTitle>
-                      <CardDescription className="pt-10 text-4xl text-center text-slate-300">{problem.meaning}</CardDescription>
+                      <CardTitle className="p-3 text-2xl text-slate-400">
+                        Problem {index + 1}
+                      </CardTitle>
+                      <CardDescription className="pt-10 text-center text-4xl text-slate-300">
+                        {problem.meaning}
+                      </CardDescription>
                     </CardHeader>
                     <CardContent className="flex items-center justify-center space-y-1.5 pt-6">
                       <form>
@@ -102,34 +104,37 @@ function TestPage() {
                           Translation:
                         </div> */}
                         <Input
-                          className="text-xl font-light border-slate-400 text-slate-100"
+                          className="border-slate-400 text-xl font-light text-slate-100"
                           placeholder="Your answer"
                           onChange={(event) => {
-                            setAnswers(answers.map((answer, _index) => {
-                                if (_index === index) return event.target.value.trim();
-                                else return answer
-                              }));
+                            setAnswers(
+                              answers.map((answer, _index) => {
+                                if (_index === index)
+                                  return event.target.value.trim();
+                                else return answer;
+                              }),
+                            );
                             // setWarningNum(false);
                           }}
-                         />
-                        <div className="text-sm text-slate-700 hover:text-slate-400 mt-2">
+                        />
+                        <div className="mt-2 text-sm text-slate-700 hover:text-slate-400">
                           Hint: the word starts with "{problem.content[0]}".
                         </div>
-                       </form>
+                      </form>
                     </CardContent>
                   </Card>
                 </div>
               </CarouselItem>
             ))}
-            <CarouselItem >
+            <CarouselItem>
               <div className="p-1">
                 <Card className="border-slate-400 bg-gray-700">
-                  <CardContent className="flex aspect-square items-center justify-items-center p-6 flex-col">
-                    <div className="text-3xl font-semibold flex-[4_4_0%] flex items-end justify-center">
+                  <CardContent className="flex aspect-square flex-col items-center justify-items-center p-6">
+                    <div className="flex flex-[4_4_0%] items-end justify-center text-3xl font-semibold">
                       <p className="text-slate-200">THE END!</p>
                     </div>
-                    <div className="flex-[3_3_0%] flex items-center justify-center">
-                      <Result question={problemSet} answer={answers}/>
+                    <div className="flex flex-[3_3_0%] items-center justify-center">
+                      <Result question={problemSet} answer={answers} />
                     </div>
                   </CardContent>
                 </Card>
