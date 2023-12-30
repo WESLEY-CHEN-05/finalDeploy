@@ -112,7 +112,7 @@ function TestPage() {
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="flex items-center justify-center space-y-1.5 pt-6">
-                      <form>
+                      <div>
                         {/* <div className="flex flex-col space-y-1.5">
                           familiarity: {problem.familiarity} 
                           <br></br>
@@ -135,7 +135,7 @@ function TestPage() {
                         <div className="mt-2 text-sm text-slate-700 hover:text-slate-400">
                           Hint: the word starts with "{problem.content[0]}".
                         </div>
-                      </form>
+                      </div>
                     </CardContent>
                   </Card>
                 </div>
