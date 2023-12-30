@@ -46,23 +46,24 @@ function TestPage() {
   const { book } = useBook();
   const publicize = userId !== book?.authorId;
 
+  const memoizedUserId = useMemo(() => userId, [userId]);
+  const memoizedBook = useMemo(() => book, [book]);
+
   const test: TestRequest = useMemo(() => {
     return {
       num: parseInt(num as string),
       repetitive: repetitive === "true",
       publicize: publicize,
       hard: hard === "true",
-      star: star === "true",
+      star: (memoizedBook?.authorId !== memoizedUserId) ? false : (star === "true"),
     };
-  }, [num, repetitive, publicize, hard, star]);
+  }, [num, repetitive, publicize, hard, star, memoizedBook, memoizedUserId]);
 
   const { problemSet, createTest } = useTest();
   console.log(problemSet, test, userId, book);
 
   const memoizedCreateTest = useMemo(() => createTest, [createTest]);
   const memoizedTest = useMemo(() => test, [test]);
-  const memoizedUserId = useMemo(() => userId, [userId]);
-  const memoizedBook = useMemo(() => book, [book]);
 
   useEffect(() => {
     if (memoizedUserId && memoizedBook) {
