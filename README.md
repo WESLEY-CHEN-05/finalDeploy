@@ -32,6 +32,32 @@
    ```
 7. Open http://localhost:3000 in your browser
 
+# Report [112-1] Web Programming Final 
+
+## (Group 9) Quizzz
+
+1. Demo 影片連結:
+
+2. 網站簡介：
+   Quizzz是一個簡易且方便的語言學習平台，供任何想要學習外語的人使用。使用者除了能夠依照各國語言、目標以及喜好，選擇不同類別的網站預設字卡閱讀，也可以依照自己平時的學習情況、個人需求，建立專屬的字卡。除此之外，使用者也可以透過公開專屬字卡的方式，與他人交流。若想加強練習，也可以藉由字卡生成屬於自己的測驗，檢驗自己近期學習的成果。
+
+3. Deploy 連結: `https://final-deploy-plum.vercel.app/`
+
+4. 使用方式：
+   註冊帳號後登入(也可以透過google帳號或是github帳號登入)。登入後可以新增單字本，或是閱讀及修改自己之前建立的單字本。如果想看其他人的筆記或是瀏覽網站上的資源，也可以閱覽公開的單字本。所有的單字本中都有創建即時測驗的功能，可供使用者檢驗學習結果。
+
+5. 使用與參考之框架/模組/原始碼：無
+
+6. 使用之第三方套件、框架：
+   - 前端：typescript/next.js/react/radix-ui/tailwindcss/shadcn UI/Material UI
+   - 後端：drizzle orm/postgresql/next-auth
+
+7. 專題製作心得：
+   - 陳威仲：
+   - 蔡宇翔：
+     從這個學期一開始對網頁毫無涉略，學期中間也一度有想停修的念頭，到現在幾乎可以得心應手寫出自己想要的element，十分有成就感。雖然有時候debug還是蠻辛苦，但做完專題之後，很開心可以有屬於自己跟組員的網頁。
+   - 吳弘翔：
+
 # Setup Guide
 
 ## Prettier and ESLint
