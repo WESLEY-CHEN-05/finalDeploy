@@ -29,7 +29,7 @@ async function Navbar() {
       {/* align left */}
       <nav className="sticky top-0 mr-8 flex w-1/6 items-center justify-between pl-3 text-4xl">
         <Link className={rubik.className} href={`/main/mybooks`}>
-          QUIZZZZZ
+          QUIZZZ
         </Link>
       </nav>
 

@@ -14,10 +14,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { useWord } from "@/hooks/useWord";
 import type { Words } from "@/lib/types/db";
+// import { useUser } from "@/hooks/useUser";
+import { useBook } from "@/hooks/useBook";
 
-function Result({ question, answer }: { question: Words[]; answer: string[] }) {
+function Result({ question, answer, isPrivate }: { question: Words[]; answer: string[]; isPrivate: boolean }) {
   const [dialogOpen, setDialogOpen] = useState(false);
 
+  const {updateBook, book} = useBook();
   const { bookId, updateWord } = useWord();
 
   const router = useRouter();
@@ -33,18 +36,38 @@ function Result({ question, answer }: { question: Words[]; answer: string[] }) {
   }, [question, answer]);
 
   const handleSubmit = async () => {
-    question.forEach((word, index) => {
-      // TODO add logic of public/private
-      if (word.content !== answer[index]) {
-        updateWord(word.id, {
-          familiarity: word.familiarity > 0 ? word.familiarity - 1 : 0,
-        });
-      } else {
-        updateWord(word.id, {
-          familiarity: word.familiarity + 1,
-        });
-      }
-    });
+    if (isPrivate){
+      question.forEach((word, index) => {
+        // TODO add logic of public/private
+        if (word.content !== answer[index]) {
+          updateWord(word.id, {
+            familiarity: word.familiarity > 0 ? word.familiarity - 1 : 0,
+          });
+        } else {
+          updateWord(word.id, {
+            familiarity: word.familiarity + 1,
+          });
+        }
+      });
+    }
+    else {
+      question.forEach((word, index) => {
+        // TODO add logic of public/private
+        if (word.content !== answer[index]) {
+          updateWord(word.id, {
+            testNum: word.testNum + 1,
+          });
+        } else {
+          updateWord(word.id, {
+            testNum: word.testNum + 1,
+            correctNum: word.correctNum + 1,
+          });
+        }
+      });
+
+      updateBook(bookId, {popularity: book?.popularity as number + 1});
+    }
+
     router.push(`/main/books/${bookId}`);
   };
 

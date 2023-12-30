@@ -31,7 +31,7 @@ export function Setting({ userName }: { userName: string }) {
             <Link href={`/main/profile`}>
               <DropdownMenuItem>Profile</DropdownMenuItem>
             </Link>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
+            {/* <DropdownMenuItem>Settings</DropdownMenuItem> */}
           </DropdownMenuGroup>
           <DropdownMenuSeparator className={seperatorColor} />
           <Link href={`/auth/signout`}>

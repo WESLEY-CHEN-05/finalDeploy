@@ -27,14 +27,14 @@ import { Switch } from "@/components/ui/switch";
 //   SelectGroup,
 //   SelectLabel,
 // } from "@/components/ui/select";
-import { useBook } from "@/hooks/useBook";
+// import { useBook } from "@/hooks/useBook";
 import { useWord } from "@/hooks/useWord";
 import type { TestRequest } from "@/lib/types/db";
 
 function CreateTestDialog({ bookId }: { bookId: string }) {
   const router = useRouter();
 
-  const { book } = useBook();
+  // const { book } = useBook();
   const { words } = useWord();
 
   const [starInBook, setStarInBook] = useState(0);
@@ -76,17 +76,16 @@ function CreateTestDialog({ bookId }: { bookId: string }) {
       return;
     }
 
-    const test: TestRequest = {
+    const test: Omit<TestRequest, "publicize"> = {
       num: parseInt(num),
       repetitive: repetitive,
-      publicize: book?.publicize as boolean,
       hard: hard,
       star: star,
     };
     // console.log(book);
     //createTest(bookId,test);
     router.push(
-      `/main/test/${bookId}?num=${test.num}&repetitive=${test.repetitive}&publicize=${test.publicize}&hard=${test.hard}&star=${test.star}`,
+      `/main/test/${bookId}?num=${test.num}&repetitive=${test.repetitive}&hard=${test.hard}&star=${test.star}`,
     );
     setDialogOpen(false);
   };

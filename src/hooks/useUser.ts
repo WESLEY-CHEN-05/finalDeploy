@@ -62,5 +62,5 @@ export const useUser = () => {
     setGetName(data.info.username);
   };
 
-  return { userInfo, updateUser, getUser, getName };
+  return { userId, userInfo, updateUser, getUser, getName };
 };

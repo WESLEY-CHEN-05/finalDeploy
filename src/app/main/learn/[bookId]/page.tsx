@@ -148,18 +148,17 @@ function LearningPage() {
                             <div className="flex w-full flex-col">
                               <div className="flex flex-[1_1_0%]">
                                 <div className="ml-auto">
+                                  { userId === bookowner ?
                                   <Star
                                     fill={word.star ? "yellow" : "#334155"}
                                     strokeWidth={word.star ? 0 : 1}
                                     onClick={(event) => {
-                                      if (userId == bookowner) {
-                                        console.log(bookowner);
-                                        console.log(userId);
                                         event.stopPropagation();
                                         handleOnClick(word);
                                       }
-                                    }}
-                                  />
+                                    }
+                                  /> : <></>
+                                  }
                                 </div>
                               </div>
                               <p className="flex-[4_4_0%]"></p>
@@ -174,14 +173,17 @@ function LearningPage() {
                             <div className="flex w-full flex-col">
                               <div className="flex flex-[1_1_0%]">
                                 <div className="ml-auto">
+                                  { userId === bookowner ?
                                   <Star
                                     fill={word.star ? "yellow" : "#334155"}
                                     strokeWidth={word.star ? 0 : 1}
                                     onClick={() => {
-                                      if (userId == bookowner)
+                                      if (userId === bookowner)
                                         handleOnClick(word);
                                     }}
-                                  />
+                                  /> :
+                                  <></>
+                                  }
                                 </div>
                               </div>
                               <p className="flex-[4_4_0%]"></p>

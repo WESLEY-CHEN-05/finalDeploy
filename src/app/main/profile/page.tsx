@@ -85,14 +85,14 @@ function SettingPage() {
             {/* <p className = "w-full mt-6 mb-6"></p> */}
             {/* <img src = {"./component/unforgiven_cover.png"} className = "w-1/3"></img> */}
             <div>
-              <p className="mb-6 ml-6 text-3xl font-bold text-white">Profile</p>
+              <p className="mb-6 ml-6 text-3xl font-bold text-slate-300">Profile</p>
             </div>
             <div className="flex flex-row">
-              <p className="mb-2 ml-6 text-xl font-bold text-white">Email:</p>
+              <p className="mb-2 ml-6 text-xl font-base text-slate-300">Email:</p>
               <p className="mb-2 ml-3 text-xl text-gray-300">{email}</p>
             </div>
             <div className="flex flex-row">
-              <p className="mb-3 ml-6 mr-3 mt-1 text-xl font-bold text-white">
+              <p className="mb-3 ml-6 mr-3 mt-1 text-xl font-base text-slate-300">
                 Username:
               </p>
               {editUsername ? (
@@ -103,7 +103,7 @@ function SettingPage() {
                   <Input
                     defaultValue={userInfo.username}
                     placeholder="New username"
-                    className="w-1/2 text-xl text-gray-300"
+                    className="w-1/2 text-xl text-white"
                     ref={usernameRef}
                     onChange={(e) => setInputUsername(e.target.value)}
                   />
@@ -111,9 +111,9 @@ function SettingPage() {
               ) : (
                 <Button
                   onClick={() => setEditUsername(true)}
-                  className="w-1/2 border-slate-800 bg-slate-800 hover:border-slate-800 hover:bg-slate-800"
+                  className="w-1/2 border border-slate-800 bg-slate-800 hover:border-white hover:bg-slate-800"
                 >
-                  <p className="mr-auto text-xl text-gray-300">
+                  <p className="mr-auto text-xl font-base text-white">
                     {userInfo.username}
                   </p>
                 </Button>

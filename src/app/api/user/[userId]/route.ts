@@ -31,13 +31,15 @@ export async function GET(
     // get user from session （NEED NOT COMMENT WHEN COMBINED)
     const session = await auth();
     if (!session || !session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized qq" }, { status: 401 });
     }
 
-    const userId = session?.user?.id;
-    if (userId !== params.userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    // const userId = session?.user?.id;
+    // if (userId !== params.userId) {
+    //   return NextResponse.json({ error: "Unauthorized rr" }, { status: 401 });
+    // }
+
+    const userId = params.userId;
 
     const _booksdata = await db.query.usersTable.findFirst({
       where: eq(usersTable.displayId, userId),

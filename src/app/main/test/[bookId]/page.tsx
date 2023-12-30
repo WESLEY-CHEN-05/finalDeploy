@@ -27,6 +27,8 @@ import { Input } from "@/components/ui/input";
 import { useTest } from "@/hooks/useTest";
 import type { TestRequest } from "@/lib/types/db";
 
+import { useUser } from "@/hooks/useUser";
+import { useBook } from "@/hooks/useBook";
 import Result from "./_components/resultDialog";
 
 function TestPage() {
@@ -36,25 +38,39 @@ function TestPage() {
   const searchParams = useSearchParams();
   const num = searchParams.get("num");
   const repetitive = searchParams.get("repetitive");
-  const publicize = searchParams.get("publicize");
+  // const publicize = searchParams.get("publicize");
   const hard = searchParams.get("hard");
   const star = searchParams.get("star");
+
+  const {userId} = useUser();
+  const {book} = useBook();
+  const publicize = (userId !== book?.authorId);
 
   const test: TestRequest = useMemo(() => {
     return {
       num: parseInt(num as string),
       repetitive: repetitive === "true",
-      publicize: publicize === "true",
+      publicize: publicize,
       hard: hard === "true",
       star: star === "true",
     };
   }, [num, repetitive, publicize, hard, star]);
 
   const { problemSet, createTest } = useTest();
+  console.log(problemSet, test, userId, book);
+
+  const memoizedCreateTest = useMemo(() => createTest, [createTest]);
+  const memoizedTest = useMemo(() => test, [test]);
+  const memoizedUserId = useMemo(() => userId, [userId]);
+  const memoizedBook = useMemo(() => book, [book]);
 
   useEffect(() => {
-    createTest(bookId, test);
-  }, [createTest, bookId, test]);
+    if (memoizedUserId && memoizedBook){
+      console.log("VERIF", memoizedCreateTest, bookId, memoizedTest, memoizedUserId, memoizedBook);
+      memoizedCreateTest(bookId, memoizedTest);
+      console.log("HEOOL");
+    };
+  }, [memoizedCreateTest, bookId, memoizedUserId, memoizedBook, memoizedTest]);
   // create array to record the result
   // const [ questions, setQuestions ] = useState<string[]>([]);
   const [answers, setAnswers] = useState<string[]>([]);
@@ -134,7 +150,7 @@ function TestPage() {
                       <p className="text-slate-200">THE END!</p>
                     </div>
                     <div className="flex flex-[3_3_0%] items-center justify-center">
-                      <Result question={problemSet} answer={answers} />
+                      <Result question={problemSet} answer={answers} isPrivate={(!publicize)}/>
                     </div>
                   </CardContent>
                 </Card>
