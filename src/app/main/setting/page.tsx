@@ -50,7 +50,7 @@ function SettingPage() {
     }
   };
 
-  const handleChange = () => {};
+  // const handleChange = () => {};
 
   return (
     <div className="flex w-full flex-row">
@@ -86,9 +86,9 @@ function SettingPage() {
             </Button>
           )}
         </div>
-        <Button className="ml-5 w-1/2" onClick={() => handleChange()}>
+        {/* <Button className="ml-5 w-1/2" onClick={() => handleChange()}>
           Change Password
-        </Button>
+        </Button> */}
       </div>
       <div className="flex w-2/3 flex-col">
         <div className="flex w-full flex-col">
@@ -101,7 +101,7 @@ function SettingPage() {
             className="ml-5 h-1/3 w-3/4 text-white"
           ></Textarea>
           <Button
-            className="ml-6 mt-3 w-1/6"
+            className="ml-6 mt-3 w-1/6 bg-gray-300 text-gray-800 hover:bg-gray-400 hover:text-gray-900"
             onClick={() => handleClickAbout()}
           >
             Update
@@ -118,13 +118,16 @@ function SettingPage() {
             ref={experienceRef}
             className="ml-5 h-1/3 w-3/4 text-white"
           ></Textarea>
-          <Button className="ml-6 mt-3 w-1/6" onClick={() => handleClickExp()}>
+          <Button
+            className="ml-6 mt-3 w-1/6 bg-gray-300 text-gray-800 hover:bg-gray-400 hover:text-gray-900"
+            onClick={() => handleClickExp()}
+          >
             Update
           </Button>
         </div>
         <div>
           <p className="mb-3 ml-6 mt-3 text-2xl font-bold text-white">
-            Publicized Vocabulary Books
+            Public Vocabulary Books
           </p>
         </div>
         <div className="flex w-full flex-wrap justify-start">

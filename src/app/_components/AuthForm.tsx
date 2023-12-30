@@ -75,7 +75,7 @@ function AuthForm() {
       email,
       username,
       password,
-      callbackUrl: `${publicEnv.NEXT_PUBLIC_BASE_URL}/main`,
+      callbackUrl: `${publicEnv.NEXT_PUBLIC_BASE_URL}/main/mybooks`,
       redirect: false,
     }).then((res) => {
       if (res?.error) {
@@ -96,7 +96,9 @@ function AuthForm() {
           });
         }
       } else {
-        const URL = res?.url?.endsWith("main") ? res.url : res?.url + "/main";
+        const URL = res?.url?.endsWith("mybooks")
+          ? res.url
+          : res?.url + "/main/mybooks";
         console.log("Sign in successfully, redirect to ", URL);
         router.push(URL as string);
       }
@@ -183,8 +185,23 @@ function AuthForm() {
         <Button
           onClick={async () => {
             // TODO: sign in with github
+            signIn("google", {
+              callbackUrl: `${publicEnv.NEXT_PUBLIC_BASE_URL}/main/mybooks`,
+            });
+          }}
+          className="mb-2 flex w-full bg-slate-200 text-slate-800 hover:bg-slate-300"
+          variant={"outline"}
+        >
+          {/* Remember to copy "github.png" to ./public folder */}
+          <Image src="/google.png" alt="google icon" width={20} height={20} />
+          <span className="grow">Sign In with Google</span>
+        </Button>
+
+        <Button
+          onClick={async () => {
+            // TODO: sign in with github
             signIn("github", {
-              callbackUrl: `${publicEnv.NEXT_PUBLIC_BASE_URL}/main`,
+              callbackUrl: `${publicEnv.NEXT_PUBLIC_BASE_URL}/main/mybooks`,
             });
           }}
           className="flex w-full bg-slate-200 text-slate-800 hover:bg-slate-300"

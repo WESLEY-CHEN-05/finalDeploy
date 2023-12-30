@@ -4,7 +4,7 @@ export type User = {
   email: string;
   about: string;
   experience: string;
-  provider: "github" | "credentials";
+  provider: "github" | "credentials" | "google";
 };
 
 export type UserPublicInfo = {
@@ -29,9 +29,10 @@ export type Books = {
   language: string;
   publicize: boolean;
   popularity: number;
+  authorId: string;
 };
 
-export type BooksCreate = Omit<Books, "id" | "popularity">;
+export type BooksCreate = Omit<Books, "id" | "popularity" | "authorId">;
 
 export type BooksUpdate = Partial<Omit<Books, "id">>;
 

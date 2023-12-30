@@ -154,7 +154,7 @@ function EditBookDialog({
             </SelectContent>
           </Select>
           <Button type="submit" onClick={() => handleSubmit()}>
-            Add
+            Edit
           </Button>
         </div>
       </DialogContent>

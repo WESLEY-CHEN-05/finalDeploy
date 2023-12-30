@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 // import Pusher from "pusher";
 import { db } from "@/db";
 import { booksTable, wordsTable } from "@/db/schema";
-// import { auth } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 // import { privateEnv } from "@/lib/env/private";
 // import { publicEnv } from "@/lib/env/public";
 import type { TestRequest, Words } from "@/lib/types/db";
@@ -23,11 +23,11 @@ export async function POST(
 ) {
   try {
     // Get user from session
-    // const session = await auth();
-    // if (!session || !session?.user?.id) {
-    //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    // }
-    // const userId = session.user.id;
+    const session = await auth();
+    if (!session || !session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const userId = session.user.id;
 
     const bookId = params.bookId;
 
@@ -36,7 +36,10 @@ export async function POST(
     // Get the question
     const _words = await db.query.booksTable.findFirst({
       where: eq(booksTable.displayId, bookId),
-      columns: {},
+      columns: {
+        authorId: true,
+        publicize: true,
+      },
       with: {
         words: {
           where: testReq.star ? eq(wordsTable.star, true) : undefined,
@@ -58,6 +61,10 @@ export async function POST(
         },
       },
     });
+
+    if (!_words?.publicize && _words?.authorId !== userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
     const len: number = _words!.words.length;
     const quiz: Words[] = [];

@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 // import Pusher from "pusher";
 import { db } from "@/db";
 import { booksTable, wordsTable } from "@/db/schema";
-// import { auth } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 // import { privateEnv } from "@/lib/env/private";
 // import { publicEnv } from "@/lib/env/public";
 import type { Books, BooksUpdate, Words, WordsCreate } from "@/lib/types/db";
@@ -23,11 +23,11 @@ export async function GET(
 ) {
   try {
     // Get user from session
-    // const session = await auth();
-    // if (!session || !session?.user?.id) {
-    //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    // }
-    // const userId = session.user.id;
+    const session = await auth();
+    if (!session || !session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const userId = session.user.id;
 
     const bookId = params.bookId;
 
@@ -37,7 +37,6 @@ export async function GET(
       columns: {
         id: false,
         createAt: false,
-        authorId: false,
       },
       with: {
         words: {
@@ -55,6 +54,10 @@ export async function GET(
       },
     });
 
+    if (!_words?.publicize && _words?.authorId !== userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const bookInfo: Books = {
       id: _words!.displayId,
       title: _words!.title,
@@ -62,6 +65,7 @@ export async function GET(
       language: _words!.language,
       publicize: _words!.publicize,
       popularity: _words!.popularity,
+      authorId: _words!.authorId,
     };
 
     const words: Words[] = _words!.words.map((word) => ({
@@ -105,13 +109,21 @@ export async function POST(
 ) {
   try {
     // Get user from session
-    // const session = await auth();
-    // if (!session || !session?.user?.id) {
-    //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    // }
-    // const userId = session.user.id;
+    const session = await auth();
+    if (!session || !session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const userId = session.user.id;
 
     const bookId = params.bookId;
+
+    const _book = await db.query.booksTable.findFirst({
+      where: eq(booksTable.displayId, bookId),
+    });
+
+    if (!_book?.publicize && _book?.authorId !== userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
     const wordinfo: WordsCreate = await req.json();
 
@@ -167,11 +179,11 @@ export async function PUT(
 ) {
   try {
     // Get user from session
-    // const session = await auth();
-    // if (!session || !session?.user?.id) {
-    //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    // }
-    // const userId = session.user.id;
+    const session = await auth();
+    if (!session || !session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const userId = session.user.id;
 
     const bookId = params.bookId;
     const _updatedInfo: BooksUpdate = await req.json();
@@ -183,6 +195,10 @@ export async function PUT(
       .where(eq(booksTable.displayId, bookId))
       .returning();
 
+    if (!_updatedBook?.publicize && _updatedBook?.authorId !== userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const updatedBook: Books = {
       id: _updatedBook.displayId,
       title: _updatedBook.title,
@@ -190,6 +206,7 @@ export async function PUT(
       language: _updatedBook.language,
       publicize: _updatedBook.publicize,
       popularity: _updatedBook.popularity,
+      authorId: _updatedBook.authorId,
     };
 
     // Trigger pusher event
@@ -236,12 +253,20 @@ export async function DELETE(
 ) {
   try {
     // get user from session
-    // const session = await auth();
-    // if (!session || !session?.user?.id) {
-    //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    // }
-
+    const session = await auth();
+    if (!session || !session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const userId = session.user.id;
     const bookId = params.bookId;
+
+    const _book = await db.query.booksTable.findFirst({
+      where: eq(booksTable.displayId, bookId),
+    });
+
+    if (!_book?.publicize && _book?.authorId !== userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
     await db
       .delete(booksTable)

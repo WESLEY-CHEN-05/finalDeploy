@@ -28,10 +28,10 @@ export function Setting({ userName }: { userName: string }) {
           <DropdownMenuLabel>{userName}</DropdownMenuLabel>
           <DropdownMenuSeparator className={seperatorColor} />
           <DropdownMenuGroup>
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <Link href={`/main/setting`}>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
+            <Link href={`/main/profile`}>
+              <DropdownMenuItem>Profile</DropdownMenuItem>
             </Link>
+            {/* <DropdownMenuItem>Settings</DropdownMenuItem> */}
           </DropdownMenuGroup>
           <DropdownMenuSeparator className={seperatorColor} />
           <Link href={`/auth/signout`}>

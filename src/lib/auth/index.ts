@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
 
 import { eq } from "drizzle-orm";
 
@@ -12,7 +13,7 @@ export const {
   handlers: { GET, POST },
   auth,
 } = NextAuth({
-  providers: [GitHub, CredentialsProvider],
+  providers: [GitHub, GoogleProvider, CredentialsProvider],
   callbacks: {
     async session({ session, token }) {
       const email = token.email || session?.user?.email;
@@ -54,7 +55,7 @@ export const {
         .where(eq(usersTable.email, email.toLowerCase()))
         .execute();
       if (existedUser) return token;
-      if (provider !== "github") return token;
+      if (provider !== "github" && provider !== "google") return token;
 
       // Sign up
       await db.insert(usersTable).values({
