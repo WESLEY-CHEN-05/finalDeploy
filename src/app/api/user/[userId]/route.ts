@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 // import Pusher from "pusher";
 import { db } from "@/db";
 import { usersTable, booksTable } from "@/db/schema";
-// import { auth } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 // import { privateEnv } from "@/lib/env/private";
 // import { publicEnv } from "@/lib/env/public";
 import type {
@@ -29,13 +29,15 @@ export async function GET(
 ) {
   try {
     // get user from session （NEED NOT COMMENT WHEN COMBINED)
-    // const session = await auth();
-    // if (!session || !session?.user?.id) {
-    //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    // }
+    const session = await auth();
+    if (!session || !session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-    // const userId = session?.user?.id;
-    const userId = params.userId;
+    const userId = session?.user?.id;
+    if (userId !== params.userId){
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
     const _booksdata = await db.query.usersTable.findFirst({
       where: eq(usersTable.displayId, userId),
@@ -103,13 +105,15 @@ export async function POST(
 ) {
   try {
     // get user from session
-    // const session = await auth();
-    // if (!session || !session?.user?.id) {
-    //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    // }
-    // const userId = session.user.id;
+    const session = await auth();
+    if (!session || !session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-    const userId = params.userId;
+    const userId = session?.user?.id;
+    if (userId !== params.userId){
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
     const bookinfo: BooksCreate = await req.json();
 
@@ -169,13 +173,14 @@ export async function PUT(
 ) {
   try {
     // Get user from session
-    // const session = await auth();
-    // if (!session || !session?.user?.id) {
-    //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    // }
-    // const userId = session.user.id;
-
-    const userId = params.userId;
+    const session = await auth();
+    if (!session || !session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const userId = session?.user?.id;
+    if (userId !== params.userId){
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
     const userinfo: UserUpdate = await req.json();
 

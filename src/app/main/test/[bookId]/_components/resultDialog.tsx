@@ -50,7 +50,7 @@ function Result({question, answer} : {question: Words[]; answer: string[]} ){
         })
       }
     });
-    router.push(`/main/mybooks/${bookId}`);
+    router.push(`/main/books/${bookId}`);
   }
 
   return(

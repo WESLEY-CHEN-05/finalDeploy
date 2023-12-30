@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 // import Pusher from "pusher";
 import { db } from "@/db";
 import { booksTable } from "@/db/schema";
-// import { auth } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 // import { privateEnv } from "@/lib/env/private";
 // import { publicEnv } from "@/lib/env/public";
 import type { Books } from "@/lib/types/db";
@@ -14,10 +14,10 @@ import type { Books } from "@/lib/types/db";
 export async function GET() {
   try {
     // Get user from session
-    // const session = await auth();
-    // if (!session || !session?.user?.id) {
-    //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    // }
+    const session = await auth();
+    if (!session || !session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     // const userId = session.user.id;
 
     // Get the book

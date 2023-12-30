@@ -36,7 +36,7 @@ export const useTest = () => {
         }),
       });
       if (!res.ok) {
-        router.push(`/main/mybooks/${bookId}`);
+        router.push(`/main/books/${bookId}`);
       }
       const ret = await res.json();
       setProblemSet(ret.data);

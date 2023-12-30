@@ -4,8 +4,8 @@ import { eq } from "drizzle-orm";
 
 // import Pusher from "pusher";
 import { db } from "@/db";
-import { wordsTable } from "@/db/schema";
-// import { auth } from "@/lib/auth";
+import { booksTable, wordsTable } from "@/db/schema";
+import { auth } from "@/lib/auth";
 // import { privateEnv } from "@/lib/env/private";
 // import { publicEnv } from "@/lib/env/public";
 import type { Words, WordsUpdate } from "@/lib/types/db";
@@ -23,11 +23,11 @@ export async function GET(
 ) {
   try {
     // Get user from session
-    // const session = await auth();
-    // if (!session || !session?.user?.id) {
-    //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    // }
-    // const userId = session.user.id;
+    const session = await auth();
+    if (!session || !session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const userId = session.user.id;
 
     const wordId = params.wordId;
 
@@ -39,6 +39,29 @@ export async function GET(
         createAt: false,
       },
     });
+
+    if (!_word){
+      return NextResponse.json(
+        { error: "Bad Request" },
+        { status: 400 },
+      );
+    }
+
+    // auth
+    const __book = await db.query.booksTable.findFirst({
+      where: eq(booksTable.displayId, _word.bookId),
+      columns: {
+        publicize: true,
+        authorId: true,
+      }
+    });
+
+    if ((!__book?.publicize) && __book?.authorId !== userId){
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 },
+      );
+    }
 
     const word: Words = {
       id: _word!.displayId,
@@ -75,11 +98,11 @@ export async function PUT(
 ) {
   try {
     // Get user from session
-    // const session = await auth();
-    // if (!session || !session?.user?.id) {
-    //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    // }
-    // const userId = session.user.id;
+    const session = await auth();
+    if (!session || !session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const userId = session.user.id;
 
     const wordId = params.wordId;
 
@@ -91,6 +114,29 @@ export async function PUT(
       .set(wordinfo)
       .where(eq(wordsTable.displayId, wordId))
       .returning();
+    
+    if (!_wordTemp){
+      return NextResponse.json(
+        { error: "Bad Request" },
+        { status: 400 },
+      );
+    }
+
+    // auth
+    const __book = await db.query.booksTable.findFirst({
+      where: eq(booksTable.displayId, _wordTemp.bookId),
+      columns: {
+        publicize: true,
+        authorId: true,
+      }
+    });
+
+    if ((!__book?.publicize) && __book?.authorId !== userId){
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 },
+      );
+    }
 
     const updateAccuracy = {
       accuracy:
@@ -151,12 +197,44 @@ export async function DELETE(
 ) {
   try {
     // get user from session
-    // const session = await auth();
-    // if (!session || !session?.user?.id) {
-    //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    // }
+    const session = await auth();
+    if (!session || !session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const userId = session.user.id;
 
     const wordId = params.wordId;
+
+    // auth
+    const _word = await db.query.wordsTable.findFirst({
+      where: eq(wordsTable.displayId, wordId),
+      columns: {
+        bookId: true,
+      }
+    });
+
+    if (!_word){
+      return NextResponse.json(
+        { error: "Bad Request" },
+        { status: 400 },
+      );
+    }
+
+    const __book = await db.query.booksTable.findFirst({
+      where: eq(booksTable.displayId, _word.bookId),
+      columns: {
+        publicize: true,
+        authorId: true,
+      }
+    });
+
+    if ((!__book?.publicize) && __book?.authorId !== userId){
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 },
+      );
+    }
 
     await db
       .delete(wordsTable)

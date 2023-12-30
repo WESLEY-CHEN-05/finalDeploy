@@ -119,7 +119,7 @@ export const useBook = () => {
     getBook(bookId);
   }, [bookId, router]);
 
-  useEffect(getsingleBook, [_bookId, getsingleBook]);
+  useEffect(getsingleBook, [bookId, getsingleBook]);
 
   const getAllPublicBooks = useCallback(() => {
     if (!userId) return;
