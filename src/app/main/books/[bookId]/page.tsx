@@ -145,7 +145,7 @@ function BookPage() {
             <p className="ml-6 text-base font-light text-slate-300">
               Book created by:
             </p>
-            <p className="font-base ml-6 text-base text-slate-300">
+            <p className="font-base ml-1 text-base text-slate-300">
               {authorName}
             </p>
           </div>
