@@ -9,6 +9,7 @@ import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 
 import { Setting } from "./Setting";
+import { getUserById } from "./action";
 
 // import { createDocument, deleteDocument, getDocuments } from "./actions";
 
@@ -21,11 +22,13 @@ async function Navbar() {
   }
   // const userId = session.user.id;
   // const documents = await getDocuments(userId);
+  const user = await getUserById(session.user.id);
+  const userName = user?.username ?? "User";
   return (
     <nav className="flex h-auto w-full bg-gray-700 p-2 text-slate-300">
       {/* align left */}
       <nav className="sticky top-0 mr-8 flex w-1/6 items-center justify-between pl-3 text-4xl">
-        <Link className={rubik.className} href={`/main`}>
+        <Link className={rubik.className} href={`/main/mybooks`}>
           QUIZZZZZ
         </Link>
       </nav>
@@ -59,7 +62,7 @@ async function Navbar() {
         <div className="flex w-full items-center justify-between px-3 py-1">
           {/* user information */}
           <div className="mr-6 flex items-center gap-2 text-lg">
-            <Setting userName={session?.user?.username ?? "User"}></Setting>
+            <Setting userName={userName}></Setting>
           </div>
 
           {/* sign out button */}

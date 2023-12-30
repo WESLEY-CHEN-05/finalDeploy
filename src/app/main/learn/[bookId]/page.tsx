@@ -3,6 +3,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 import { Star } from "lucide-react";
@@ -17,6 +18,7 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
+import { useBook } from "@/hooks/useBook";
 // import memoryDB from "./memory";
 import { useWord } from "@/hooks/useWord";
 import type { Words } from "@/lib/types/db";
@@ -27,6 +29,17 @@ function LearningPage() {
   const [count, setCount] = useState(0);
 
   const { words, updateWord, bookId } = useWord();
+  const { book } = useBook();
+
+  const [userId, setUserId] = useState("");
+
+  const { data: session } = useSession();
+  useEffect(() => {
+    if (!session?.user) return;
+    setUserId(session?.user?.id);
+    // console.log(userId);
+  }, [session]);
+  const bookowner = book?.authorId;
 
   useEffect(() => {
     if (!api) {
@@ -99,7 +112,7 @@ function LearningPage() {
   return (
     <>
       <div className="flex">
-        <Link href={`/main/mybooks/${bookId}`} className="m-6 ml-auto">
+        <Link href={`/main/books/${bookId}`} className="m-6 ml-auto">
           <Button
             className="border-red-600 bg-slate-800 text-red-600 hover:border-red-700 hover:bg-slate-800 hover:text-red-700"
             variant="outline"
@@ -139,8 +152,12 @@ function LearningPage() {
                                     fill={word.star ? "yellow" : "#334155"}
                                     strokeWidth={word.star ? 0 : 1}
                                     onClick={(event) => {
-                                      event.stopPropagation();
-                                      handleOnClick(word);
+                                      if (userId == bookowner) {
+                                        console.log(bookowner);
+                                        console.log(userId);
+                                        event.stopPropagation();
+                                        handleOnClick(word);
+                                      }
                                     }}
                                   />
                                 </div>
@@ -160,7 +177,10 @@ function LearningPage() {
                                   <Star
                                     fill={word.star ? "yellow" : "#334155"}
                                     strokeWidth={word.star ? 0 : 1}
-                                    onClick={() => handleOnClick(word)}
+                                    onClick={() => {
+                                      if (userId == bookowner)
+                                        handleOnClick(word);
+                                    }}
                                   />
                                 </div>
                               </div>

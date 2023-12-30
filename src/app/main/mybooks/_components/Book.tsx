@@ -24,7 +24,7 @@ function Book({ info }: { info: Books }) {
   }
 
   return (
-    <Link href={`/main/mybooks/${info.id}`}>
+    <Link href={`/main/books/${info.id}`}>
       <div className="m-3 rounded-lg border-2 border-slate-600 text-slate-100">
         <div className="w-80 flex-col p-4">
           <div

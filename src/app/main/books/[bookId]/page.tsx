@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 // import type { Books } from "@/lib/types/db";
 import { useRouter } from "next/navigation";
@@ -19,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { useBook } from "@/hooks/useBook";
+import { useUser } from "@/hooks/useUser";
 import { useWord } from "@/hooks/useWord";
 import { publicEnv } from "@/lib/env/public";
 import type { Words, WordsUpdate } from "@/lib/types/db";
@@ -62,6 +64,21 @@ function BookPage() {
   const [dialogMeaning, setDialogMeaning] = useState("");
   const [warningContent, setWarningContent] = useState(false);
   const [warningMeaning, setWarningMeaning] = useState(false);
+  const { getUser, getName } = useUser();
+
+  const [userId, setUserId] = useState("");
+  const { data: session } = useSession();
+  useEffect(() => {
+    if (!session?.user) return;
+    setUserId(session?.user?.id);
+    // console.log(userId);
+  }, [session]);
+  const bookowner = book?.authorId;
+  useEffect(() => {
+    getUser(bookowner as string);
+  });
+  // getUser(bookowner as string);
+  const authorName = getName;
 
   function isWhitespaceOrNewline(inputStr: string) {
     return /^\s*$/.test(inputStr);
@@ -121,9 +138,17 @@ function BookPage() {
               </Badge>
             </div>
           </div>
-          <p className="m-6 mt-2 text-base font-light text-slate-300">
+          <p className="mb-3 ml-6 mt-2 text-base font-light text-slate-300">
             {book?.description ? book.description : ""}
           </p>
+          <div className="flex flex-row">
+            <p className="ml-6 text-base font-light text-slate-300">
+              Book created by:
+            </p>
+            <p className="ml-6 text-base font-bold text-slate-300">
+              {authorName}
+            </p>
+          </div>
         </div>
         <Button
           className="m-6 ml-auto border-green-600 text-green-600 hover:border-green-700 hover:bg-slate-800 hover:text-green-700"
@@ -145,9 +170,17 @@ function BookPage() {
           Learn
         </Button>
         <CreateTestDialog bookId={bookId} />
-        <EditBookDialog book={book} updateBook={updateBook} />
-        <DeleteBookDialog bookId={bookId} />
-        <AddNewWordsDialog createWord={createWord} />
+        {userId == bookowner ? (
+          <EditBookDialog book={book} updateBook={updateBook} />
+        ) : (
+          <></>
+        )}
+        {userId == bookowner ? <DeleteBookDialog bookId={bookId} /> : <></>}
+        {userId == bookowner ? (
+          <AddNewWordsDialog createWord={createWord} />
+        ) : (
+          <></>
+        )}
       </div>
       <div className="container mx-auto py-10">
         <DataTable columns={columns} data={wordsWithFunction} bookId={bookId} />

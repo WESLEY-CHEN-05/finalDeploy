@@ -15,6 +15,7 @@ export const useBook = () => {
   const bookId = param.bookId as string;
   const [userId, setUserId] = useState("");
   const [books, setBooks] = useState<Books[]>([]);
+  const [publicBooks, setPublicBooks] = useState<Books[]>([]);
   const [book, setBook] = useState<Books>();
   const [words, setWords] = useState<Words[]>([]);
   const router = useRouter();
@@ -118,8 +119,29 @@ export const useBook = () => {
     getBook(bookId);
   }, [bookId, router]);
 
-  useEffect(getsingleBook, [bookId, getsingleBook]);
+  useEffect(getsingleBook, [_bookId, getsingleBook]);
 
+  const getAllPublicBooks = useCallback(() => {
+    if (!userId) return;
+    const getPublicBooks = async () => {
+      const res = await fetch(`/api/publicbooks`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!res.ok) {
+        router.push("/main/publicbooks");
+        return;
+      }
+      const ret = await res.json();
+      setPublicBooks(ret.data);
+    };
+    getPublicBooks();
+  }, [userId, router]);
+
+  useEffect(getAllPublicBooks, [userId, getAllPublicBooks]);
+  
   // const getBook = async (bookId: string) => {
   //     const res = await fetch(`/api/book/${bookId}`, {
   //         method: "GET",
@@ -167,7 +189,7 @@ export const useBook = () => {
       // console.log(getbooks);
       setBooks(getbooks);
       // router.refresh();
-      console.log("hello");
+      // console.log("hello");
     };
     getBooks();
   }, [userId, router]);
@@ -205,6 +227,7 @@ export const useBook = () => {
     book,
     words,
     books,
+    publicBooks,
     bookId,
   };
 };
