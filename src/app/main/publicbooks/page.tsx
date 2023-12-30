@@ -50,7 +50,7 @@ function DocsPage() {
           </SelectTrigger>
           <SelectContent className="border-slate-500 bg-gray-600 text-slate-300">
             <SelectGroup>
-              <SelectLabel>Sort by</SelectLabel>
+              <SelectLabel>Filter by</SelectLabel>
               <SelectItem value="title">Title</SelectItem>
               <SelectItem value="language">Language</SelectItem>
             </SelectGroup>

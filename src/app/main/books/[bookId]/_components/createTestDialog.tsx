@@ -4,6 +4,7 @@
 // import { publicEnv } from "@/lib/env/public";
 // import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 import { useRouter } from "next/navigation";
 
@@ -31,7 +32,7 @@ import { Switch } from "@/components/ui/switch";
 import { useWord } from "@/hooks/useWord";
 import type { TestRequest } from "@/lib/types/db";
 
-function CreateTestDialog({ bookId }: { bookId: string }) {
+function CreateTestDialog({ bookId, bookowner }: { bookId: string, bookowner: string }) {
   const router = useRouter();
 
   // const { book } = useBook();
@@ -41,6 +42,8 @@ function CreateTestDialog({ bookId }: { bookId: string }) {
 
   const [num, setNum] = useState<string>("0");
   const [repetitive, setRepetitive] = useState(false);
+  const [userId, setUserId] = useState("");
+  const isAuthor = userId === bookowner;
   // const [publicize, setPublicize] = useState(false);
   const [star, setStar] = useState(false);
   const [hard, setHard] = useState(false);
@@ -55,6 +58,13 @@ function CreateTestDialog({ bookId }: { bookId: string }) {
     });
     setStarInBook(cont);
   }, [words]);
+
+  const { data: session } = useSession();
+  useEffect(() => {
+    if (!session?.user) return;
+    setUserId(session?.user?.id);
+    // console.log(userId);
+  }, [session]);
 
   const isInteger = (str: string) => Number.isInteger(parseInt(str));
 
@@ -80,7 +90,7 @@ function CreateTestDialog({ bookId }: { bookId: string }) {
       num: parseInt(num),
       repetitive: repetitive,
       hard: hard,
-      star: star,
+      star: isAuthor ? star : false,
     };
     // console.log(book);
     //createTest(bookId,test);
@@ -137,14 +147,18 @@ function CreateTestDialog({ bookId }: { bookId: string }) {
               className="ml-auto"
             />
           </div>
-          <div className="flex">
-            <p>Starred words only</p>
-            <Switch
-              checked={star}
-              onCheckedChange={(val) => setStar(val)}
-              className="ml-auto"
-            />
-          </div>
+          {isAuthor ? (
+            <div className="flex">
+              <p>Starred words only</p>
+              <Switch
+                checked={star}
+                onCheckedChange={(val) => setStar(val)}
+                className="ml-auto"
+              />
+            </div>
+          ):(
+            <></>
+          )}
           {/* <p className="text-sm">Allowed repeated problem?</p>
           <Select
             onValueChange={(val) => setRepetitive(val)}
