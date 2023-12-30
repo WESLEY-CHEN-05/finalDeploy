@@ -66,7 +66,7 @@ function CreateTestDialog({ bookId }: { bookId: string }) {
     }
 
     const ret = parseInt(num);
-    if ((ret <= 0) || (star && starInBook <= 0) || (!repetitive && ret > words.length) || (!repetitive && ret > starInBook)) {
+    if ((ret <= 0) || (star && (starInBook <= 0)) || (!repetitive && ret > words.length) || (!repetitive && star && ret > starInBook)) {
       setWarningNum(true);
       return;
     }
