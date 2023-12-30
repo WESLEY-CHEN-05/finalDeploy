@@ -22,15 +22,24 @@
    AUTH_GITHUB_SECRET=
    ```
 
-5. Run migrations
+5. You can use docker for database. If this is the case, `POSTGRES_URL` in `.env.local` can be the same as in `.env.example`.
+   Otherwise, you can use your own `POSTGRES_URL`. (Skip to 7.)
+
+6. If docker is used, start the database
+   ```bash
+   docker compose up -d
+   ```
+
+7. Run migrations
    ```bash
    yarn migrate
    ```
-6. Start the development server
+
+8. Start the development server
    ```bash
    yarn dev
    ```
-7. Open http://localhost:3000 in your browser
+9. Open http://localhost:3000 in your browser
 
 # Report [112-1] Web Programming Final 
 
@@ -96,9 +105,9 @@
 
 6. Choose `Web application` in `Application type`.
 
-7. Click on `ADD URI` in `Authorized JavaScript origins` section and insert `http://{NEXT_PUBLIC_BASE_URL}`
+7. Click on `ADD URI` in `Authorized JavaScript origins` section and insert `http://localhost:3000`
 
-8. Click on `ADD URI` in `Authorized redirect URIs` section and insert `http://{NEXT_PUBLIC_BASE_URL}/api/auth/callback/google`
+8. Click on `ADD URI` in `Authorized redirect URIs` section and insert `http://localhost:3000/api/auth/callback/google`
 
 9. After clicking on `CREATE` button, you can copy the `Client ID` and `Client Secret` to your `.env.local` file:
 
