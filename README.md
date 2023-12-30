@@ -60,54 +60,6 @@
 
 # Setup Guide
 
-## Prettier and ESLint
-
-1. Install prettier and prettier plugins
-   ```bash
-   yarn add -D prettier prettier-plugin-tailwindcss @trivago/prettier-plugin-sort-imports
-   ```
-2. Install eslint and eslint plugins
-   ```bash
-   yarn add -D eslint typescript @typescript-eslint/parser eslint-config-prettier @typescript-eslint/eslint-plugin
-   ```
-3. Copy and paste the `./prettierrc.cjs` and `./eslintrc.json` from this repo to your project root.
-
-4. Add `format` script to `package.json`
-   ```json
-   {
-     "scripts": {
-       "format": "prettier --write ."
-     }
-   }
-   ```
-5. Check if the scripts work
-   ```bash
-   yarn format
-   yarn lint
-   ```
-
-## Shadcn UI setup
-
-1. Setup Shadcn UI
-   ```bash
-   npx shadcn-ui@latest init
-   ```
-2. Answer the questions carefully since **some of the default options are not compatible with our setup**.
-
-   - Would you like to use TypeScript (recommended)? `yes`
-   - Which style would you like to use? › `New York`
-     - I personally prefer New York style, but you can choose any style you like.
-   - Which color would you like to use as base color? › `Slate`
-     - You can choose any color you like.
-   - Where is your global CSS file? › › `src/app/globals.css`
-     - **IMPORTANT**: You must enter `src/app/globals.css` here. Otherwise, the setup will fail.
-   - Do you want to use CSS variables for colors? › `yes`
-   - Where is your tailwind.config.js located? › `tailwind.config.ts`
-     - **IMPORTANT**: We are using TypeScript, so you must enter `tailwind.config.ts` here.
-   - Configure the import alias for components: › `@/components`
-   - Configure the import alias for utils: › `@/lib/utils/shadcn`
-   - Are you using React Server Components? › `yes`
-
 ## Google login Setup
 
 1. Go to Google Cloud and create project
