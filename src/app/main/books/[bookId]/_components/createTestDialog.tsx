@@ -32,7 +32,7 @@ import { Switch } from "@/components/ui/switch";
 import { useWord } from "@/hooks/useWord";
 import type { TestRequest } from "@/lib/types/db";
 
-function CreateTestDialog({ bookId, bookowner }: { bookId: string, bookowner: string }) {
+function CreateTestDialog({ bookId, bookowner, wordsCount }: { bookId: string, bookowner: string, wordsCount: number }) {
   const router = useRouter();
 
   // const { book } = useBook();
@@ -106,6 +106,7 @@ function CreateTestDialog({ bookId, bookowner }: { bookId: string, bookowner: st
         <Button
           className="m-6 border-sky-500 bg-gray-800 text-sky-500 hover:border-sky-700 hover:bg-gray-800 hover:text-sky-700"
           variant="outline"
+          disabled={wordsCount === 0}
         >
           Quiz
         </Button>

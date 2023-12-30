@@ -169,7 +169,7 @@ function BookPage() {
         >
           Learn
         </Button>
-        <CreateTestDialog bookId={bookId} bookowner={bookowner as string} />
+        <CreateTestDialog bookId={bookId} bookowner={bookowner as string} wordsCount = {words.length} />
         {userId === bookowner ? (
           <EditBookDialog book={book} updateBook={updateBook} />
         ) : (
