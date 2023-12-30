@@ -100,20 +100,28 @@ function Result({
                 All answers are correct!!!
               </div>
             ) : (
-              question.map((word, index) => {
-                if (word.content !== answer[index])
-                  return (
-                    <div key={index}>
-                      <div className="text-base font-semibold">
-                        Problem {index + 1}
+              <div>
+                <p className = "ml-4 text-green-600 font-bold mb-4">Accuracy: {question.length - wrongNum} / {question.length}</p>
+                {question.map((word, index) => {
+                  if (word.content !== answer[index])
+                    return (
+                      <div key={index} className = "mb-3 ml-4">
+                        <div className="text-base font-semibold text-black">
+                          Problem {index + 1}
+                        </div>
+                        <div className = "ml-4 flex flex-row">Word: 
+                          <p className = "ml-1 text-gray-600 font-bold">{word.content}</p>
+                        </div>
+                        <div className = "ml-4 flex flex-row">Meaning: 
+                          <p className = "ml-1 text-gray-600 font-bold">{word.meaning}</p>
+                        </div>
+                        <div className = "ml-4 text-red-800 flex flex-row">Your answer: {answer[index]}
+                        </div>
                       </div>
-                      <div>{word.content}</div>
-                      <div>{word.meaning}</div>
-                      <div>{answer[index]}</div>
-                    </div>
-                  );
-                else return <div key={word.id}></div>;
-              })
+                    );
+                  else return <div key={word.id}></div>;
+                })}
+              </div>
             )}
           </AlertDialogDescription>
         </AlertDialogHeader>
