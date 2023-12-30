@@ -22,19 +22,15 @@
    AUTH_GITHUB_SECRET=
    ```
 
-5. Start the database
-   ```bash
-   docker compose up -d
-   ```
-6. Run migrations
+5. Run migrations
    ```bash
    yarn migrate
    ```
-7. Start the development server
+6. Start the development server
    ```bash
    yarn dev
    ```
-8. Open http://localhost:3000 in your browser
+7. Open http://localhost:3000 in your browser
 
 # Setup Guide
 
@@ -92,6 +88,26 @@
    - `URL`: `https://console.cloud.google.com/projectselector2/apis/credentials/consent?authuser=2&supportedpurview=project`
 
 2. Insert `Proect Name` and `Location` (you can choose `No organization`).
+
+3. Choose `External` for `User Type`.
+
+4. Insert the imformation with `*` sign. Click on `Save and Continue` on the following pages.
+
+5. Go to `Credential` page and click on `+ Create Credentials` and choose `OAuth client ID`.
+
+6. Choose `Web application` in `Application type`.
+
+7. Click on `ADD URI` in `Authorized JavaScript origins` section and insert `http://{NEXT_PUBLIC_BASE_URL}`
+
+8. Click on `ADD URI` in `Authorized redirect URIs` section and insert `http://{NEXT_PUBLIC_BASE_URL}/api/auth/callback/google`
+
+9. After clicking on `CREATE` button, you can copy the `Client ID` and `Client Secret` to your `.env.local` file:
+
+   ```text
+   AUTH_GOOGLE_ID=<Client ID>
+   AUTH_GOOGLE_SECRET=<Client secret>
+   ```
+
    
 ## NextAuth Setup
 
