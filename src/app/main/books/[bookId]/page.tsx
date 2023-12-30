@@ -27,6 +27,7 @@ import type { Words, WordsUpdate } from "@/lib/types/db";
 
 import AddNewWordsDialog from "./_components/addNewWordsDialog";
 import { columns } from "./_components/columns";
+import CreateTestDialog from "./_components/createTestDialog";
 import { DataTable } from "./_components/data-table";
 // import memoryDB from "./memory";
 import DeleteBookDialog from "./_components/deleteBookDialog";
@@ -168,6 +169,7 @@ function BookPage() {
         >
           Learn
         </Button>
+        <CreateTestDialog bookId={bookId} />
         {userId == bookowner ? (
           <EditBookDialog book={book} updateBook={updateBook} />
         ) : (
